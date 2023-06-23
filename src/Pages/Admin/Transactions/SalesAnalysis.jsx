@@ -1,5 +1,5 @@
 import React from 'react'
-import AdminLayout from '../../Components/Admin/AdminLayout'
+import AdminLayout from '/src/Components/Admin/AdminLayout'
 import { FaArrowRight } from 'react-icons/fa'
 
 const SalesAnalysis = () => {

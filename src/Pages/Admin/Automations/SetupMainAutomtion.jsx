@@ -7,12 +7,14 @@ import { SlExclamation } from 'react-icons/sl'
 const SetupMainAutomtion = ({ data, closeView, resendSignal, allitems, tag }) => {
     const [plan, setPlan] = useState(null)
     const [planData, setPlanData] = useState('')
+    const [apis, setAPis] = useState([])
     const [automation, setAutomation] = useState('')
     const handleService = (e) => {
         setAutomation(e.target.value)
         const findData = data.find(item => item.id.toString() === e.target.value)
         const formated = `${findData.planName.split('_' || '-')[0]} ${findData.planName.split('_' || '-')[1]}`
         setPlan(formated)
+        setAPis(findData.plans)
     }
 
     const saveChanges = async e => {
@@ -25,14 +27,15 @@ const SetupMainAutomtion = ({ data, closeView, resendSignal, allitems, tag }) =>
             id: allitems.id,
             tag: tag
         }
-        const res = await PostUrl(Api.subs.update_package_automation, formdata)
-        if (res.status === 200) {
-            resendSignal()
-            closeView()
-            ToastAlert(res.msg)
-        } else {
-            ToastAlert(res.msg)
-        }
+        console.log(formdata)
+        // const res = await PostUrl(Api.subs.update_package_automation, formdata)
+        // if (res.status === 200) {
+        //     resendSignal()
+        //     closeView()
+        //     ToastAlert(res.msg)
+        // } else {
+        //     ToastAlert(res.msg)
+        // }
     }
     return (
         <ModalLayout closeView={closeView}>
@@ -50,7 +53,13 @@ const SetupMainAutomtion = ({ data, closeView, resendSignal, allitems, tag }) =>
                         <div className="">
                             <div className="mb-3">
                                 <div className="">Enter {plan}</div>
-                                <input type="text" value={planData} onChange={e => setPlanData(e.target.value)} className="input" />
+                                <select onChange={e => setPlanData(e.target.value)} className="input">
+                                    <option value="">--Select--</option>
+                                    {apis.map((item, i) => (
+                                        <option value={item.plan} key={i}>{item.plan}</option>
+                                    ))}
+                                </select>
+                                {/* <input type="text" value={planData}  className="input" /> */}
                             </div>
                             <div className="mt-10 w-fit ml-auto">
                                 <button className="bg-indigo-600 text-white capitalize rounded-full py-3 px-5 text-sm">save changes</button>

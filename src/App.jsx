@@ -7,7 +7,7 @@ import Login from './Pages/Forms/Login'
 import Dashboard from './Pages/User/Dashboard'
 import KycUpload from './Pages/User/KycUpload'
 import AHome from './Pages/Admin/AHome'
-import QueryTransaction from './Pages/Admin/QueryTransaction'
+import QueryTransaction from './Pages/Admin/Transactions/QueryTransaction'
 import UpgradeUser from './Pages/Admin/ManageUsers/UpgradeUser'
 import UsersMobile from './Pages/Admin/ManageUsers/UsersMobile'
 import UsersEmails from './Pages/Admin/ManageUsers/UsersEmails'
@@ -19,8 +19,8 @@ import ManageNotification from './Pages/Admin/ManageNotification'
 import VerifySignup from './Pages/Forms/VerifySignup';
 import AdminRoute from './Private/AdminRoute';
 import UserRoute from './Private/UserRoute';
-import SalesAnalysis from './Pages/Admin/SalesAnalysis';
-import AllTransactions from './Pages/Admin/AllTransactions';
+import SalesAnalysis from './Pages/Admin/Transactions/SalesAnalysis';
+import AllTransactions from './Pages/Admin/Transactions/AllTransactions';
 import LockCables from './Pages/Admin/Locks/LockCables';
 import LockData from './Pages/Admin/Locks/LockData';
 import ManageLevels from './Pages/Admin/Levels/ManageLavels';
@@ -45,6 +45,11 @@ import AutomationPackage from './Pages/Admin/Automations/AutomationPackage';
 import AllUsers from './Pages/Admin/ManageUsers/AllUsers';
 import UpdateIngeration from './Pages/Admin/Integrations/UpdateIntegration';
 import AdminFinanceUser from './Pages/Admin/ManageUsers/AdminFinanceUser';
+import SetupPlan from './Pages/Admin/Integrations/Plans/SetupPlan';
+import ApiPlans from './Pages/Admin/Integrations/Plans/ApiPlans';
+import UpdateApiPlan from './Pages/Admin/Integrations/Plans/UpdateApiPlan';
+import AdminResetUserPin from './Pages/Admin/ManageUsers/AdminResetUserPin';
+
 
 
 const App = () => {
@@ -76,6 +81,7 @@ const App = () => {
       <Route path="/auth/admin/block_account" element={<AdminRoute><BlockUser /> </AdminRoute>} />
       <Route path="/auth/admin/all_users" element={<AdminRoute><AllUsers /> </AdminRoute>} />
       <Route path="/auth/admin/reset_user_password" element={<AdminRoute><AdminResetUserPassword /> </AdminRoute>} />
+      <Route path="/auth/admin/reset_user_pin" element={<AdminRoute><AdminResetUserPin /> </AdminRoute>} />
       <Route path="/auth/admin/update_bank_info" element={<AdminRoute><UpdateBankInfo /> </AdminRoute>} />
       <Route path="/auth/admin/update_contact_info" element={<AdminRoute><AdminContactInfo /> </AdminRoute>} />
       <Route path="/auth/admin/manage_notification" element={<AdminRoute><ManageNotification /> </AdminRoute>} />
@@ -92,6 +98,9 @@ const App = () => {
       <Route path="/auth/admin/integration/new" element={<AdminRoute><CreateAutomation /> </AdminRoute>} />
       <Route path="/auth/admin/integration" element={<AdminRoute><AllAutomations /> </AdminRoute>} />
       <Route path="/auth/admin/integration/edit/:id" element={<AdminRoute><UpdateIngeration /> </AdminRoute>} />
+      <Route path="/auth/admin/integration/plans/new" element={<AdminRoute><SetupPlan /> </AdminRoute>} />
+      <Route path="/auth/admin/integration/plans/edit/:id" element={<AdminRoute><UpdateApiPlan /> </AdminRoute>} />
+      <Route path="/auth/admin/integration/plans" element={<AdminRoute><ApiPlans /> </AdminRoute>} />
 
       <Route path="/" element={<HomePage />} />
       

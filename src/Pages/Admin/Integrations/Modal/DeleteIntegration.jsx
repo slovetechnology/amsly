@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import ModalLayout from '../../../../Components/Utils/ModalLayout'
-import { Api, PostUrl } from '../../../../Components/Utils/Apis'
-import { ToastAlert } from '../../../../Components/Utils/Utility'
+import ModalLayout from '/src/Components/Utils/ModalLayout'
+import { Api, PostUrl } from '/src/Components/Utils/Apis'
+import { ToastAlert } from '/src/Components/Utils/Utility'
 import { useNavigate } from 'react-router-dom'
-import Loading from '../../../../Components/General/Loading'
+import Loading from '/src/Components/General/Loading'
 
 const DeleteIntegration = ({ closeView, id, resendSignal}) => {
     const navigate = useNavigate()

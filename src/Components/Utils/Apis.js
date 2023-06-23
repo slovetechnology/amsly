@@ -1,8 +1,8 @@
 import axios from "axios"
 import Cookies from "js-cookie"
 
-const server = `https://amsly.jogglecryp.com/api`
-// const server = `http://localhost:5001/api`
+// const server = `https://amsly.jogglecryp.com/api`
+const server = `http://localhost:5001/api`
 
 const user_urls = {
     register_user: 'user/user-register',
@@ -22,6 +22,7 @@ const user_urls = {
     get_contact_info: "user/get-contact-info",
     create_transaction_pin: "user/create-transaction-pin",
     update_user_password: "user/update-user-password",
+    update_user_pin: "user/update-user-pin",
     finance_user_account: "user/finance-user-account",
 }
 
@@ -40,15 +41,26 @@ const subs_urls = {
     get_single_automation_service: "subscription/get-single-automation-service",
     delete_automation_service: "subscription/delete-automation-services",
     update_package_automation: "subscription/update-package-autmation",
+    user_get_automation: "subscription/user-get-automation",
+    add_api_plans: "subscription/add-api-plans",
+    update_api_plans: "subscription/update-api-plans",
+    all_api_plans: "subscription/all-api-plans",
+    single_api_plans: "subscription/single-api-plans",
 }
 const bill_urls = {
     data: "bills/data",
+}
+
+const transaction_urls = {
+    user: `transactions/user/all`,
+    admin: `transactions/admin/all`
 }
 
 export const Api = {
     user: user_urls,
     subs: subs_urls,
     bills: bill_urls,
+    transactions: transaction_urls,
 }
 
 export const NormalPostUrl = async (endpoint, data) => {
@@ -82,16 +94,6 @@ export const UpdateUrl = async (endpoint, data) => {
 
 export const DeleteUrl = async (endpoint, data) => {
     const res = await axios.delete(`${server}/${endpoint}`, data, options)
-    return res.data
-}
-
-export const AuthPost = async (endpoint, data) => {
-    const res = await axios.post(endpoint, data, {
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            "Access-Control-Allow-Credentials": true
-        }
-    })
     return res.data
 }
 

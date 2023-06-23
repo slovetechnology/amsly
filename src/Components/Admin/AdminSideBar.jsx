@@ -52,6 +52,7 @@ const AdminSideBar = () => {
                     {currentdrop === 'integrations' && <div className='ml-8 flex flex-col capitalize text-zinc-600'>
                         <Link to='/auth/admin/integration/new' className='sidelink1'>Add New Api Service</Link>
                         <Link to='/auth/admin/integration' className='sidelink1'>All Api Services</Link>
+                        <Link to='/auth/admin/integration/plans' className='sidelink1'>All Api Plans</Link>
                     </div>}
                 </div>
                 <div className={`transition-all overflow-hidden`}>
@@ -93,6 +94,7 @@ const AdminSideBar = () => {
                         <Link to='/auth/admin/users_emails' className={`sidelink ${location.pathname === '/auth/admin/users_emails' ? 'bg-indigo-600 text-white' : ''}`}><FcFeedback className='text-2xl' /> Users Email</Link>
                         <Link to='/auth/admin/block_account' className={`sidelink ${location.pathname === '/auth/admin/block_account' ? 'bg-indigo-600 text-white' : ''}`}><FcLock className='text-2xl' /> Block User</Link>
                         <Link to='/auth/admin/reset_user_password' className={`sidelink ${location.pathname === '/auth/admin/reset_user_password' ? 'bg-indigo-600 text-white' : ''}`}><FcPortraitMode className='text-2xl' /> Reset U-Password</Link>
+                        <Link to='/auth/admin/reset_user_pin' className={`sidelink ${location.pathname === '/auth/admin/reset_user_pin' ? 'bg-indigo-600 text-white' : ''}`}><FcPortraitMode className='text-2xl' /> Reset U-Pin</Link>
                         <Link to='/auth/admin/update_bank_info' className={`sidelink ${location.pathname === '/auth/admin/update_bank_info' ? 'bg-indigo-600 text-white' : ''}`}><FcLibrary className='text-2xl' /> Update Bank Info</Link>
                         <Link to='/auth/admin/update_contact_info' className={`sidelink ${location.pathname === '/auth/admin/update_contact_info' ? 'bg-indigo-600 text-white' : ''}`}><FcComments className='text-2xl' /> Update Contact</Link>
                         <Link to='/auth/admin/manage_notification' className={`sidelink ${location.pathname === '/auth/admin/manage_notification' ? 'bg-indigo-600 text-white' : ''}`}><BsBell className='text-xl' /> Notification</Link>

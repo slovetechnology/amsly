@@ -17,7 +17,8 @@ const CreateAutomation = () => {
         category: ''
     })
     const [networks, setNetworks] = useState({
-        title: ''
+        title: '',
+        tag: '',
     })
     const [forms, setForms] = useState({
         apiurl: '',
@@ -34,6 +35,8 @@ const CreateAutomation = () => {
         networkName: '',
         tokenName: '',
     })
+    let texts = 'TXID_M&uK!1687351293028'
+    console.log(texts.length)
 
     const handleForms = e => {
         setForms({
@@ -111,17 +114,20 @@ const CreateAutomation = () => {
     }
     const handleAddNetworks = () => {
         if (!forms.apiurl) return ToastAlert('Provide a valid api url')
-        if (!networks.title) return ToastAlert('Provide a valid api network')
+        if (!networks.title) return ToastAlert('Provide a valid api network for user to see')
+        if (!networks.tag) return ToastAlert('Provide a valid api network for api providers to see')
         const findData = works.find(item => item.title === networks.title)
         if(findData) return ToastAlert(`Network already exists!`)
         const date = new Date()
         const pointData = {
             id: date.getTime(),
             title: networks.title,
+            tag: networks.tag,
         }
         setWorks([...works, pointData])
         setNetworks({
             title: '',
+            tag: '',
         })
     }
 
@@ -228,15 +234,28 @@ const CreateAutomation = () => {
                             <div className="mt-2 mb-3 text-indigo-600">Enter Api Networks</div>
                             <div className="flex items-center gap-5">
                                 <div className="w-full">
-                                    <input name="title" placeholder='--Network--' value={networks.title} onChange={handleNetworks} type="text" className="input" />
+                                    <input name="title" placeholder='--MY WEBSITE--' value={networks.title} onChange={handleNetworks} type="text" className="input" />
+                                </div>
+                                <div className="w-full">
+                                    <input name="tag" placeholder='--SOURCE ID--' value={networks.tag} onChange={handleNetworks} type="text" className="input" />
                                 </div>
                                 <button type="button" onClick={handleAddNetworks} className="bg-indigo-600 rounded-lg text-sm w-fit capitalize text-white py-2 px-4">save</button>
                             </div>
                             <div className="mt-2 mb-3 text-indigo-600 border-b">Networks Summary</div>
                             {works.length > 0 ? works.map((item, i) => (
-                                <div className="grid grid-cols-2 p-1.5 border-b" key={i}>
-                                    <div className="text-sm flex items-center gap-3"> <ImCompass /> {item.title}</div>
-                                    <div onClick={() => handleNetworksDeleting(item.id)} className="cursor-pointer w-fit ml-auto text-red-600"> <SlTrash /> </div>
+                                <div className="grid grid-cols-4 p-1.5 border-b" key={i}>
+                                    {/* <div className="text-sm flex items-center gap-3"> <ImCompass /> {item.title}</div> */}
+                                    <div className="col-span-3">
+                                        <div className="grid grid-cols-2">
+                                            <div className="text-xs">User Will See:</div>
+                                            <div className="text-xs text-right">{item.title}</div>
+                                        </div>
+                                        <div className="grid grid-cols-2">
+                                            <div className="text-xs">Service Provider Will See:</div>
+                                            <div className="text-xs text-right">{item.tag}</div>
+                                        </div>
+                                    </div>
+                                    <div onClick={() => handleNetworksDeleting(item.id)} className="cursor-pointer col-span-1 w-fit ml-auto text-red-600"> <SlTrash /> </div>
                                 </div>
                             )) : <div className="text-center text-slate-500 text-sm">No Network found yet</div>}
                         </div>

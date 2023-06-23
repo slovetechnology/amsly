@@ -7,21 +7,26 @@ import { useParams } from 'react-router-dom'
 import spins from '../../../Assets/Images/spins.gif'
 import { ImCompass } from 'react-icons/im'
 import { SlTrash } from 'react-icons/sl'
+import SingleApiNetwork from './SingleApiNetwork'
 
 const UpdateIngeration = () => {
+    const locals = JSON.parse(localStorage.getItem('networks'))
     const [loading, setLoading] = useState(false)
     const [spiner, setSpiner] = useState(false)
     const [endpoints, setEndpoints] = useState([])
-    const [works, setWorks] = useState([])
+    const [isNew, setIsNew] = useState(true)
+    const [works, setWorks] = useState(locals || [])
     const [points, setPoints] = useState({
         point: '',
         category: ''
     })
     const [networks, setNetworks] = useState({
-        title: ''
+        title: '',
+        tag: '',
     })
     const [data, setData] = useState({})
     const { id } = useParams()
+    const [packid, setpackid] = useState('')
     const [forms, setForms] = useState({
         apiurl: '',
         title: '',
@@ -56,6 +61,7 @@ const UpdateIngeration = () => {
             [e.target.name]: e.target.value,
         })
     }
+
     const fetchService = useCallback(async () => {
         const res = await GetUrl(`${Api.subs.get_single_automation_service}/${id}`)
         const data = res.msg
@@ -76,7 +82,10 @@ const UpdateIngeration = () => {
                 tokenName: data.tokenName || '',
             })
             setEndpoints(res.msg.autos)
-            setWorks(res.msg.networks)
+            if (!locals) {
+                localStorage.setItem('networks', JSON.stringify(res.msg.networks))
+                setWorks(res.msg.networks)
+            }
             return setData(res.msg)
         }
     }, [id])
@@ -101,12 +110,12 @@ const UpdateIngeration = () => {
         if (endpoints.length < 1) return ToastAlert('Endpoints to the api url is required')
         if (works.length < 1) return ToastAlert('Networks to the api url is required')
 
-        const formdata = { 
+        const formdata = {
             ...forms,
             endpoints: endpoints,
             networks: works,
-            id: data.id 
-         }
+            id: data.id
+        }
         setLoading(true)
         const res = await PostUrl(Api.subs.update_subscription_service, formdata)
         setLoading(false)
@@ -121,7 +130,7 @@ const UpdateIngeration = () => {
         const rand = `REF${Math.floor(Math.random() * 186940303) * 854932}${Math.random().toString(36).substring(2, 16).toUpperCase()}ID`
         setTimeout(() => {
             setSpiner(false)
-            setForms({...forms, refid: rand})
+            setForms({ ...forms, refid: rand })
         }, 2000);
     }
     const handleEndpointsDelete = (id) => {
@@ -130,7 +139,16 @@ const UpdateIngeration = () => {
     }
     const handleNetworksDeleting = (id) => {
         const findPoint = works.filter((item) => item.id !== id)
+        localStorage.setItem('networks', JSON.stringify(findPoint))
         setWorks(findPoint)
+    }
+    const handleNetworksUpdating = (value) => {
+        setIsNew(false)
+        setpackid(value.id)
+        setNetworks({
+            title: value.title,
+            tag: value.tag || ''
+        })
     }
 
     const handleEndpoints = () => {
@@ -138,7 +156,7 @@ const UpdateIngeration = () => {
         if (!points.category) return ToastAlert('Provide a valid api endpoint category')
         if (!points.point) return ToastAlert('Provide a valid api endpoint')
         const findData = endpoints.find(item => item.category === points.category)
-        if(findData) return ToastAlert(`Endpoint with category "${points.category}" already exists!`)
+        if (findData) return ToastAlert(`Endpoint with category "${points.category}" already exists!`)
         const date = new Date()
         const pointData = {
             id: date.getTime(),
@@ -153,19 +171,45 @@ const UpdateIngeration = () => {
     }
 
     const handleAddNetworks = () => {
-        if(!forms.apiurl) return ToastAlert('Provide a valid api url')
-        if(!networks.title) return ToastAlert('Provide a valid api network')
-        const findData = works.find(item => item.title === networks.title)
-        if(findData) return ToastAlert(`Network already exists!`)
-        const date = new Date()
-        const pointData = {
-            id: date.getTime(),
-            title: networks.title,
+        if (!forms.apiurl) return ToastAlert('Provide a valid api url')
+        if (!networks.title) return ToastAlert('Provide a valid api network for user to see')
+        if (!networks.tag) return ToastAlert('Provide a valid api network for api providers to see')
+        const localDatas = JSON.parse(localStorage.getItem('networks'))
+        if (isNew) {
+            const findData = works.find(item => item.title === networks.title)
+            if (findData) return ToastAlert(`Network already exists!`)
+            const date = new Date()
+            const pointData = {
+                id: date.getTime(),
+                title: networks.title,
+                tag: networks.tag,
+            }
+            localDatas.push(pointData)
+            localStorage.setItem('networks', JSON.stringify(localDatas))
+            setWorks([...works, pointData])
+        } else {
+            const findPack = works.find(item => item.id === packid)
+            console.log(findPack)
+            if (findPack) {
+                const findIndex = localDatas.findIndex(item => item.id === findPack.id)
+                localDatas.splice(findIndex, 1)
+                localStorage.setItem('networks', JSON.stringify(localDatas))
+                const date = new Date()
+                const pointData = {
+                    id: date.getTime(),
+                    title: networks.title,
+                    tag: networks.tag,
+                }
+                localDatas.unshift(pointData)
+                localStorage.setItem('networks', JSON.stringify(localDatas))
+                setWorks(localDatas)
+            }
         }
-        setWorks([...works, pointData])
         setNetworks({
             title: '',
+            tag: '',
         })
+        setIsNew(true)
     }
 
     return (
@@ -263,16 +307,21 @@ const UpdateIngeration = () => {
                             <div className="mt-2 mb-3 text-indigo-600">Enter Api Networks</div>
                             <div className="flex items-center gap-5">
                                 <div className="w-full">
-                                    <input name="title" placeholder='--Network--' value={networks.title} onChange={handleNetworks} type="text" className="input" />
+                                    <input name="title" placeholder='--MY WEBSITE--' value={networks.title} onChange={handleNetworks} type="text" className="input" />
                                 </div>
-                                <button type="button" onClick={handleAddNetworks} className="bg-indigo-600 rounded-lg text-sm w-fit capitalize text-white py-2 px-4">save</button>
+                                <div className="w-full">
+                                    <input name="tag" placeholder='--SOURCE ID--' value={networks.tag} onChange={handleNetworks} type="text" className="input" />
+                                </div>
+                                <button type="button" onClick={handleAddNetworks} className="bg-indigo-600 rounded-lg text-sm w-fit capitalize text-white py-2 px-4">{isNew ? 'save' : 'update'}</button>
                             </div>
                             <div className="mt-2 mb-3 text-indigo-600 border-b">Networks Summary</div>
                             {works.length > 0 ? works.map((item, i) => (
-                                <div className="grid grid-cols-2 p-1.5 border-b" key={i}>
-                                    <div className="text-sm flex items-center gap-3"> <ImCompass /> {item.title}</div>
-                                    <div onClick={() => handleNetworksDeleting(item.id)} className="cursor-pointer w-fit ml-auto text-red-600"> <SlTrash /> </div>
-                                </div>
+                                <SingleApiNetwork
+                                    item={item}
+                                    key={i}
+                                    handleNetworksDeleting={handleNetworksDeleting}
+                                    handleNetworksUpdating={handleNetworksUpdating}
+                                />
                             )) : <div className="text-center text-slate-500 text-sm">No Network found yet</div>}
                         </div>
                     </div>
