@@ -7,6 +7,8 @@ import { Api, GetUrl } from '/src/Components/Utils/Apis'
 import Loading from '/src/Components/General/Loading'
 import { PostUrl } from '/src/Components/Utils/Apis'
 import { SwalAlert } from '/src/Components/Utils/Utility'
+import { useParams } from 'react-router-dom'
+import { BsPencil } from 'react-icons/bs'
 
 const SetupPlan = () => {
     const [plan, setPlan] = useState('')
@@ -16,36 +18,48 @@ const SetupPlan = () => {
     const [planned, setPlanned] = useState('')
     const [allplans, setAllPlans] = useState([])
     const [loading, setLoading] = useState(false)
+    const [isNew, setisNew] = useState(true)
+    const { auto } = useParams()
 
     const fetchAllAutos = useCallback(async () => {
         const response = await GetUrl(Api.subs.get_automation_service)
         if (response.status === 200) return setAutos(response.msg)
     }, [])
 
+    const fetchAllApis = useCallback(async () => {
+        const res = await GetUrl(`${Api.subs.all_api_plans}/${auto}`)
+        if (res.status === 200) return setAllPlans(res.msg)
+    }, [])
+
     useEffect(() => {
         fetchAllAutos()
-    }, [fetchAllAutos])
+        fetchAllApis()
+    }, [fetchAllAutos, fetchAllApis])
 
     const handleAutosForm = (e) => {
-        const val = e.target.value 
-        if(val) {
+        const val = e.target.value
+        if (val) {
             const filtered = autos.find(item => item.id === parseInt(val))
             setApi(filtered)
             setPlanned(`${filtered.planName.split('_' || '-')[0]} ${filtered.planName.split('_' || '-')[1]}`)
             setIsApi(true)
-        }else {
+        } else {
             setIsApi(false)
         }
-        setAllPlans([])
-        setPlan('')
     }
     const handleAddPlan = () => {
         if (!plan) return ToastAlert('Enter Plan for automation name')
         // check if plan already exists
-        const findPlan = allplans.find(item => item === plan)
-        if(findPlan) return ToastAlert(`${planned} already exists!`)
+        // const findPlan = allplans.find(item => item.automation === api.id)
+        // if (findPlan) return ToastAlert(`${planned} already exists!`)
         setPlan('')
-        setAllPlans([...allplans, plan])
+        const newads = {
+            plan: plan,
+            pack: auto,
+            automation: api.id,
+            title: api.title
+        }
+        setAllPlans([...allplans, newads])
     }
 
     const clearPlanFormList = item => {
@@ -55,27 +69,39 @@ const SetupPlan = () => {
 
     const handleSubmission = async () => {
         try {
-            if(!api?.id) return ToastAlert('Select an automation service')
-            if(allplans.length < 1) return ToastAlert('Provide valid plans for the api service')
+            if (!api?.id) return ToastAlert('Select an automation service')
+            if (allplans.length < 1) return ToastAlert('Provide valid plans for the api service')
             const formdata = {
-                automation: api.id,
+                pack: auto,
                 plans: allplans
             }
             setLoading(true)
             const res = await PostUrl(Api.subs.add_api_plans, formdata)
             setLoading(false)
-            if(res.status === 200) {
+            if (res.status === 200) {
                 SwalAlert('Request Successful', res.msg, 'success')
-            }else {
+            } else {
                 ToastAlert(res.msg)
             }
         } catch (error) {
             return ToastAlert(error)
         }
     }
+    const updatePlanInList = (data) => {
+        if (data) {
+            const filtered = autos.find(item => item.id === parseInt(data.automation))
+            setApi(data)
+            setPlan(data.plan)
+            console.log(filtered.plan)
+            setPlanned(`${filtered.planName.split('_' || '-')[0]} ${filtered.planName.split('_' || '-')[1]}`)
+            setIsApi(true)
+        } else {
+            setIsApi(false)
+        }
+    }
     return (
         <AdminLayout pagetitle="Setup Autmation Service Plans">
-            {loading && <Loading /> }
+            {loading && <Loading />}
             <div className="">
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                     <div className="col-span-2">
@@ -103,8 +129,18 @@ const SetupPlan = () => {
                             {allplans.map((item, i) => (
                                 <div className="px-2 py-1.5 border-b last:border-b-0" key={i}>
                                     <div className="grid grid-cols-2">
-                                        <div className="text-sm flex items-center gap-2"> <ImCompass /> {item}</div>
-                                        <div onClick={() => clearPlanFormList(item)} className="w-fit ml-auto text-red-600 cursor-pointer"> <SlTrash /> </div>
+                                        <div className="">
+                                            <div className="text-sm flex items-center gap-2"> <ImCompass />
+                                                <div className="">
+                                                    <div className="text-sm">Plan: {item.plan}</div>
+                                                    <div className="text-sm uppercase">Api: {item.title}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <div onClick={() => clearPlanFormList(item)} className="w-fit ml-auto text-red-600 cursor-pointer"> <SlTrash /> </div>
+                                            {/* <div onClick={() => updatePlanInList(item)} className="w-fit ml-auto text-blue-600 cursor-pointer"> <BsPencil /> </div> */}
+                                        </div>
                                     </div>
                                 </div>
                             ))}

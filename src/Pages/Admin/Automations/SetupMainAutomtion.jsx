@@ -15,6 +15,8 @@ const SetupMainAutomtion = ({ data, closeView, resendSignal, allitems, tag }) =>
         const formated = `${findData.planName.split('_' || '-')[0]} ${findData.planName.split('_' || '-')[1]}`
         setPlan(formated)
         setAPis(findData.plans)
+        const findPlan = findData.plans.find((item) => item.pack === allitems.id)
+        setPlanData(findPlan)
     }
 
     const saveChanges = async e => {
@@ -23,19 +25,19 @@ const SetupMainAutomtion = ({ data, closeView, resendSignal, allitems, tag }) =>
         if (!planData) return ToastAlert('Provide an automation service Data Price')
         const formdata = {
             automation: automation,
-            deal: planData,
+            deal: planData.plan,
             id: allitems.id,
             tag: tag
         }
-        console.log(formdata)
-        // const res = await PostUrl(Api.subs.update_package_automation, formdata)
-        // if (res.status === 200) {
-        //     resendSignal()
-        //     closeView()
-        //     ToastAlert(res.msg)
-        // } else {
-        //     ToastAlert(res.msg)
-        // }
+        
+        const res = await PostUrl(Api.subs.update_package_automation, formdata)
+        if (res.status === 200) {
+            resendSignal()
+            closeView()
+            ToastAlert(res.msg)
+        } else {
+            ToastAlert(res.msg)
+        }
     }
     return (
         <ModalLayout closeView={closeView}>
@@ -51,16 +53,6 @@ const SetupMainAutomtion = ({ data, closeView, resendSignal, allitems, tag }) =>
                     </div>
                     {plan ?
                         <div className="">
-                            <div className="mb-3">
-                                <div className="">Enter {plan}</div>
-                                <select onChange={e => setPlanData(e.target.value)} className="input">
-                                    <option value="">--Select--</option>
-                                    {apis.map((item, i) => (
-                                        <option value={item.plan} key={i}>{item.plan}</option>
-                                    ))}
-                                </select>
-                                {/* <input type="text" value={planData}  className="input" /> */}
-                            </div>
                             <div className="mt-10 w-fit ml-auto">
                                 <button className="bg-indigo-600 text-white capitalize rounded-full py-3 px-5 text-sm">save changes</button>
                             </div>

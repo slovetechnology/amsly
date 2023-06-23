@@ -46,9 +46,11 @@ import AllUsers from './Pages/Admin/ManageUsers/AllUsers';
 import UpdateIngeration from './Pages/Admin/Integrations/UpdateIntegration';
 import AdminFinanceUser from './Pages/Admin/ManageUsers/AdminFinanceUser';
 import SetupPlan from './Pages/Admin/Integrations/Plans/SetupPlan';
-import ApiPlans from './Pages/Admin/Integrations/Plans/ApiPlans';
 import UpdateApiPlan from './Pages/Admin/Integrations/Plans/UpdateApiPlan';
 import AdminResetUserPin from './Pages/Admin/ManageUsers/AdminResetUserPin';
+import PlanAutomation from './Pages/Admin/Integrations/Plans/PlanAutomation';
+import PlanService from './Pages/Admin/Integrations/Plans/PlanService';
+import PlanPackage from './Pages/Admin/Integrations/Plans/PlanPackage';
 
 
 
@@ -98,9 +100,11 @@ const App = () => {
       <Route path="/auth/admin/integration/new" element={<AdminRoute><CreateAutomation /> </AdminRoute>} />
       <Route path="/auth/admin/integration" element={<AdminRoute><AllAutomations /> </AdminRoute>} />
       <Route path="/auth/admin/integration/edit/:id" element={<AdminRoute><UpdateIngeration /> </AdminRoute>} />
-      <Route path="/auth/admin/integration/plans/new" element={<AdminRoute><SetupPlan /> </AdminRoute>} />
       <Route path="/auth/admin/integration/plans/edit/:id" element={<AdminRoute><UpdateApiPlan /> </AdminRoute>} />
-      <Route path="/auth/admin/integration/plans" element={<AdminRoute><ApiPlans /> </AdminRoute>} />
+      <Route path="/auth/admin/integration/plans" element={<AdminRoute><PlanAutomation /> </AdminRoute>} />
+      <Route path="/auth/admin/integration/plans/:id" element={<AdminRoute><PlanService /> </AdminRoute>} />
+      <Route path="/auth/admin/integration/plans/:id/:pack" element={<AdminRoute><PlanPackage /> </AdminRoute>} />
+      <Route path="/auth/admin/integration/plans/:id/:pack/:auto" element={<AdminRoute><SetupPlan /> </AdminRoute>} />
 
       <Route path="/" element={<HomePage />} />
       
