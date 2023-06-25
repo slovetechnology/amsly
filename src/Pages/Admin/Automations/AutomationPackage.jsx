@@ -63,9 +63,6 @@ const AutomationPackage = () => {
                         tags={tags}
                         key={i} />
                 ))}
-                <div className="w-fit mt-10 ml-auto">
-                    <button className="bg-indigo-600 text-white rounded-full py-3 px-5 capitalize">save changes</button>
-                </div>
             </div>
         </AdminLayout>
     )
