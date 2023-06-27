@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import AdminLayout from '../../../Components/Admin/AdminLayout'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import AdminLayout from '/src/Components/Admin/AdminLayout'
+import { useDispatch, useSelector } from 'react-redux'
 import AllPrices from './AllPrices'
 import SinglePrice from './SinglePrice'
+import { SlPeople } from 'react-icons/sl'
+import SingleSub from './SingleSub'
+import Loading from '/src/Components/General/Loading'
+import { Api, PostUrl } from '/src/Components/Utils/Apis'
+import { SwalAlert } from '/src/Components/Utils/Utility'
+import { dispatchLevels } from '/src/app/reducer'
+import { ToastAlert } from '/src/Components/Utils/Utility'
 
 const ManageLevels = () => {
     const [active, setActive] = useState(0)
@@ -12,6 +19,9 @@ const ManageLevels = () => {
     const [calc, setCalc] = useState(100)
     const [forms, setForms] = useState({})
     const [prices, setPrices] = useState([])
+    const [title, setTitle] = useState('')
+    const [loading, setLoading] = useState(false)
+    const dispatch = useDispatch()
 
     const handleForms = e => {
         setForms({
@@ -48,18 +58,36 @@ const ManageLevels = () => {
         }
         setPrices(parr)
     }
+
+    const handleLevelCreating = async () => {
+        const data = {
+            title
+        }
+        setLoading(true)
+        const res = await PostUrl(Api.subs.add_level, data)
+        setLoading(false)
+        if(res.status === 200) {
+            setTitle('')
+            SwalAlert("Request Successful", res.msg, 'success')
+            dispatch(dispatchLevels(res.levels))
+        }else {
+            ToastAlert(res.msg)
+        }
+    }
+
     return (
         <AdminLayout>
+            {loading && <Loading /> }
             <div className="">
                 <div className="bg-white rounded-lg p-4">
                     <div className="">
-                        <div className="text-zinc-600">Name of Level</div>
-                        <input type="text" className="input" />
+                        <div className="text-indigo-600 flex mb-3 items-center gap-3"> <div className="rounded-full p-2 bg-indigo-300/50 text-indigo-600"> <SlPeople /> </div> Name of Level</div>
+                        <input value={title} onChange={e => setTitle(e.target.value)} type="text" className="input" />
                     </div>
                     <div className="mt-5">
                         <div className="flex items-center flex-wrap gap-5">
                             {subs.map((item, i) => (
-                                <button key={i} onClick={() => setupSinglesub(item)} className={`text-sm uppercase py-2.5 px-4 rounded-full ${active === item.id ? 'bg-indigo-600 text-white' : 'bg-slate-100'}`}>{item.network}</button>
+                                item.locked === 'no' && <button key={i} onClick={() => setupSinglesub(item)} className={`text-sm uppercase py-2.5 px-4 rounded-full ${active === item.id ? 'bg-indigo-600 text-white' : 'bg-slate-100'}`}>{item.network}</button>
                             ))}
                         </div>
                     </div>
@@ -81,15 +109,12 @@ const ManageLevels = () => {
                         </div>}
                         <div className="grid grid-cols-7">
                             <div className="col-span-5">
-                                {singlesub.map((item,i) => (
-                                    <div className="flex mb-1 items-center justify-between flex-row w-full p-[0.77rem]" key={i}>
-                                        <div className="text-sm">{item.title}</div>
-                                        <div className="text-sm">{item.price}</div>
-                                    </div>
+                                {singlesub.map((item, i) => (
+                                    <SingleSub key={i} item={item} />
                                 ))}
                             </div>
                             <div className="col-span-2">
-                                {prices.map((item,i) => (
+                                {prices.map((item, i) => (
                                     <SinglePrice key={i} item={item} />
                                 ))}
                             </div>
@@ -97,7 +122,7 @@ const ManageLevels = () => {
                     </div>
                 </div>
                 <div className="w-fit mx-auto mt-10">
-                    <button className="bg-indigo-600 py-3 px-8 rounded-full text-white capitalize">create level</button>
+                    <button onClick={handleLevelCreating} className="bg-indigo-600 py-3 px-8 rounded-full text-white capitalize">create level</button>
                 </div>
             </div>
         </AdminLayout>

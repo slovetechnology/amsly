@@ -12,7 +12,7 @@ import { ServicesLinks } from '../Utils/Utility'
 
 const AdminSideBar = () => {
     const location = useLocation()
-    const { user, subs } = useSelector(state => state.data)
+    const { user, subs, levels } = useSelector(state => state.data)
     const [currentdrop, setCurrentDrop] = useState('')
     const navigate = useNavigate()
 
@@ -60,7 +60,7 @@ const AdminSideBar = () => {
                     {currentdrop === 'services' && <div className='ml-8 flex flex-col capitalize text-zinc-600'>
                         <Link to='/auth/admin/service/new' className='sidelink1'>Create Services</Link>
                         {subs.map((item, i) => (
-                            <div onClick={() => {navigate(`/auth/admin/service/view/${item.id}`); navigate(0)}} key={i} className='sidelink1'>{item.network}</div>
+                            item.locked === 'no' && <div onClick={() => {navigate(`/auth/admin/service/view/${item.id}`); navigate(0)}} key={i} className='sidelink1'>{item.network}</div>
                         ))}
                     </div>}
                 </div>
@@ -68,7 +68,9 @@ const AdminSideBar = () => {
                     <div onClick={() => handleCurentDrop('levels')} className={`sidelink cursor-pointer ${location.pathname === '' ? 'bg-indigo-600 text-white' : ''}`}> <FcComboChart className='text-2xl' /> Levels <div className="w-fit ml-auto"><SlArrowDown /></div></div>
                     {currentdrop === 'levels' && <div className='ml-8 flex flex-col capitalize text-zinc-600'>
                         <Link to='/auth/admin/levels' className='sidelink1'>Create New Levels</Link>
-                        <Link to='' className='sidelink1'>All Levels</Link>
+                        {levels.map((item, i) => (
+                            <Link key={i} to={`/auth/admin/levels/${item.id}`} className='sidelink1'>{item.title}</Link>
+                        ))}
                     </div>}
                 </div>
                 <Link to='/auth/admin/automation' className={`sidelink ${location.pathname === '/auth/admin/automation' ? 'bg-indigo-600 text-white' : ''}`}><FcCommandLine className='text-2xl' /> Site Automation</Link>

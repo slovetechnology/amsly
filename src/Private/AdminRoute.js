@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Api, GetUrl } from '../Components/Utils/Apis'
 import { useNavigate } from 'react-router-dom'
-import { dispatchSubscriptiondata, dispatchSubscriptions, dispatchUser } from '../app/reducer'
+import { dispatchLevels, dispatchSubscriptiondata, dispatchSubscriptions, dispatchUser } from '../app/reducer'
 import { useDispatch } from 'react-redux'
 
 const AdminRoute = ({ children }) => {
@@ -14,6 +14,7 @@ const AdminRoute = ({ children }) => {
             if (res.status === 200) {
                 setAllowed(true)
                 dispatch(dispatchUser(res.msg))
+                dispatch(dispatchLevels(res.levels))
             } else {
                 navigate('/login')
             }

@@ -4,6 +4,7 @@ const initialState = {
   user: {},
   subs: [],
   subdata: [],
+  levels: [],
 }
 
 export const counterSlice = createSlice({
@@ -19,9 +20,12 @@ export const counterSlice = createSlice({
     dispatchSubscriptiondata: (state, action) => {
       state.subdata = action.payload
     },
+    dispatchLevels: (state, action) => {
+      state.levels = action.payload
+    }
   },
 })
 
-export const { dispatchUser, dispatchSubscriptions, dispatchSubscriptiondata} = counterSlice.actions
+export const { dispatchUser, dispatchSubscriptions, dispatchSubscriptiondata, dispatchLevels} = counterSlice.actions
 
 export default counterSlice.reducer

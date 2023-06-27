@@ -23,7 +23,7 @@ import SalesAnalysis from './Pages/Admin/Transactions/SalesAnalysis';
 import AllTransactions from './Pages/Admin/Transactions/AllTransactions';
 import LockCables from './Pages/Admin/Locks/LockCables';
 import LockData from './Pages/Admin/Locks/LockData';
-import ManageLevels from './Pages/Admin/Levels/ManageLavels';
+import ManageLevels from './Pages/Admin/Levels/CreateLevels/ManageLavels';
 import Automation from './Pages/Admin/Automations/Automation';
 import UserAllTransactions from './Pages/User/Transactions/AllTransactions'
 import SuccessTransactions from './Pages/User/Transactions/SuccessTransactions';
@@ -51,6 +51,7 @@ import AdminResetUserPin from './Pages/Admin/ManageUsers/AdminResetUserPin';
 import PlanAutomation from './Pages/Admin/Integrations/Plans/PlanAutomation';
 import PlanService from './Pages/Admin/Integrations/Plans/PlanService';
 import PlanPackage from './Pages/Admin/Integrations/Plans/PlanPackage';
+import AllLevels from './Pages/Admin/Levels/AllLevels';
 
 
 
@@ -90,6 +91,7 @@ const App = () => {
       <Route path="/auth/admin/sales_analysis" element={<AdminRoute><SalesAnalysis /> </AdminRoute>} />
       <Route path="/auth/admin/all_transactions" element={<AdminRoute><AllTransactions /> </AdminRoute>} />
       <Route path="/auth/admin/levels" element={<AdminRoute><ManageLevels /> </AdminRoute>} />
+      <Route path="/auth/admin/levels/:id" element={<AdminRoute><AllLevels /> </AdminRoute>} />
       <Route path="/auth/admin/lock-cables" element={<AdminRoute><LockCables /> </AdminRoute>} />
       <Route path="/auth/admin/lock-data" element={<AdminRoute><LockData /> </AdminRoute>} />
       <Route path="/auth/admin/automation" element={<AdminRoute><Automation /> </AdminRoute>} />
