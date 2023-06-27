@@ -12,6 +12,7 @@ const ConfirmDataNetwork = ({closeView, autos, handleSubmission, nets}) => {
     const sendData = () => {
         handleSubmission(network)
     }
+    const dataEnums = "AIRTEL" || "MTN" || "GLO" || "ETISALAT"
   return (
     <ModalLayout closeView={closeView}>
         <div className="p-3">
@@ -20,7 +21,7 @@ const ConfirmDataNetwork = ({closeView, autos, handleSubmission, nets}) => {
                 <select onChange={handleAutoNetwork} className="input">
                     <option value="">--Select Preference</option>
                     {autos?.networks.map((item, i) => (
-                        item.title.startsWith(valdata) && 
+                        item.title.startsWith(dataEnums) && 
                         <option key={i} value={item.tag}>{item.title}</option>
                     ))}
                 </select>
