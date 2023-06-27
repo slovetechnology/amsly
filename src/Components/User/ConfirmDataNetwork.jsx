@@ -21,7 +21,7 @@ const ConfirmDataNetwork = ({closeView, autos, handleSubmission, nets}) => {
                 <select onChange={handleAutoNetwork} className="input">
                     <option value="">--Select Preference</option>
                     {autos?.networks.map((item, i) => (
-                        item.title.startsWith(dataEnums) && 
+                        item.title.slice(0, 3).toUpperCase() === nets.slice(0, 3).toUpperCase() && 
                         <option key={i} value={item.tag}>{item.title}</option>
                     ))}
                 </select>
