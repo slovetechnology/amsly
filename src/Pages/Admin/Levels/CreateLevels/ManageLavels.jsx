@@ -100,7 +100,7 @@ const ManageLevels = () => {
                                     </div>
                                 </div>
                                 <div className="w-fit ml-auto">
-                                    <div className="flex items-center gap-3">
+                                    <div className="flex items-center flex-wrap gap-3">
                                         <div className="text-sm">Gifting percentage: </div>
                                         <input onKeyUp={e => handlepercantage(e.target.value)} value={calc} onChange={e => setCalc(e.target.value)} type="text" placeholder={`%`} className="text-sm border bg-transparent rounded-lg p-2" />
                                     </div>
