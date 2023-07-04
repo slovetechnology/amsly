@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { FaCheck } from 'react-icons/fa'
 
-const SingleSub = ({ item, signalPack, packs }) => {
-    const [added, setAdded] = useState(false)
+const SingleSub = ({ item, packs,subId }) => {
+    const [added, setAdded] = useState(true)
     const [forms, setForms] = useState('')
 
     useEffect(() => {
@@ -12,10 +12,10 @@ const SingleSub = ({ item, signalPack, packs }) => {
     }, [])
     const handleLocking = (id) => {
         setAdded(!added)
-        signalPack(id)
     }
 
-    return (
+(item.network === subId) && console.log(subId, item.network, 'checking')
+   if(item.network === subId) return (
         <div className="grid grid-cols-7">
             <div className="col-span-5">
                 <div className="flex mb-1 items-center justify-between flex-row w-full p-[0.77rem]">

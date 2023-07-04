@@ -13,7 +13,6 @@ import { ToastAlert } from '/src/Components/Utils/Utility'
 
 const ManageLevels = () => {
     const localData = 'subs'
-    const localPacks = JSON.parse(localStorage.getItem(localData))
     const [active, setActive] = useState(0)
     const { subs, subdata } = useSelector(state => state.data)
     const [singlesub, setSinglesub] = useState([])
@@ -24,11 +23,6 @@ const ManageLevels = () => {
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
     
-    useEffect(() => {
-        if(!localPacks) {
-            localStorage.setItem(localData, JSON.stringify([]))
-        }
-    }, [])
     const setupSinglesub = val => {
         const dataArr = []
         val.sub.map((item) => {
@@ -43,6 +37,7 @@ const ManageLevels = () => {
         })
         setSinglesub(dataArr)
         setActive(val.id)
+        console.log(dataArr)
         // const filter = subdata.filter((item) => item.network === val.id)
         // setSinglesub(filter)
         // setActive(val.id)
@@ -72,35 +67,21 @@ const ManageLevels = () => {
     }
 
     const handleLevelCreating = async () => {
-        const data = {
-            title
+        const formdata = {
+            title,
+            subs
         }
-        setLoading(true)
-        const res = await PostUrl(Api.subs.add_level, data)
-        setLoading(false)
-        if (res.status === 200) {
-            setTitle('')
-            SwalAlert("Request Successful", res.msg, 'success')
-            dispatch(dispatchLevels(res.levels))
-        } else {
-            ToastAlert(res.msg)
-        }
-    }
-
-    const signalPack = id => {
-        const findPack = singlesub.find(item => item.id === id)
-        console.log(findPack)
-        // check if pack already exists in localStorage
-        const checkPackInLocals = localPacks.find(item => item.id === findPack.id)
-        if(!checkPackInLocals) {
-            localPacks.push(findPack)
-            return localStorage.setItem(localData, JSON.stringify(localPacks))
-        }
-        if(checkPackInLocals) {
-            const indexOfPack = localPacks.findIndex(item => item.id === findPack)
-            localPacks.splice(indexOfPack, 1)
-            return localStorage.setItem(localData, JSON.stringify(localPacks))
-        }
+        console.log(formdata)
+        // setLoading(true)
+        // const res = await PostUrl(Api.subs.add_level, data)
+        // setLoading(false)
+        // if (res.status === 200) {
+        //     setTitle('')
+        //     SwalAlert("Request Successful", res.msg, 'success')
+        //     dispatch(dispatchLevels(res.levels))
+        // } else {
+        //     ToastAlert(res.msg)
+        // }
     }
 
     return (
@@ -136,12 +117,12 @@ const ManageLevels = () => {
                                 </div>
                             </div>
                         </div>}
-                        {singlesub.map((item, i) => (
+                        {subdata.map((item, i) => (
                             <SingleSub
                                 key={i}
                                 item={item}
-                                signalPack={signalPack}
-                                packs={localPacks}
+                                packs={singlesub}
+                                subId={active}
                             />
                         ))}
                     </div>}

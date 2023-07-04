@@ -65,7 +65,6 @@ const CreateAutomation = () => {
         if (!forms.format) return ToastAlert('Api Format is required')
         if (!forms.planName) return ToastAlert('Api Plan Name is required')
         if (!forms.mobileName) return ToastAlert('Mobile ID is required')
-        if (!forms.refName) return ToastAlert('Reference Identity is required')
         if (!forms.networkName) return ToastAlert('Network Identity is required')
         if (endpoints.length < 1) return ToastAlert('Endpoints to the api url is required')
         if (works.length < 1) return ToastAlert('Networks to the api url is required')
@@ -192,7 +191,7 @@ const CreateAutomation = () => {
                             <input name="mobileName" value={forms.mobileName} onChange={handleForms} type="text" className="input" />
                         </div>
                         <div className="mb-4">
-                            <div className="text-slate-500">Reference Name</div>
+                            <div className="text-slate-500">Reference Name (Optional)</div>
                             <input name="refName" value={forms.refName} onChange={handleForms} type="text" className="input" />
                         </div>
                         <div className="mb-4">
