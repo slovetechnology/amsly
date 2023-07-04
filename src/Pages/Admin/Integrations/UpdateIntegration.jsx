@@ -10,12 +10,11 @@ import { SlTrash } from 'react-icons/sl'
 import SingleApiNetwork from './SingleApiNetwork'
 
 const UpdateIngeration = () => {
-    const locals = JSON.parse(localStorage.getItem('networks'))
     const [loading, setLoading] = useState(false)
     const [spiner, setSpiner] = useState(false)
     const [endpoints, setEndpoints] = useState([])
     const [isNew, setIsNew] = useState(true)
-    const [works, setWorks] = useState(locals || [])
+    const [works, setWorks] = useState([])
     const [points, setPoints] = useState({
         point: '',
         category: ''
@@ -41,6 +40,7 @@ const UpdateIngeration = () => {
         refName: '',
         networkName: '',
         tokenName: '',
+        callbackName: '',
     })
 
     const handleForms = e => {
@@ -80,12 +80,10 @@ const UpdateIngeration = () => {
                 refName: data.refName || '',
                 networkName: data.networkName || '',
                 tokenName: data.tokenName || '',
+                callbackName: data.callbackName || '',
             })
             setEndpoints(res.msg.autos)
-            if (!locals) {
-                localStorage.setItem('networks', JSON.stringify(res.msg.networks))
-                setWorks(res.msg.networks)
-            }
+            setWorks(res.msg.networks)
             return setData(res.msg)
         }
     }, [id])
@@ -139,7 +137,6 @@ const UpdateIngeration = () => {
     }
     const handleNetworksDeleting = (id) => {
         const findPoint = works.filter((item) => item.id !== id)
-        localStorage.setItem('networks', JSON.stringify(findPoint))
         setWorks(findPoint)
     }
     const handleNetworksUpdating = (value) => {
@@ -174,7 +171,7 @@ const UpdateIngeration = () => {
         if (!forms.apiurl) return ToastAlert('Provide a valid api url')
         if (!networks.title) return ToastAlert('Provide a valid api network for user to see')
         if (!networks.tag) return ToastAlert('Provide a valid api network for api providers to see')
-        const localDatas = JSON.parse(localStorage.getItem('networks'))
+        
         if (isNew) {
             const findData = works.find(item => item.title === networks.title)
             if (findData) return ToastAlert(`Network already exists!`)
@@ -184,25 +181,22 @@ const UpdateIngeration = () => {
                 title: networks.title,
                 tag: networks.tag,
             }
-            localDatas.push(pointData)
-            localStorage.setItem('networks', JSON.stringify(localDatas))
             setWorks([...works, pointData])
         } else {
             const findPack = works.find(item => item.id === packid)
             console.log(findPack)
             if (findPack) {
-                const findIndex = localDatas.findIndex(item => item.id === findPack.id)
-                localDatas.splice(findIndex, 1)
-                localStorage.setItem('networks', JSON.stringify(localDatas))
-                const date = new Date()
-                const pointData = {
-                    id: date.getTime(),
-                    title: networks.title,
-                    tag: networks.tag,
-                }
-                localDatas.unshift(pointData)
-                localStorage.setItem('networks', JSON.stringify(localDatas))
-                setWorks(localDatas)
+                const mappedWorks = works.map((item) => {
+                    if(item.id === packid) {
+                        return {
+                            ...item,
+                            title: networks.title,
+                            tag: networks.tag
+                        }
+                    }
+                    return item
+                })
+                setWorks(mappedWorks)
             }
         }
         setNetworks({
@@ -281,6 +275,10 @@ const UpdateIngeration = () => {
                         <div className="mb-4">
                             <div className="text-slate-500">Callback URL (Optional)</div>
                             <input name="callback" value={forms.callback} onChange={handleForms} type="text" className="input" />
+                        </div>
+                        <div className="mb-4">
+                            <div className="text-slate-500">Callback Name (Optional)</div>
+                            <input name="callbackName" value={forms.callbackName} onChange={handleForms} type="text" className="input" />
                         </div>
                     </div>
                     <div className="grid grid-cols-1 border-t gap-4 lg:grid-cols-2">

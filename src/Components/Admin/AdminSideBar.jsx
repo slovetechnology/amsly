@@ -60,7 +60,7 @@ const AdminSideBar = () => {
                     {currentdrop === 'services' && <div className='ml-8 flex flex-col capitalize text-zinc-600'>
                         <Link to='/auth/admin/service/new' className='sidelink1'>Create Services</Link>
                         {subs.map((item, i) => (
-                            item.locked === 'no' && <div onClick={() => {navigate(`/auth/admin/service/view/${item.id}`); navigate(0)}} key={i} className='sidelink1'>{item.network}</div>
+                            item.locked === 'no' && <div onClick={() => {navigate(`/auth/admin/service/view/${item.id}`); navigate(0)}} key={i} className='sidelink1 cursor-pointer'>{item.network}</div>
                         ))}
                     </div>}
                 </div>

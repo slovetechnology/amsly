@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Navbar from '../../Components/General/Navbar'
 import { Link, useNavigate } from 'react-router-dom'
 import man from '../../Assets/Images/man.png'
-import { FaArrowRight } from 'react-icons/fa'
+import { FaArrowRight, FaEye, FaEyeSlash } from 'react-icons/fa'
 import { SwalAlert, ToastAlert } from '../../Components/Utils/Utility'
 import { Api, NormalPostUrl } from '../../Components/Utils/Apis'
 import Cookies from 'js-cookie'
@@ -15,6 +15,8 @@ const Login = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [screen, setScreen] = useState(1)
+    const [isPass, setIsPass] = useState(false)
+    const Icon = !isPass ? FaEyeSlash : FaEye
     const [forms, setForms] = useState({
         email: '',
         password: ''
@@ -124,9 +126,10 @@ return SwalAlert('Request Failed', res.msg, 'info')
                             <input name="email" value={forms.email} onChange={handleForms} type="email" className="input" />
                         </div>
                         <div className="text-right"> <Link to='/forgot_password' className='text-indigo-600'>Forgot Password?</Link> </div>
-                        <div className="mb-6">
+                        <div className="mb-6 relative">
+                            <div onClick={() => setIsPass(!isPass)} className="absolute top-8 right-4 cursor-pointer text-2xl text-slate-500"> <Icon /> </div>
                             <div className="uppercase">password</div>
-                            <input name="password" value={forms.password} onChange={handleForms} type="password" className="input" />
+                            <input name="password" value={forms.password} onChange={handleForms} type={isPass ? 'text' : 'password'} className="input" />
                         </div>
                         <div className="mt-6 w-11/12 mx-auto">
                             <button type="button" onClick={handleSubmit} className="bg-indigo-600 rounded-lg text-white capitalize py-4 w-full flex items-center shadow-xl justify-center gap-2">login account <FaArrowRight /> </button>

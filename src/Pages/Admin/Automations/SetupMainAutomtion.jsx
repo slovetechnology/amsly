@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
-import ModalLayout from '../../../Components/Utils/ModalLayout'
-import { ToastAlert } from '../../../Components/Utils/Utility'
-import { Api, PostUrl } from '../../../Components/Utils/Apis'
+import ModalLayout from '/src/Components/Utils/ModalLayout'
+import { ToastAlert } from '/src/Components/Utils/Utility'
+import { Api, PostUrl } from '/src/Components/Utils/Apis'
 import { SlExclamation } from 'react-icons/sl'
+import Loading from '/src/Components/General/Loading'
 
 const SetupMainAutomtion = ({ data, closeView, resendSignal, allitems, tag }) => {
     const [plan, setPlan] = useState(null)
     const [planData, setPlanData] = useState('')
     const [apis, setAPis] = useState([])
+    const [loading, setLoading] = useState(false)
     const [automation, setAutomation] = useState('')
     const handleService = (e) => {
         setAutomation(e.target.value)
@@ -22,15 +24,16 @@ const SetupMainAutomtion = ({ data, closeView, resendSignal, allitems, tag }) =>
     const saveChanges = async e => {
         e.preventDefault()
         if (!automation) return ToastAlert('Provide an automation service')
-        if (!planData) return ToastAlert('Provide an automation service Data Price')
+        if (!planData) return ToastAlert('Provide an automation service Data Price, to set the price, navigate to the api automation plans page')
         const formdata = {
             automation: automation,
             deal: planData.plan,
             id: allitems.id,
             tag: tag
         }
-        
+        setLoading(true)
         const res = await PostUrl(Api.subs.update_package_automation, formdata)
+        setLoading(false)
         if (res.status === 200) {
             resendSignal()
             closeView()
@@ -41,6 +44,7 @@ const SetupMainAutomtion = ({ data, closeView, resendSignal, allitems, tag }) =>
     }
     return (
         <ModalLayout closeView={closeView}>
+            {loading && <Loading /> }
             <div className="bg-sky-50 p-3 text-xs">Setup {tag} automation service for &#8358;{allitems.price} </div>
             <div className="p-4">
                 <form onSubmit={saveChanges}>

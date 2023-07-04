@@ -12,7 +12,6 @@ const ConfirmDataNetwork = ({closeView, autos, handleSubmission, nets}) => {
     const sendData = () => {
         handleSubmission(network)
     }
-    const dataEnums = "AIRTEL" || "MTN" || "GLO" || "ETISALAT"
   return (
     <ModalLayout closeView={closeView}>
         <div className="p-3">

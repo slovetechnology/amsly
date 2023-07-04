@@ -34,9 +34,8 @@ const CreateAutomation = () => {
         refName: '',
         networkName: '',
         tokenName: '',
+        callbackName: '',
     })
-    let texts = 'TXID_M&uK!1687351293028'
-    console.log(texts.length)
 
     const handleForms = e => {
         setForms({
@@ -65,7 +64,6 @@ const CreateAutomation = () => {
         if (!forms.method) return ToastAlert('Api Method is required')
         if (!forms.format) return ToastAlert('Api Format is required')
         if (!forms.planName) return ToastAlert('Api Plan Name is required')
-        if (!forms.refid) return ToastAlert('Reference ID is required')
         if (!forms.mobileName) return ToastAlert('Mobile ID is required')
         if (!forms.refName) return ToastAlert('Reference Identity is required')
         if (!forms.networkName) return ToastAlert('Network Identity is required')
@@ -183,7 +181,7 @@ const CreateAutomation = () => {
                             <input name="planName" value={forms.planName} onChange={handleForms} type="text" className="input" />
                         </div>
                         <div className="mb-4">
-                            <div className="text-slate-500">Reference ID</div>
+                            <div className="text-slate-500">Reference ID  (optional)</div>
                             <div className="flex items-center gap-5">
                                 <input name="refid" value={forms.refid} onChange={handleForms} type="text" className="input" />
                                 <button type='button' onClick={generateRefID} className="bg-indigo-600 flex items-center justify-center capitalize text-white rounded-lg text-xs h-10 w-24"> {spiner ? <img src={spins} alt="" className="w-11" /> : 'generate'} </button>
@@ -203,7 +201,11 @@ const CreateAutomation = () => {
                         </div>
                         <div className="mb-4">
                             <div className="text-slate-500">Ported Number (optional)</div>
-                            <input name="porttedNumber" value={forms.portedNumber} onChange={handleForms} type="text" className="input" />
+                            <input name="portedNumber" value={forms.portedNumber} onChange={handleForms} type="text" className="input" />
+                        </div>
+                        <div className="mb-4">
+                            <div className="text-slate-500">Callback Name (Optional)</div>
+                            <input name="callbackName" value={forms.callbackName} onChange={handleForms} type="text" className="input" />
                         </div>
                         <div className="mb-4">
                             <div className="text-slate-500">Callback URL (Optional)</div>
