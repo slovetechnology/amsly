@@ -11,6 +11,7 @@ import SingleApiNetwork from './SingleApiNetwork'
 
 const UpdateIngeration = () => {
     const [loading, setLoading] = useState(false)
+    const [views, setViews] = useState(false)
     const [spiner, setSpiner] = useState(false)
     const [endpoints, setEndpoints] = useState([])
     const [isNew, setIsNew] = useState(true)
@@ -210,7 +211,11 @@ const UpdateIngeration = () => {
 
             <form onSubmit={handleSubmission}>
                 <div className="w-full bg-white p-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 mb-5">
+                        <div className=""></div>
+                        <div onClick={() => setViews(!views)} className="w-fit ml-auto"> <button type="button" className="bg-indigo-700 shadow-xl hover:scale-110 transition-all hover:bg-indigo-800 text-blue-100 rounded-full py-2.5 px-5 capitalize">expand</button> </div>
+                    </div>
+                    <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ${views ? '' : 'hidden'}`}>
                         <div className="mb-4">
                             <div className="text-slate-500">Service Name</div>
                             <input name="title" value={forms.title} onChange={handleForms} type="text" className="input" />
