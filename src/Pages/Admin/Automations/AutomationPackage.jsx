@@ -8,7 +8,7 @@ import { Api, GetUrl } from '../../../Components/Utils/Apis'
 import { useQuery } from 'react-query'
 
 const AutomationPackage = () => {
-    const { pack, id } = useParams()
+    const { pack, id, net } = useParams()
     const { subdata } = useSelector(state => state.data)
     const [subitem, setSubitem] = useState(null)
     const [zone, setZone] = useState(0)
@@ -48,9 +48,10 @@ const AutomationPackage = () => {
                     allitems={allitems}
                     data={data}
                     resendSignal={() => refetch()}
+                    net={net}
                     closeView={() => setZone(0)} />}
             <div className="mb-10 w-11/12 mx-auto">
-                <Link to={`/auth/admin/automation/${id}`} className='bg-indigo-700 py-2 rounded-lg px-4 text-white text-sm capitalize w-fit'>back</Link>
+                <Link to={`/auth/admin/automation/${id}/${net}`} className='bg-indigo-700 py-2 rounded-lg px-4 text-white text-sm capitalize w-fit'>back</Link>
             </div>
             <div className="w-11/12 mx-auto">
                 {subdata.map((item, i) => (

@@ -12,7 +12,6 @@ import ConfirmDataNetwork from '/src/Components/User/ConfirmDataNetwork'
 const DataBundle = () => {
     const { subs, subdata } = useSelector(state => state.data)
     const navigate = useNavigate()
-    const [view, setView] = useState(false)
     const dispatch = useDispatch()
     const [, setSinglesub] = useState(null)
     const [datas, setDatas] = useState([])
@@ -66,14 +65,13 @@ const DataBundle = () => {
         if(!packdata) return ToastAlert('Select a suscription package')
         if(!forms.mobile) return ToastAlert('Enter a valid phone number')
         if(!forms.pin) return ToastAlert('Provide your data pin')
-        setView(!view)
+        handleSubmission()
     }
-    const handleSubmission = async auto => {
+    const handleSubmission = async () => {
         try {
             const formdata = {
                 ...forms,
-                package: packdata,
-                planNetwork: auto
+                package: packdata
             }
             setLoading(true)
             const res = await PostUrl(Api.bills.data, formdata)
@@ -111,12 +109,6 @@ const DataBundle = () => {
     return (
         <>
             {loading && <Loading />}
-            {view && <ConfirmDataNetwork
-                closeView={() => setView(!view)}
-                autos={autos}
-                handleSubmission={handleSubmission}
-                nets={forms.service}
-            />}
             <div className="mt-10">
                 <div className="bg-white w-full max-w-3xl p-5 shadow-xl mx-auto rounded-lg">
                     <ContactToAdmin />

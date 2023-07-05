@@ -52,6 +52,7 @@ import PlanAutomation from './Pages/Admin/Integrations/Plans/PlanAutomation';
 import PlanService from './Pages/Admin/Integrations/Plans/PlanService';
 import PlanPackage from './Pages/Admin/Integrations/Plans/PlanPackage';
 import AllLevels from './Pages/Admin/Levels/AllLevels';
+import AutomationNetwork from './Pages/Admin/Automations/AutomationNetwork';
 
 
 
@@ -96,7 +97,8 @@ const App = () => {
       <Route path="/auth/admin/lock-data" element={<AdminRoute><LockData /> </AdminRoute>} />
       <Route path="/auth/admin/automation" element={<AdminRoute><Automation /> </AdminRoute>} />
       <Route path="/auth/admin/automation/:id" element={<AdminRoute><AutomationService /> </AdminRoute>} />
-      <Route path="/auth/admin/automation/:id/:pack" element={<AdminRoute><AutomationPackage /> </AdminRoute>} />
+      <Route path="/auth/admin/automation/:id/:net" element={<AdminRoute><AutomationNetwork /> </AdminRoute>} />
+      <Route path="/auth/admin/automation/:id/:net/:pack" element={<AdminRoute><AutomationPackage /> </AdminRoute>} />
       <Route path="/auth/admin/service/new" element={<AdminRoute><CreateService /> </AdminRoute>} />
       <Route path="/auth/admin/service/view/:id" element={<AdminRoute><ManageService /> </AdminRoute>} />
       <Route path="/auth/admin/integration/new" element={<AdminRoute><CreateAutomation /> </AdminRoute>} />
