@@ -1,16 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import ContactToAdmin from '../ContactToAdmin'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Api, PostUrl, GetUrl } from '/src/Components/Utils/Apis'
 import { useDispatch, useSelector } from 'react-redux'
 import { SwalAlert, ToastAlert } from '/src/Components/Utils/Utility'
 import Loading from '/src/Components/General/Loading'
 import { dispatchUser } from '/src/app/reducer'
-import ConfirmDataNetwork from '/src/Components/User/ConfirmDataNetwork'
 
 const DataBundle = () => {
     const { subs, subdata } = useSelector(state => state.data)
-    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [, setSinglesub] = useState(null)
     const [datas, setDatas] = useState([])
@@ -78,12 +76,6 @@ const DataBundle = () => {
             if (res.status === 200) {
                 SwalAlert('Request Successful', res.msg, 'success')
                 dispatch(dispatchUser(res.user))
-                setTimeout(() => {
-                    ToastAlert('redirecting you to your transactions page!...')
-                    setTimeout(() => {
-                        navigate('/all-transactions')
-                    }, 2000);
-                }, 2000);
             } else {
                 ToastAlert(res.msg);
             }
