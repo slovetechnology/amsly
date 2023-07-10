@@ -27,7 +27,7 @@ const UserSidebar = () => {
                 <div className="flex items-center justify-center gap-2 pt-3 flex-col w-full">
                     <img src={man} alt="" className="w-24" />
                     <div className="text-indigo-100 capitalize">{user.username}</div>
-                    <div className="text-indigo-100 text-xl capitalize">&#8358;{user.balance}</div>
+                    <div className="text-indigo-100 text-xl capitalize">&#8358;{parseFloat(user.balance).toLocaleString()}</div>
                 </div>
             </div>
             <div className="mt-10 flex flex-col w-11/12 mx-auto">
@@ -56,7 +56,7 @@ const UserSidebar = () => {
                 <div className={`${currentdrop === 'refs' ? 'h-[8rem]' : 'h-[3rem]'}  transition-all overflow-hidden`}>
                     <div onClick={() => handleCurentDrop('refs')} className={`sidelink cursor-pointer ${location.pathname === '/' ? 'bg-indigo-600 text-white' : ''}`}> <FcStatistics className='text-2xl' /> Referrals <div className="w-fit ml-auto"><SlArrowDown /></div></div>
                     <div className='ml-8 gap-3 flex flex-col capitalize text-zinc-600'>
-                        <Link to='' className='sidelink1'>my downlines</Link>
+                        <Link to='/downlines' className='sidelink1'>my downlines</Link>
                         <Link to='' className='sidelink1'>Cashback earned </Link>
                     </div>
                 </div>

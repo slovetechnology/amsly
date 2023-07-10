@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../Components/General/Navbar'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import man from '../../Assets/Images/man.png'
 import { FaArrowRight } from 'react-icons/fa'
 import { ToastAlert } from '../../Components/Utils/Utility'
@@ -12,6 +12,7 @@ import Loading from '../../Components/General/Loading'
 const Register = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
+    const {ref} = useParams()
     const [forms, setForms] = useState({
         firstname: '',
         lastname: '',
@@ -28,6 +29,12 @@ const Register = () => {
             [e.target.name]: e.target.value
         })
     }
+
+    useEffect(() => {
+        if(ref) {
+            localStorage.setItem('ref', ref)
+        }
+    }, [])
     const handleFirstValidation = async() => {
         if (!forms.firstname) return ToastAlert('firstname is required')
         if (!forms.lastname) return ToastAlert('lastname is required')
@@ -38,15 +45,22 @@ const Register = () => {
         if (!forms.confirm_password) return ToastAlert('confirm password is required')
         if (forms.confirm_password !== forms.password) return ToastAlert('password(s) do not match')
         if (!agree) return ToastAlert('You have to agree to our terms and conditions to complete your registration process')
-        
+        let upline;
+        if(localStorage.getItem('ref')) {
+            upline = localStorage.getItem('ref')
+        }else {
+            upline = ''
+        }
         const data = {
-            ...forms
+            ...forms,
+            upline: upline
         }
         setLoading(true)
         const res = await NormalPostUrl(Api.user.register_user, data)
         setLoading(false)
         if(res.status === 200) {
             Cookies.set('v-email', res.msg)
+            localStorage.removeItem('ref')
             return navigate(`/verify_account`)
         }
         return ToastAlert(res.msg)

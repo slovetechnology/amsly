@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import UserSidebar from './UserSidebar'
 import { weblink } from '../Utils/Utility'
 import Usernavbar from './Usernavbar'
+import { ToastContainer } from 'react-toastify'
 
 const UserLayout = (props) => {
     const { children, pagetitle } = props
@@ -35,6 +36,7 @@ const UserLayout = (props) => {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     )
 }

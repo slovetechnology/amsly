@@ -3,7 +3,6 @@ import ContactToAdmin from '../ContactToAdmin'
 import { Link, useNavigate } from 'react-router-dom'
 import { Api, PostUrl, GetUrl } from '/src/Components/Utils/Apis'
 import { useDispatch, useSelector } from 'react-redux'
-import { ToastContainer } from 'react-toastify'
 import { SwalAlert, ToastAlert } from '/src/Components/Utils/Utility'
 import Loading from '/src/Components/General/Loading'
 import { dispatchUser } from '/src/app/reducer'
@@ -152,7 +151,6 @@ const DataBundle = () => {
                     </form>
                 </div>
             </div>
-            <ToastContainer />
         </>
     )
 }

@@ -1,12 +1,31 @@
-import React from 'react'
-import UserLayout from '../../Components/User/UserLayout'
-import man from '../../Assets/Images/man.png'
+import React, { useCallback, useEffect, useState } from 'react'
+import UserLayout from '/src/Components/User/UserLayout'
+import man from '/src/Assets/Images/man.png'
 import { FcFeedback, FcFilmReel, FcIdea, FcMultipleDevices, FcNfcSign, FcPhone, FcPuzzle } from 'react-icons/fc'
 import { SlExclamation } from 'react-icons/sl'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { Api, GetUrl } from '/src/Components/Utils/Apis'
+import SingleTransactionComponent from '/src/Components/General/SingleTransactionComponent'
 
 const Dashboard = () => {
-    const {user} = useSelector(state => state.data)
+    const { user } = useSelector(state => state.data)
+    const [trans, setTrans] = useState([])
+    const [currentPage,] = useState(1)
+    const [transPerPage,] = useState(3)
+
+    const fetchTransactions = useCallback(async () => {
+        const res = await GetUrl(Api.transactions.user)
+        return setTrans(res.msg)
+    }, [])
+
+    useEffect(() => {
+        fetchTransactions()
+    }, [fetchTransactions])
+
+    const indexOfLastTrans = currentPage * transPerPage
+    const indexOfFirstTrans = indexOfLastTrans - transPerPage
+    const currentTrans = trans.slice(indexOfFirstTrans, indexOfLastTrans)
     return (
         <UserLayout pagetitle='dashboard'>
             <div className="">
@@ -26,44 +45,44 @@ const Dashboard = () => {
                                     <div className="text-white text-sm">{user.phone}</div>
                                 </div>
                             </div>
-                            <div className="text-center mt-8 drop-shadow text-sky-100 text-3xl font-semibold">&#8358;{user.balance}</div>
+                            <div className="text-center mt-8 drop-shadow text-sky-100 text-3xl font-semibold">&#8358;{parseFloat(user.balance).toLocaleString()}</div>
                             <div className="text-center text-sm text-white font-semibold">Account Balance</div>
                         </div>
                     </div>
                 </div>
                 <div className="grid grid-cols-2 mt-6 w-full max-w-3xl mx-auto gap-6">
                     <div className="bg-white hover:scale-105 transition-all shadow-xl p-3 rounded-lg w-fit px-5 capitalize ml-auto">sales summary</div>
-                    <div className="bg-white hover:scale-105 transition-all shadow-xl p-3 rounded-lg w-fit px-5 capitalize">transactions</div>
+                    <Link to="/all-transactions" className="bg-white hover:scale-105 transition-all shadow-xl p-3 rounded-lg w-fit px-5 capitalize">transactions</Link>
                 </div>
                 <div className="grid grid-cols-3 gap-5 w-full max-w-4xl mx-auto mt-6 mb-10">
-                    <div className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
+                    <Link to='/airtime_bills' className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
                         <FcPhone className='text-3xl lg:text-4xl' />
                         <div className="capitalize">airtime</div>
-                    </div>
-                    <div className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
+                    </Link>
+                    <Link to="/data_bundle" className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
                         <FcNfcSign className='text-3xl lg:text-4xl' />
                         <div className="capitalize">buy data</div>
-                    </div>
-                    <div className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
+                    </Link>
+                    <Link to='/cable_bills' className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
                         <FcMultipleDevices className='text-3xl lg:text-4xl' />
                         <div className="capitalize">cable tv</div>
-                    </div>
+                    </Link>
                     <div className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
                         <FcPhone className='text-3xl lg:text-4xl' />
                         <div className="capitalize">airtime pin</div>
                     </div>
-                    <div className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
+                    <Link to='/create_pin' className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
                         <FcPhone className='text-3xl lg:text-4xl' />
                         <div className="capitalize">data pin</div>
-                    </div>
-                    <div className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
+                    </Link>
+                    <Link to='/meter_bills' className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
                         <FcIdea className='text-3xl lg:text-4xl' />
                         <div className="capitalize">pay bills</div>
-                    </div>
-                    <div className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
+                    </Link>
+                    <Link to='/education_bills' className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
                         <FcPuzzle className='text-3xl lg:text-4xl' />
                         <div className="capitalize">exam tokens</div>
-                    </div>
+                    </Link>
                     <div className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
                         <FcFeedback className='text-3xl lg:text-4xl' />
                         <div className="capitalize">bulk sms</div>
@@ -72,6 +91,18 @@ const Dashboard = () => {
                         <FcFilmReel className='text-3xl lg:text-4xl' />
                         <div className="capitalize text-center">get your own Affiliate <br /> VTU website</div>
                     </div>
+                </div>
+
+                <div className="w-full max-w-4xl mx-auto">
+                    <div className="grid grid-cols-6 w-11/12 mx-auto">
+                        <div className="font-semibold col-span-4 capitalize text-zinc-600 text-3xl mb-5 drop-shadow-lg">latest transactions</div>
+                        <div className="text-right col-span-2 pt-2">
+                            <Link to='/all-transactions' className='text-indigo-600'>View All</Link>
+                        </div>
+                    </div>
+                    {currentTrans.map((item, i) => (
+                        <SingleTransactionComponent item={item} key={i} />
+                    ))}
                 </div>
             </div>
         </UserLayout>

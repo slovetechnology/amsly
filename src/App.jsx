@@ -53,6 +53,7 @@ import PlanService from './Pages/Admin/Integrations/Plans/PlanService';
 import PlanPackage from './Pages/Admin/Integrations/Plans/PlanPackage';
 import AllLevels from './Pages/Admin/Levels/AllLevels';
 import AutomationNetwork from './Pages/Admin/Automations/AutomationNetwork';
+import Downlines from './Pages/User/Referrals/Downlines';
 
 
 
@@ -75,6 +76,7 @@ const App = () => {
       <Route path="/education_bills" element={<UserRoute><EducationBills /></UserRoute>} />
       <Route path="/meter_bills" element={<UserRoute><MeterBills /></UserRoute>} />
       <Route path="/create_pin" element={<UserRoute><ManageDataPin /></UserRoute>} />
+      <Route path="/downlines" element={<UserRoute><Downlines /></UserRoute>} />
 
       <Route path="/auth/admin" element={<AdminRoute><AHome /></AdminRoute>} />
       <Route path="/auth/admin/query_transactions" element={<AdminRoute><QueryTransaction /> </AdminRoute>} />
@@ -113,6 +115,7 @@ const App = () => {
       <Route path="/" element={<HomePage />} />
       
       <Route path="/register" element={<Register />} />
+      <Route path="/register/:ref" element={<Register />} />
       <Route path="/verify_account" element={<VerifySignup />} />
       <Route path="/login" element={<Login />} />
     </Routes>

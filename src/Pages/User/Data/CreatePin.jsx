@@ -6,7 +6,6 @@ import { Api, PostUrl } from '../../../Components/Utils/Apis'
 import Loading from '../../../Components/General/Loading'
 import { useDispatch } from 'react-redux'
 import { dispatchUser } from '../../../app/reducer'
-import { ToastContainer } from 'react-toastify'
 
 const CreatePin = ({sendSignal}) => {
     const [loading, setLoading] = useState(false)
@@ -69,7 +68,6 @@ const CreatePin = ({sendSignal}) => {
                     </form>
                     <ContactToAdmin />
                 </div>
-                <ToastContainer />
             </div>
         </>
     )

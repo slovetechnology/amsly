@@ -22,7 +22,8 @@ const ManageLevels = () => {
     const [title, setTitle] = useState('')
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
-    
+    const [allPacks, setAllPacks] = useState(subdata)
+
     const setupSinglesub = val => {
         const dataArr = []
         val.sub.map((item) => {
@@ -47,12 +48,12 @@ const ManageLevels = () => {
         // })
         // setPrices(parr)
 
-        // const formated = val.network.split(' ')[1]
-        // if (formated?.toUpperCase() === 'GIFTING') {
-        //     setGifts(true)
-        // } else {
-        //     setGifts(false)
-        // }
+        const formated = val.network.split(' ')[1]
+        if (formated?.toUpperCase() === 'GIFTING') {
+            setGifts(true)
+        } else {
+            setGifts(false)
+        }
     }
     const handlepercantage = (val) => {
         const pert = val / 100
@@ -69,7 +70,7 @@ const ManageLevels = () => {
     const handleLevelCreating = async () => {
         const formdata = {
             title,
-            subs
+            allPacks
         }
         console.log(formdata)
         // setLoading(true)
@@ -82,6 +83,18 @@ const ManageLevels = () => {
         // } else {
         //     ToastAlert(res.msg)
         // }
+    }
+
+    const handleSelection = (item, tag) => {
+        if (tag === 'minus') {
+            const filt = allPacks.filter(ele => ele.id !== item.id)
+            setAllPacks(filt)
+        } else {
+            setAllPacks([
+                ...allPacks,
+                item
+            ])
+        }
     }
 
     return (
@@ -101,7 +114,7 @@ const ManageLevels = () => {
                         </div>
                     </div>
                     {active !== 0 && <div className={`mt-5`}>
-                    {/* <div className={`mt-5 ${active !== 0 ? '' : 'hidden'}`}> */}
+                        {/* <div className={`mt-5 ${active !== 0 ? '' : 'hidden'}`}> */}
                         {gifts && <div className="bg-slate-50 p-3 mb-1 rounded-lg">
                             <div className="grid grid-cols-2 mb-2">
                                 <div className="">
@@ -123,6 +136,7 @@ const ManageLevels = () => {
                                 item={item}
                                 packs={singlesub}
                                 subId={active}
+                                handleSelection={handleSelection}
                             />
                         ))}
                     </div>}

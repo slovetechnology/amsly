@@ -25,6 +25,7 @@ const user_urls = {
     update_user_password: "user/update-user-password",
     update_user_pin: "user/update-user-pin",
     finance_user_account: "user/finance-user-account",
+    all_downliners: "user/all-downliners",
 }
 
 const subs_urls = {

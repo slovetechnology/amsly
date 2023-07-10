@@ -32,7 +32,7 @@ const Usernavbar = ({closeSidebar, pagetitle}) => {
         <div className="">
             <div className="text-3xl lg:hidden cursor-pointer w-fit" onClick={closeSidebar}><FcMenu /></div>
         </div>
-        <div className="font-semibold capitalize">{pagetitle}</div>
+        <div className="font-semibold text-zinc-500 capitalize">{pagetitle}</div>
         <div className="flex items-center gap-8">
             <Link to='' className="text-2xl text-slate-500">
                 <SlBell />
