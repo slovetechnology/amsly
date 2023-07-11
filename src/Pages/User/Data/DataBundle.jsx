@@ -84,7 +84,8 @@ const DataBundle = () => {
                     mobile: '',
                     pin: ''
                 })
-                setpackdata('')
+                setTargets([])
+                setDatas([])
                 setView(!view)
             } else {
                 ToastAlert(res.msg);
