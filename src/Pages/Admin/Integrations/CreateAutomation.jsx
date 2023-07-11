@@ -18,6 +18,7 @@ const CreateAutomation = () => {
     })
     const [networks, setNetworks] = useState({
         title: '',
+        nets: 'data',
         tag: '',
     })
     const [forms, setForms] = useState({
@@ -31,6 +32,7 @@ const CreateAutomation = () => {
         planName: '',
         mobileName: '',
         portedNumber: '',
+        portedName: '',
         refName: '',
         networkName: '',
         tokenName: '',
@@ -120,9 +122,11 @@ const CreateAutomation = () => {
             id: date.getTime(),
             title: networks.title,
             tag: networks.tag,
+            nets: 'data',
         }
         setWorks([...works, pointData])
         setNetworks({
+            nets: 'data',
             title: '',
             tag: '',
         })
@@ -197,6 +201,10 @@ const CreateAutomation = () => {
                         <div className="mb-4">
                             <div className="text-slate-500">Network Name</div>
                             <input name="networkName" value={forms.networkName} onChange={handleForms} type="text" className="input" />
+                        </div>
+                        <div className="mb-4">
+                            <div className="text-slate-500">Ported Name (optional)</div>
+                            <input name="portedName" value={forms.portedName} onChange={handleForms} type="text" className="input" />
                         </div>
                         <div className="mb-4">
                             <div className="text-slate-500">Ported Number (optional)</div>

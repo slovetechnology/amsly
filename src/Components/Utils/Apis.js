@@ -48,7 +48,8 @@ const subs_urls = {
     update_api_plans: "subscription/update-api-plans",
     all_api_plans: "subscription/all-api-plans",
     single_api_plans: "subscription/single-api-plans",
-    add_level: "subscription/add-level-plan"
+    add_level: "subscription/add-level-plan",
+    add_airtime_automation: "subscription/airtime-automation",
 }
 const bill_urls = {
     data: "bills/data",

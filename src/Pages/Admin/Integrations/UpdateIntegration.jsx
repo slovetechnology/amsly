@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { Suspense, useCallback, useEffect, useState } from 'react'
 import AdminLayout from '../../../Components/Admin/AdminLayout'
 import { SwalAlert, ToastAlert } from '../../../Components/Utils/Utility'
 import { Api, GetUrl, PostUrl } from '../../../Components/Utils/Apis'
@@ -8,6 +8,22 @@ import spins from '../../../Assets/Images/spins.gif'
 import { ImCompass } from 'react-icons/im'
 import { SlTrash } from 'react-icons/sl'
 import SingleApiNetwork from './SingleApiNetwork'
+import ForAirtime from './Updates/ForAirtime'
+
+const planset = [
+    {
+        title: 'data',
+        tag: '1'
+    },
+    {
+        title: 'airtime',
+        tag: '1'
+    },
+    {
+        title: 'cable',
+        tag: '1'
+    },
+]
 
 const UpdateIngeration = () => {
     const [loading, setLoading] = useState(false)
@@ -15,12 +31,15 @@ const UpdateIngeration = () => {
     const [spiner, setSpiner] = useState(false)
     const [endpoints, setEndpoints] = useState([])
     const [isNew, setIsNew] = useState(true)
+    const [zone, setZone] = useState(0)
     const [works, setWorks] = useState([])
+    const [airtimes, setAirtimes] = useState([])
     const [points, setPoints] = useState({
         point: '',
         category: ''
     })
     const [networks, setNetworks] = useState({
+        nets: 'data',
         title: '',
         tag: '',
     })
@@ -38,10 +57,12 @@ const UpdateIngeration = () => {
         planName: '',
         mobileName: '',
         portedNumber: '',
+        portedName: '',
         refName: '',
         networkName: '',
         tokenName: '',
         callbackName: '',
+        id: '',
     })
 
     const handleForms = e => {
@@ -68,6 +89,7 @@ const UpdateIngeration = () => {
         const data = res.msg
         if (res.status === 200) {
             setForms({
+                id: data.id,
                 title: data.title,
                 apiurl: data.apiurl,
                 token: data.token,
@@ -82,9 +104,11 @@ const UpdateIngeration = () => {
                 networkName: data.networkName || '',
                 tokenName: data.tokenName || '',
                 callbackName: data.callbackName || '',
+                portedName: data.portedName || '',
             })
             setEndpoints(res.msg.autos)
             setWorks(res.msg.networks)
+            setAirtimes(res.airtimes)
             return setData(res.msg)
         }
     }, [id])
@@ -143,7 +167,8 @@ const UpdateIngeration = () => {
         setpackid(value.id)
         setNetworks({
             title: value.title,
-            tag: value.tag || ''
+            tag: value.tag || '',
+            nets: 'data',
         })
     }
 
@@ -170,7 +195,7 @@ const UpdateIngeration = () => {
         if (!forms.apiurl) return ToastAlert('Provide a valid api url')
         if (!networks.title) return ToastAlert('Provide a valid api network for user to see')
         if (!networks.tag) return ToastAlert('Provide a valid api network for api providers to see')
-        
+
         if (isNew) {
             const findData = works.find(item => item.title === networks.title)
             if (findData) return ToastAlert(`Network already exists!`)
@@ -179,18 +204,19 @@ const UpdateIngeration = () => {
                 id: date.getTime(),
                 title: networks.title,
                 tag: networks.tag,
+                nets: 'data',
             }
             setWorks([...works, pointData])
         } else {
             const findPack = works.find(item => item.id === packid)
-            console.log(findPack)
             if (findPack) {
                 const mappedWorks = works.map((item) => {
-                    if(item.id === packid) {
+                    if (item.id === packid) {
                         return {
                             ...item,
                             title: networks.title,
-                            tag: networks.tag
+                            tag: networks.tag,
+                            nets: 'data',
                         }
                     }
                     return item
@@ -199,6 +225,7 @@ const UpdateIngeration = () => {
             }
         }
         setNetworks({
+            nets: 'data',
             title: '',
             tag: '',
         })
@@ -208,8 +235,14 @@ const UpdateIngeration = () => {
     return (
         <AdminLayout pagetitle="Add Integration Service">
             {loading && <Loading />}
-
-            <form onSubmit={handleSubmission}>
+            <div className="w-full overflow-x-auto scrollsdown">
+                <div className="flex items-center w-fit gap-5 m-5 justify-center">
+                    {planset.map((item, i) => (
+                        <div onClick={() => setZone(i)} className={`capitalize cursor-pointer hover:scale-125 transition-all ${zone === i ? 'bg-indigo-600 text-white' : 'bg-white text-zinc-500'} rounded-full shadow-xl py-2.5 px-6`} key={i}>{item.title}</div>
+                    ))}
+                </div>
+            </div>
+           {zone === 0 && <form onSubmit={handleSubmission}>
                 <div className="w-full bg-white p-4">
                     <div className="grid grid-cols-2 mb-5">
                         <div className=""></div>
@@ -272,8 +305,12 @@ const UpdateIngeration = () => {
                             <input name="networkName" value={forms.networkName} onChange={handleForms} type="text" className="input" />
                         </div>
                         <div className="mb-4">
+                            <div className="text-slate-500">Ported Name (optional)</div>
+                            <input name="portedName" value={forms.portedName} onChange={handleForms} type="text" className="input" />
+                        </div>
+                        <div className="mb-4">
                             <div className="text-slate-500">Ported Number (optional)</div>
-                            <input name="porttedNumber" value={forms.portedNumber} onChange={handleForms} type="text" className="input" />
+                            <input name="portedNumber" value={forms.portedNumber} onChange={handleForms} type="text" className="input" />
                         </div>
                         <div className="mb-4">
                             <div className="text-slate-500">Callback URL (Optional)</div>
@@ -317,7 +354,7 @@ const UpdateIngeration = () => {
                             </div>
                             <div className="mt-2 mb-3 text-indigo-600 border-b">Networks Summary</div>
                             {works.length > 0 ? works.map((item, i) => (
-                                <SingleApiNetwork
+                                item.nets === 'data' && <SingleApiNetwork
                                     item={item}
                                     key={i}
                                     handleNetworksDeleting={handleNetworksDeleting}
@@ -330,7 +367,12 @@ const UpdateIngeration = () => {
                 <div className="p-4 w-fit ml-auto">
                     <button className="bg-indigo-600 py-3 uppercase px-6 rounded-full text-white">integrate Api</button>
                 </div>
-            </form>
+            </form>}
+            {zone === 1 && <div>
+                <div className="">
+                    <ForAirtime airtimes={airtimes} allworks={works} data={forms} />
+                </div>
+            </div>}
         </AdminLayout>
     )
 }
