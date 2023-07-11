@@ -10,8 +10,9 @@ const ConfirmDataPurchase = ({closeView, handleSubmission}) => {
                 <BsShieldExclamation className='text-orange-400 text-8xl animate-bounce' />
             </div>
             <div className="text-center text-zinc-500 text-xl">Confirm Your Request to purchase this Data Plan</div>
-            <div className="w-fit mx-auto mt-6">
-                <button className="bg-indigo-600 rounded-lg text-white py-3 capitalize w-44" onClick={handleSubmission}>confirm</button>
+            <div className="flex items-center justify-between mt-6">
+                <button className="bg-red-400 rounded-lg text-white font-bold py-4 uppercase w-32" onClick={closeView}>no</button>
+                <button className="bg-indigo-700 rounded-lg text-white font-bold py-4 uppercase w-32" onClick={handleSubmission}>yes</button>
             </div>
         </div>
     </ModalLayout>
