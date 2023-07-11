@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { SwalAlert, ToastAlert } from '/src/Components/Utils/Utility'
 import Loading from '/src/Components/General/Loading'
 import { dispatchUser } from '/src/app/reducer'
+import ConfirmDataPurchase from './Compos/ConfirmDataPurchase'
 
 const DataBundle = () => {
     const { subs, subdata } = useSelector(state => state.data)
@@ -13,6 +14,7 @@ const DataBundle = () => {
     const [, setSinglesub] = useState(null)
     const [datas, setDatas] = useState([])
     const [loading, setLoading] = useState(false)
+    const [view, setView] = useState(false)
     const [targets, setTargets] = useState([])
     const [autos, setAutos] = useState([])
     const [forms, setForms] = useState({
@@ -62,7 +64,7 @@ const DataBundle = () => {
         if(!packdata) return ToastAlert('Select a suscription package')
         if(!forms.mobile) return ToastAlert('Enter a valid phone number')
         if(!forms.pin) return ToastAlert('Provide your data pin')
-        handleSubmission()
+        setView(!view)
     }
     const handleSubmission = async () => {
         try {
@@ -76,6 +78,14 @@ const DataBundle = () => {
             if (res.status === 200) {
                 SwalAlert('Request Successful', res.msg, 'success')
                 dispatch(dispatchUser(res.user))
+                setForms({
+                    service: '',
+                    network: '',
+                    mobile: '',
+                    pin: ''
+                })
+                setpackdata('')
+                setView(!view)
             } else {
                 ToastAlert(res.msg);
             }
@@ -100,6 +110,7 @@ const DataBundle = () => {
     return (
         <>
             {loading && <Loading />}
+            {view && <ConfirmDataPurchase handleSubmission={handleSubmission} closeView={() => setView(!view)} /> }
             <div className="mt-10">
                 <div className="bg-white w-full max-w-3xl p-5 shadow-xl mx-auto rounded-lg">
                     <ContactToAdmin />

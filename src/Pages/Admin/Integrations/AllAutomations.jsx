@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import AdminLayout from '../../../Components/Admin/AdminLayout'
 import { useQuery } from 'react-query'
 import { Api, GetUrl } from '../../../Components/Utils/Apis'
@@ -6,13 +6,20 @@ import AutosList from './AutosList'
 
 const AllAutomations = () => {
     const [zone, setZone] = useState(1)
+    const [data, setData] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
     const cs = `shadow-xl rounded-lg py-4 uppercase text-slate-600 font-semibold text-sm`
 
-    const FetchAutomation = async () => {
-        const response = await GetUrl(Api.subs.get_automation_service)
-        if(response.status === 200) return response.msg
-    }
-    const {data, isLoading, refetch} = useQuery('admin-automation-services', FetchAutomation)
+    const FetchAutomation = useCallback(async () => {
+      const response = await GetUrl(Api.subs.get_automation_service)
+      if(response.status === 200) {
+        setIsLoading(false)
+        console.log(response.msg)
+        return setData(response.msg)
+      } 
+  }, [])
+    
+    useEffect(() => {FetchAutomation()}, [FetchAutomation])
   return (
     <AdminLayout pagetitle="All Integration Services">
         <div className="grid grid-cols-2 w-11/12 max-w-xl gap-5 mx-auto mb-16">
@@ -22,7 +29,7 @@ const AllAutomations = () => {
         {zone === 1 && <AutosList 
         data={data}
         isLoading={isLoading}
-        refetch={refetch}
+        resendSignal={() => FetchAutomation()}
         /> }
     </AdminLayout>
   )

@@ -1,14 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import spins from '../../../Assets/Images/spins.gif'
 import { ToastContainer } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import DeleteIntegration from './Modal/DeleteIntegration'
 
 
-const AutosList = ({data, isLoading, refetch}) => {
+const AutosList = ({data, isLoading, resendSignal}) => {
     const [view, setView] = useState(false)
     const navigate = useNavigate()
     const [id, setId] = useState('')
+    const dets = 'details'
+
+    useEffect(() => {
+        const findDetails = data.autos?.find(item => item.category.startsWith(dets))
+        console.log(findDetails, 'details placed', data)
+    }, [])
     
     const handleDeleteAutomation = async (id) => {
         setId(id)
@@ -19,7 +25,7 @@ const AutosList = ({data, isLoading, refetch}) => {
     }
   return (
     <div>
-        {view && <DeleteIntegration id={id} resendSignal={() => refetch()} closeView={() => setView(!view)} />}
+        {view && <DeleteIntegration id={id} resendSignal={resendSignal} closeView={() => setView(!view)} />}
         <div className="w-11/12 mx-auto">
             {isLoading && <div className="w-fit mx-auto">
                 <img src={spins} alt="" className="w-24" />
