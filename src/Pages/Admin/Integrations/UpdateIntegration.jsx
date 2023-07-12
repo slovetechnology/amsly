@@ -63,6 +63,7 @@ const UpdateIngeration = () => {
         tokenName: '',
         callbackName: '',
         id: '',
+        auths: 'no',
     })
 
     const handleForms = e => {
@@ -105,6 +106,7 @@ const UpdateIngeration = () => {
                 tokenName: data.tokenName || '',
                 callbackName: data.callbackName || '',
                 portedName: data.portedName || '',
+                auths: data.auths || '',
             })
             setEndpoints(res.msg.autos)
             setWorks(res.msg.networks)
@@ -319,6 +321,13 @@ const UpdateIngeration = () => {
                         <div className="mb-4">
                             <div className="text-slate-500">Callback Name (Optional)</div>
                             <input name="callbackName" value={forms.callbackName} onChange={handleForms} type="text" className="input" />
+                        </div>
+                        <div className="mb-4">
+                            <div className="text-slate-500">Authorization (Optional)</div>
+                            <select name="auths" value={forms.auths} onChange={handleForms} className="input">
+                                <option value="no">NO</option>
+                                <option value="yes">Yes</option>
+                            </select>
                         </div>
                     </div>
                     <div className="grid grid-cols-1 border-t gap-4 lg:grid-cols-2">

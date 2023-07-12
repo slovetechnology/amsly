@@ -35,10 +35,11 @@ const ManageService = () => {
         const res = await GetUrl(`${Api.subs.all_subscriptiondata}/${id}`)
         const payload = res.msg
         setSubs(payload)
+        const founded = Services.find((item) => item.endsWith(payload.category.slice(-3)))
         setForms({
             ...forms,
             network: payload.network,
-            category: payload.category,
+            category: founded,
             tag: payload.tag || ''
         })
         setPacks(payload.sub)

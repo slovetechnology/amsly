@@ -113,7 +113,7 @@ const SetupPlan = () => {
                                 ))}
                             </select>
                             <div className={isApi ? '' : 'hidden'}>
-                                <div className="border-b p-3 text-slate-600">Setup {planned} for {api.title}</div>
+                                <div className="border-b p-3 text-slate-600">Setup plan for {api.title}</div>
                                 <div className="mt-5">
                                     <input type="text" value={plan} onChange={e => setPlan(e.target.value)} placeholder='--Plan--' className="input" />
                                 </div>

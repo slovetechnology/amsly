@@ -37,6 +37,7 @@ const CreateAutomation = () => {
         networkName: '',
         tokenName: '',
         callbackName: '',
+        auths: 'no',
     })
 
     const handleForms = e => {
@@ -217,6 +218,13 @@ const CreateAutomation = () => {
                         <div className="mb-4">
                             <div className="text-slate-500">Callback URL (Optional)</div>
                             <input name="callback" value={forms.callback} onChange={handleForms} type="text" className="input" />
+                        </div>
+                        <div className="mb-4">
+                            <div className="text-slate-500">Authorization (Optional)</div>
+                            <select name="auths" value={forms.auths} onChange={handleForms} className="input">
+                                <option value="no">NO</option>
+                                <option value="yes">Yes</option>
+                            </select>
                         </div>
                     </div>
                     <div className="grid grid-cols-1 border-t gap-4 lg:grid-cols-2">
