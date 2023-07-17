@@ -9,7 +9,7 @@ const AutomationNetwork = () => {
   
   const handleDuplicates = () => {
     return subs.map((item, i) => (
-      item.tag === net && item.locked === 'no' && 
+      (item.tag?.slice(0, 3).toLowerCase() || item.network?.slice(0, 3).toLowerCase()) === net.slice(0, 3) && item.locked === 'no' && 
     <Link to={`/auth/admin/automation/${id}/${net}/${item.id}`} key={i} className="bg-white p-4 text-center cursor-pointer uppercase rounded-lg mb-2">{item.network}</Link>
     ))
   }

@@ -3,9 +3,10 @@ import UserLayout from '../../../Components/User/UserLayout'
 import ContactToAdmin from '../ContactToAdmin'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { ToastAlert } from '/src/Components/Utils/Utility'
 import Loading from '/src/Components/General/Loading'
 import ConfirmAirtimePurchase from './Compos/ConfirmAirtimePurchase'
+import { ErrorAlert } from '/src/Components/Utils/Utility'
+import { Api, PostUrl } from '/src/Components/Utils/Apis'
 
 const AirtimeBills = () => {
     const { subs } = useSelector(state => state.data)
@@ -34,10 +35,10 @@ const AirtimeBills = () => {
 
     const ConfirmSubmission = e => {
         e.preventDefault()
-        if (!forms.network) return ToastAlert('Select your preferred network')
-        if (!forms.amount) return ToastAlert('Subscription Amount required')
-        if (!forms.mobile) return ToastAlert('Mobile Number required')
-        if (!forms.pin) return ToastAlert('Airtime Pin required')
+        if (!forms.network) return ErrorAlert('Select your preferred network')
+        if (!forms.amount) return ErrorAlert('Subscription Amount required')
+        if (!forms.mobile) return ErrorAlert('Mobile Number required')
+        if (!forms.pin) return ErrorAlert('Airtime Pin required')
         setView(!view)
     }
 
@@ -46,7 +47,10 @@ const AirtimeBills = () => {
             ...forms,
             sub: mainsub.id
         }
-        console.log(formdata)
+        setLoading(true)
+        const res = await PostUrl(Api.bills.airtime, formdata)
+        setLoading(false)
+        console.log(res)
     }
     return (
         <UserLayout pagetitle="buy your airtime VTU">

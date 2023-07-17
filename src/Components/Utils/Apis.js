@@ -53,6 +53,7 @@ const subs_urls = {
 }
 const bill_urls = {
     data: "bills/data",
+    airtime: "bills/airtime",
 }
 
 const transaction_urls = {

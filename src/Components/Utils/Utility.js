@@ -11,7 +11,20 @@ export const refLink = (user) => {
 }
 
 export const ToastAlert = (val) => {
-    return toast(val, {
+    return toast.success(val, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+}
+
+export const ErrorAlert = (val) => {
+    return toast.error(val, {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -47,6 +60,10 @@ export const Autos = [
     {
         category: 'data',
         title: `set data automation`,
+    },
+    {
+        category: 'airtime',
+        title: `set airtime automation`,
     },
     {
         category: 'cable',
