@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import AdminLayout from '/src/Components/Admin/AdminLayout'
 import { Link, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Api, GetUrl } from '/src/Components/Utils/Apis'
-import { useQuery } from 'react-query'
 
 const PlanPackage = () => {
     const { pack, id } = useParams()
@@ -12,8 +11,6 @@ const PlanPackage = () => {
         const response = await GetUrl(Api.subs.get_automation_service)
         if (response.status === 200) return response.msg
     }
-    console.log(subdata)
-    const { data, refetch } = useQuery('admin-automation-services-package', FetchAutomation)
 
     return (
         <AdminLayout pagetitle="Automation Packages">

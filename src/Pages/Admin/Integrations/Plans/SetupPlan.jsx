@@ -92,7 +92,6 @@ const SetupPlan = () => {
             const filtered = autos.find(item => item.id === parseInt(data.automation))
             setApi(data)
             setPlan(data.plan)
-            console.log(filtered.plan)
             setPlanned(`${filtered.planName.split('_' || '-')[0]} ${filtered.planName.split('_' || '-')[1]}`)
             setIsApi(true)
         } else {

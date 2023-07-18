@@ -14,7 +14,6 @@ const AllAutomations = () => {
       const response = await GetUrl(Api.subs.get_automation_service)
       if(response.status === 200) {
         setIsLoading(false)
-        console.log(response.msg)
         return setData(response.msg)
       } 
   }, [])

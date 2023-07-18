@@ -29,6 +29,7 @@ const AirtimeBills = () => {
 
     useEffect(() => {
         const findData = subs.find((item) => item.category.endsWith('-vtu'))
+        console.log(findData, subs, 'data founded!--')
         setMainsub(findData)
         setPacks(findData?.sub)
     }, [])

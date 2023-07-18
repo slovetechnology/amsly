@@ -24,7 +24,7 @@ const SetupMainAutomtion = ({ data, closeView, resendSignal, net, allitems, tag 
         setAPis(findData.plans)
         const findPlan = findData.plans.find((item) => item.pack === allitems.id)
         setPlanData(findPlan)
-        console.log(findData, allitems, findPlan, 'getting fired')
+        
     }
 
     const handleTags = (item) => {

@@ -23,6 +23,7 @@ const ManageService = () => {
     const [tagsubs, setTagsubs] = useState([])
     const { id } = useParams()
     const [openPacks, setOpenPacks] = useState(false)
+    const [subing, setSubing] = useState({})
     const [forms, setForms] = useState({
         network: '',
         category: '',
@@ -42,6 +43,7 @@ const ManageService = () => {
             category: founded,
             tag: payload.tag || ''
         })
+        setSubing(payload)
         setPacks(payload.sub)
         setTagsubs(payload.sub)
         // eslint-disable-next-line
@@ -181,7 +183,7 @@ const ManageService = () => {
                                         <div className="flex items-center gap-3">
                                             <div onClick={() => togtagHandler(item)} className={`w-5 h-5 ${item.lock === 'no' ? 'bg-green-400 text-green-100' : 'bg-slate-50 text-slate-300 border'} cursor-pointer text-sm flex items-center justify-center`}> <FaCheck /> </div>
                                             <div className="text-sm">{item.title} = </div>
-                                            <div className="text-right text-sm"> &#8358; {item.price}</div>
+                                            <div className="text-right text-sm"> {subing.category === 'data' && <span>&#8358;</span> } {item.price}</div>
                                         </div>
                                         <div className="flex items-center justify-end gap-8">
                                             <button onClick={() => openSinglePack(item)} className="bg-slate-500 rounded-lg text-white text-xs uppercase py-2 px-4">edit</button>

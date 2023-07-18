@@ -13,7 +13,6 @@ const AutosList = ({data, isLoading, resendSignal}) => {
 
     useEffect(() => {
         const findDetails = data.autos?.find(item => item.category.startsWith(dets))
-        console.log(findDetails, 'details placed', data)
     }, [])
     
     const handleDeleteAutomation = async (id) => {

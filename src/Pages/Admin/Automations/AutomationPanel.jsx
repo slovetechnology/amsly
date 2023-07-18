@@ -9,6 +9,7 @@ const AutomationPanel = ({ id, tag, items, singleAutService }) => {
             return setData(res.msg)
         }
     }, [id])
+    
 
     useEffect(() => {
         if (id) {

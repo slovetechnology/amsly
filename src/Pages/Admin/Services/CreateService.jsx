@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import AdminLayout from '../../../Components/Admin/AdminLayout'
-import { Services, SwalAlert, ToastAlert } from '../../../Components/Utils/Utility'
+import { ErrorAlert, Services, SwalAlert, ToastAlert } from '../../../Components/Utils/Utility'
 import { ToastContainer } from 'react-toastify'
 import Loading from '../../../Components/General/Loading'
 import { Api, PostUrl } from '../../../Components/Utils/Apis'
@@ -23,8 +23,8 @@ const CreateService = () => {
         })
     }
     const addPackages = () => {
-        if (!forms.title) return ToastAlert('title is required')
-        if (!forms.price) return ToastAlert('price is required')
+        if (!forms.title) return ErrorAlert('title is required')
+        if (!forms.price) return ErrorAlert('price is required')
         setPacks([...packs, { title: forms.title, price: forms.price }])
         setForms({
             ...forms,
@@ -34,8 +34,8 @@ const CreateService = () => {
     }
 
     const handleSubmission = async () => {
-        if (!forms.network) return ToastAlert('network is required')
-        if (packs.length < 1) return ToastAlert('Service package required')
+        if (!forms.network) return ErrorAlert('network is required')
+        if (packs.length < 1) return ErrorAlert('Service package required')
         const data = {
             network: forms.network,
             category: forms.category,

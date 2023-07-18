@@ -92,6 +92,10 @@ export const ServicesLinks = [
         link: '/auth/admin/lock-data'
     },
     {
+        title: 'airtime',
+        link: '/auth/admin/lock-airtime'
+    },
+    {
         title: 'cable',
         link: '/auth/admin/lock-cables'
     },

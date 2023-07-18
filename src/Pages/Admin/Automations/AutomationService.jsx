@@ -10,15 +10,14 @@ const AutomationService = () => {
 
   const handleDuplicates = () => {
     const genSubs = subs.filter((obj, index) => {
-      return index === subs.findIndex(o => obj.tag === o.tag)
+      return index === subs.findIndex(o => obj.tag === o.tag && obj.category.slice(0, 3) === o.category.slice(0, 3))
     })
     return genSubs.map((item, i) => (
       item.category.slice(0, 3) === id.slice(0, 3) && item.locked === 'no' &&
       <Link to={`/auth/admin/automation/${id}/${item.tag || slugify(item.network, {lower: true})}`} key={i} className="bg-white p-4 text-center cursor-pointer uppercase rounded-lg mb-2">{item.tag || item.network}</Link>
     ))
   }
-
-
+  
   return (
     <AdminLayout pagetitle="Automation networks">
       <div className="w-11/12 max-w-3xl mx-auto flex flex-col">
