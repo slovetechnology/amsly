@@ -4,9 +4,9 @@ import { ToastAlert, SwalAlert } from '/src/Components/Utils/Utility'
 import Loading from '/src/Components/General/Loading'
 import { Api, PostUrl } from '/src/Components/Utils/Apis'
 
-const ForAirtime = ({ data, allworks, airtimes }) => {
+const ForAirtime = ({ data, airtimes }) => {
     const [isNew, setIsNew] = useState(true)
-    const [works, setWorks] = useState(allworks || [])
+    const [works, setWorks] = useState(airtimes.airnetworks || [])
     const [loading, setLoading] = useState(false)
     const [packid, setpackid] = useState('')
     const [forms, setForms] = useState({

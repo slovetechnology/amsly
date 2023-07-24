@@ -55,6 +55,12 @@ import AllLevels from './Pages/Admin/Levels/AllLevels';
 import AutomationNetwork from './Pages/Admin/Automations/AutomationNetwork';
 import Downlines from './Pages/User/Referrals/Downlines';
 import LockAirtime from './Pages/Admin/Locks/LockAirtime';
+import AirtimeService from './Pages/Admin/Automations/AirtimeAutomation/AirtimeService';
+import AirtimeNetwork from './Pages/Admin/Automations/AirtimeAutomation/AirtimeNetwork';
+import AirtimePackage from './Pages/Admin/Automations/AirtimeAutomation/Airtimepackage';
+import AirtimePlanAutomation from './Pages/Admin/Integrations/Plans/Airtime/AirtimePlanAutomation';
+import AirtimePlanPackage from './Pages/Admin/Integrations/Plans/Airtime/AirtimePlanPackage';
+import SetupAirtimePlan from './Pages/Admin/Integrations/Plans/Airtime/SetupAirtimePlan';
 
 
 
@@ -64,63 +70,78 @@ const App = () => {
   }, []);
   return (
     <BrowserRouter>
-    <Routes>
-      <Route path="/dashboard" element={<UserRoute><Dashboard /></UserRoute>} />
-      <Route path="/kyc_upload" element={<UserRoute><KycUpload /></UserRoute>} />
-      <Route path="/all-transactions" element={<UserRoute><UserAllTransactions /></UserRoute>} />
-      <Route path="/success-transactions" element={<UserRoute><SuccessTransactions /></UserRoute>} />
-      <Route path="/failed-transactions" element={<UserRoute><FailedTransactions /></UserRoute>} />
-      <Route path="/data_bundle" element={<UserRoute><Data /></UserRoute>} />
-      <Route path="/airtime_bills" element={<UserRoute><AirtimeBills /></UserRoute>} />
-      <Route path="/share_bills" element={<UserRoute><AirtimeSns /></UserRoute>} />
-      <Route path="/cable_bills" element={<UserRoute><CableBills /></UserRoute>} />
-      <Route path="/education_bills" element={<UserRoute><EducationBills /></UserRoute>} />
-      <Route path="/meter_bills" element={<UserRoute><MeterBills /></UserRoute>} />
-      <Route path="/create_pin" element={<UserRoute><ManageDataPin /></UserRoute>} />
-      <Route path="/downlines" element={<UserRoute><Downlines /></UserRoute>} />
+      <Routes>
+        <Route path="/dashboard" element={<UserRoute><Dashboard /></UserRoute>} />
+        <Route path="/kyc_upload" element={<UserRoute><KycUpload /></UserRoute>} />
+        <Route path="/all-transactions" element={<UserRoute><UserAllTransactions /></UserRoute>} />
+        <Route path="/success-transactions" element={<UserRoute><SuccessTransactions /></UserRoute>} />
+        <Route path="/failed-transactions" element={<UserRoute><FailedTransactions /></UserRoute>} />
+        <Route path="/data_bundle" element={<UserRoute><Data /></UserRoute>} />
+        <Route path="/airtime_bills" element={<UserRoute><AirtimeBills /></UserRoute>} />
+        <Route path="/share_bills" element={<UserRoute><AirtimeSns /></UserRoute>} />
+        <Route path="/cable_bills" element={<UserRoute><CableBills /></UserRoute>} />
+        <Route path="/education_bills" element={<UserRoute><EducationBills /></UserRoute>} />
+        <Route path="/meter_bills" element={<UserRoute><MeterBills /></UserRoute>} />
+        <Route path="/create_pin" element={<UserRoute><ManageDataPin /></UserRoute>} />
+        <Route path="/downlines" element={<UserRoute><Downlines /></UserRoute>} />
 
-      <Route path="/auth/admin" element={<AdminRoute><AHome /></AdminRoute>} />
-      <Route path="/auth/admin/query_transactions" element={<AdminRoute><QueryTransaction /> </AdminRoute>} />
-      <Route path="/auth/admin/upgrade_user" element={<AdminRoute><UpgradeUser /> </AdminRoute>} />
-      <Route path="/auth/admin/users_mobile" element={<AdminRoute><UsersMobile /> </AdminRoute>} />
-      <Route path="/auth/admin/users_emails" element={<AdminRoute><UsersEmails /> </AdminRoute>} />
-      <Route path="/auth/admin/finance_user" element={<AdminRoute><AdminFinanceUser /> </AdminRoute>} />
-      <Route path="/auth/admin/block_account" element={<AdminRoute><BlockUser /> </AdminRoute>} />
-      <Route path="/auth/admin/all_users" element={<AdminRoute><AllUsers /> </AdminRoute>} />
-      <Route path="/auth/admin/reset_user_password" element={<AdminRoute><AdminResetUserPassword /> </AdminRoute>} />
-      <Route path="/auth/admin/reset_user_pin" element={<AdminRoute><AdminResetUserPin /> </AdminRoute>} />
-      <Route path="/auth/admin/update_bank_info" element={<AdminRoute><UpdateBankInfo /> </AdminRoute>} />
-      <Route path="/auth/admin/update_contact_info" element={<AdminRoute><AdminContactInfo /> </AdminRoute>} />
-      <Route path="/auth/admin/manage_notification" element={<AdminRoute><ManageNotification /> </AdminRoute>} />
-      <Route path="/auth/admin/sales_analysis" element={<AdminRoute><SalesAnalysis /> </AdminRoute>} />
-      <Route path="/auth/admin/all_transactions" element={<AdminRoute><AllTransactions /> </AdminRoute>} />
-      <Route path="/auth/admin/levels" element={<AdminRoute><ManageLevels /> </AdminRoute>} />
-      <Route path="/auth/admin/levels/:id" element={<AdminRoute><AllLevels /> </AdminRoute>} />
-      <Route path="/auth/admin/lock-cables" element={<AdminRoute><LockCables /> </AdminRoute>} />
-      <Route path="/auth/admin/lock-data" element={<AdminRoute><LockData /> </AdminRoute>} />
-      <Route path="/auth/admin/lock-airtime" element={<AdminRoute><LockAirtime /> </AdminRoute>} />
-      <Route path="/auth/admin/automation" element={<AdminRoute><Automation /> </AdminRoute>} />
-      <Route path="/auth/admin/automation/:id" element={<AdminRoute><AutomationService /> </AdminRoute>} />
-      <Route path="/auth/admin/automation/:id/:net" element={<AdminRoute><AutomationNetwork /> </AdminRoute>} />
-      <Route path="/auth/admin/automation/:id/:net/:pack" element={<AdminRoute><AutomationPackage /> </AdminRoute>} />
-      <Route path="/auth/admin/service/new" element={<AdminRoute><CreateService /> </AdminRoute>} />
-      <Route path="/auth/admin/service/view/:id" element={<AdminRoute><ManageService /> </AdminRoute>} />
-      <Route path="/auth/admin/integration/new" element={<AdminRoute><CreateAutomation /> </AdminRoute>} />
-      <Route path="/auth/admin/integration" element={<AdminRoute><AllAutomations /> </AdminRoute>} />
-      <Route path="/auth/admin/integration/edit/:id" element={<AdminRoute><UpdateIngeration /> </AdminRoute>} />
-      <Route path="/auth/admin/integration/plans/edit/:id" element={<AdminRoute><UpdateApiPlan /> </AdminRoute>} />
-      <Route path="/auth/admin/integration/plans" element={<AdminRoute><PlanAutomation /> </AdminRoute>} />
-      <Route path="/auth/admin/integration/plans/:id" element={<AdminRoute><PlanService /> </AdminRoute>} />
-      <Route path="/auth/admin/integration/plans/:id/:pack" element={<AdminRoute><PlanPackage /> </AdminRoute>} />
-      <Route path="/auth/admin/integration/plans/:id/:pack/:auto" element={<AdminRoute><SetupPlan /> </AdminRoute>} />
+        <Route path="/auth/admin" element={<AdminRoute><AHome /></AdminRoute>} />
+        <Route path="/auth/admin/query_transactions" element={<AdminRoute><QueryTransaction /> </AdminRoute>} />
+        <Route path="/auth/admin/upgrade_user" element={<AdminRoute><UpgradeUser /> </AdminRoute>} />
+        <Route path="/auth/admin/users_mobile" element={<AdminRoute><UsersMobile /> </AdminRoute>} />
+        <Route path="/auth/admin/users_emails" element={<AdminRoute><UsersEmails /> </AdminRoute>} />
+        <Route path="/auth/admin/finance_user" element={<AdminRoute><AdminFinanceUser /> </AdminRoute>} />
+        <Route path="/auth/admin/block_account" element={<AdminRoute><BlockUser /> </AdminRoute>} />
+        <Route path="/auth/admin/all_users" element={<AdminRoute><AllUsers /> </AdminRoute>} />
+        <Route path="/auth/admin/reset_user_password" element={<AdminRoute><AdminResetUserPassword /> </AdminRoute>} />
+        <Route path="/auth/admin/reset_user_pin" element={<AdminRoute><AdminResetUserPin /> </AdminRoute>} />
+        <Route path="/auth/admin/update_bank_info" element={<AdminRoute><UpdateBankInfo /> </AdminRoute>} />
+        <Route path="/auth/admin/update_contact_info" element={<AdminRoute><AdminContactInfo /> </AdminRoute>} />
+        <Route path="/auth/admin/manage_notification" element={<AdminRoute><ManageNotification /> </AdminRoute>} />
+        <Route path="/auth/admin/sales_analysis" element={<AdminRoute><SalesAnalysis /> </AdminRoute>} />
+        <Route path="/auth/admin/all_transactions" element={<AdminRoute><AllTransactions /> </AdminRoute>} />
+        <Route path="/auth/admin/levels" element={<AdminRoute><ManageLevels /> </AdminRoute>} />
+        <Route path="/auth/admin/levels/:id" element={<AdminRoute><AllLevels /> </AdminRoute>} />
+        <Route path="/auth/admin/lock-cables" element={<AdminRoute><LockCables /> </AdminRoute>} />
+        <Route path="/auth/admin/lock-data" element={<AdminRoute><LockData /> </AdminRoute>} />
+        <Route path="/auth/admin/lock-airtime" element={<AdminRoute><LockAirtime /> </AdminRoute>} />
 
-      <Route path="/" element={<HomePage />} />
-      
-      <Route path="/register" element={<Register />} />
-      <Route path="/register/:ref" element={<Register />} />
-      <Route path="/verify_account" element={<VerifySignup />} />
-      <Route path="/login" element={<Login />} />
-    </Routes>
+        <Route path="/auth/admin/automation" element={<AdminRoute><Automation /> </AdminRoute>} />
+        {/* admin data automation routes */}
+        <Route path="/auth/admin/automation/data" element={<AdminRoute><AutomationService /> </AdminRoute>} />
+        <Route path="/auth/admin/automation/data/:net" element={<AdminRoute><AutomationNetwork /> </AdminRoute>} />
+        <Route path="/auth/admin/automation/data/:net/:pack" element={<AdminRoute><AutomationPackage /> </AdminRoute>} />
+
+        {/* admin airtime automation routes */}
+        <Route path="/auth/admin/automation/airtime" element={<AdminRoute> <AirtimeService /> </AdminRoute>} />
+        <Route path="/auth/admin/automation/airtime/:net" element={<AdminRoute> <AirtimeNetwork /> </AdminRoute>} />
+        <Route path="/auth/admin/automation/airtime/:net/:pack" element={<AdminRoute> <AirtimePackage /> </AdminRoute>} />
+
+        <Route path="/auth/admin/service/new" element={<AdminRoute><CreateService /> </AdminRoute>} />
+        <Route path="/auth/admin/service/view/:id" element={<AdminRoute><ManageService /> </AdminRoute>} />
+
+        <Route path="/auth/admin/integration/new" element={<AdminRoute><CreateAutomation /> </AdminRoute>} />
+        <Route path="/auth/admin/integration" element={<AdminRoute><AllAutomations /> </AdminRoute>} />
+        <Route path="/auth/admin/integration/edit/:id" element={<AdminRoute><UpdateIngeration /> </AdminRoute>} />
+
+        <Route path="/auth/admin/integration/plans/edit/:id" element={<AdminRoute><UpdateApiPlan /> </AdminRoute>} />
+        <Route path="/auth/admin/integration/plans" element={<AdminRoute><PlanAutomation /> </AdminRoute>} />
+
+        <Route path="/auth/admin/integration/plans/data" element={<AdminRoute><PlanService /> </AdminRoute>} />
+        <Route path="/auth/admin/integration/plans/data/:pack" element={<AdminRoute><PlanPackage /> </AdminRoute>} />
+        <Route path="/auth/admin/integration/plans/data/:pack/:auto" element={<AdminRoute><SetupPlan /> </AdminRoute>} />
+
+        <Route path="/auth/admin/integration/plans/airtime" element={<AdminRoute><AirtimePlanAutomation /> </AdminRoute>} />
+        <Route path="/auth/admin/integration/plans/airtime/:pack" element={<AdminRoute><AirtimePlanPackage /> </AdminRoute>} />
+        <Route path="/auth/admin/integration/plans/airtime/:pack/:auto" element={<AdminRoute><SetupAirtimePlan /> </AdminRoute>} />
+
+        <Route path="/" element={<HomePage />} />
+
+        <Route path="/register" element={<Register />} />
+        <Route path="/register/:ref" element={<Register />} />
+        <Route path="/verify_account" element={<VerifySignup />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
     </BrowserRouter>
   )
 }

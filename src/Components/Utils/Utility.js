@@ -60,30 +60,37 @@ export const Autos = [
     {
         category: 'data',
         title: `set data automation`,
+        url: `/auth/admin/automation/data`
     },
     {
         category: 'airtime',
         title: `set airtime automation`,
+        url: `/auth/admin/automation/airtime`
     },
     {
         category: 'cable',
         title: `set cable tv automation`,
+        url: `/auth/admin/automation/cable`
     },
     // {
     //     category: 'data pin',
     //     title: `set airtime share automation`,
+    // url: `/auth/admin/automation/data`
     // },
     // {
     //     category: 'airtime pin',
     //     title: ``,
+    // url: `/auth/admin/automation/data`
     // },
     {
         category: 'exam',
         title: `set exam automation`,
+        url: `/auth/admin/automation/exam`
     },
     {
         category: 'electricity',
         title: `set electricity bill automation`,
+        url: `/auth/admin/automation/electricity`
     },
 ]
 export const ServicesLinks = [

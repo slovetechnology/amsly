@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react'
 import UserLayout from '../../../Components/User/UserLayout'
 import ContactToAdmin from '../ContactToAdmin'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Loading from '/src/Components/General/Loading'
 import ConfirmAirtimePurchase from './Compos/ConfirmAirtimePurchase'
 import { ErrorAlert } from '/src/Components/Utils/Utility'
 import { Api, PostUrl } from '/src/Components/Utils/Apis'
+import { dispatchUser } from '/src/app/reducer'
 
 const AirtimeBills = () => {
     const { subs } = useSelector(state => state.data)
     const [mainsub, setMainsub] = useState({})
+    const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
     const [view, setView] = useState(false)
     const [packs, setPacks] = useState([])
@@ -18,7 +20,8 @@ const AirtimeBills = () => {
         network: '',
         amount: '',
         mobile: '',
-        pin: ''
+        pin: '',
+        sub: ''
     })
     const handleForms = e => {
         setForms({
@@ -27,12 +30,16 @@ const AirtimeBills = () => {
         })
     }
 
-    useEffect(() => {
-        const findData = subs.find((item) => item.category.endsWith('-vtu'))
-        console.log(findData, subs, 'data founded!--')
-        setMainsub(findData)
-        setPacks(findData?.sub)
-    }, [])
+    const handleMainSub = (e) => {
+        const id = e.target.value
+        const findData = subs.find((item) => item.id?.toString() === id)
+        setMainsub(findData?.sub[0])
+        setForms({
+            ...forms,
+            sub: id,
+            network: findData?.sub[0]?.id
+        })
+    }
 
     const ConfirmSubmission = e => {
         e.preventDefault()
@@ -44,14 +51,26 @@ const AirtimeBills = () => {
     }
 
     const handleSubmission = async () => {
-        const formdata = {
-            ...forms,
-            sub: mainsub.id
+        try {
+            const formdata = {
+                ...forms
+            }
+            setLoading(true)
+            const res = await PostUrl(Api.bills.airtime, formdata)
+            setLoading(false)
+            if (res.status === 200) {
+                SwalAlert('Request Successful', res.msg, 'success')
+                dispatch(dispatchUser(res.user))
+                setView(!view)
+                setTimeout(() => {
+                    navigate(0)
+                }, 2000);
+            } else {
+                ErrorAlert(res.msg);
+            }
+        } catch (error) {
+            return ErrorAlert(error)
         }
-        setLoading(true)
-        const res = await PostUrl(Api.bills.airtime, formdata)
-        setLoading(false)
-        console.log(res)
     }
     return (
         <UserLayout pagetitle="buy your airtime VTU">
@@ -62,10 +81,10 @@ const AirtimeBills = () => {
                     <form onSubmit={ConfirmSubmission}>
                         <div className="mb-4">
                             <div className="capitalize">Choose Network</div>
-                            <select name="network" value={forms.network} onChange={handleForms} className="input">
+                            <select name="network" onChange={handleMainSub} className="input">
                                 <option value="">--Select--</option>
-                                {packs?.length > 0 && packs.map((item, i) => (
-                                    <option key={i} value={item.id}>{item.title}</option>
+                                {subs?.length > 0 && subs.map((item, i) => (
+                                   item.category.endsWith('-vtu') && <option key={i} value={item.id}>{item.network.split(' ')[0]}</option>
                                 ))}
                             </select>
                         </div>

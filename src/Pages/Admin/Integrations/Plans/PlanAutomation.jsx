@@ -5,6 +5,7 @@ import AdminLayout from '/src/Components/Admin/AdminLayout'
 
 const PlanAutomation = () => {
     const [active, setActive] = useState('')
+    
     return (
         <AdminLayout>
             <div className={!active.tag ? '' : 'hidden'}>
