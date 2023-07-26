@@ -8,6 +8,7 @@ import Loading from '/src/Components/General/Loading'
 import { dispatchUser } from '/src/app/reducer'
 import ConfirmDataPurchase from './Compos/ConfirmDataPurchase'
 import { ErrorAlert } from '/src/Components/Utils/Utility'
+import PerformTractionNotice from './Compos/PerformTractionNotice'
 
 const DataBundle = () => {
     const { subs, subdata } = useSelector(state => state.data)
@@ -15,6 +16,7 @@ const DataBundle = () => {
     const navigate = useNavigate()
     const [, setSinglesub] = useState(null)
     const [datas, setDatas] = useState([])
+    const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const [view, setView] = useState(false)
     const [targets, setTargets] = useState([])
@@ -78,12 +80,9 @@ const DataBundle = () => {
             const res = await PostUrl(Api.bills.data, formdata)
             setLoading(false)
             if (res.status === 200) {
-                SwalAlert('Request Successful', res.msg, 'success')
                 dispatch(dispatchUser(res.user))
                 setView(!view)
-                setTimeout(() => {
-                    navigate(0)
-                }, 2000);
+                setOpen(!open)
             } else {
                 ErrorAlert(res.msg);
             }
@@ -108,6 +107,7 @@ const DataBundle = () => {
     return (
         <>
             {loading && <Loading />}
+           {open && <PerformTractionNotice />}
             {view && <ConfirmDataPurchase handleSubmission={handleSubmission} closeView={() => setView(!view)} /> }
             <div className="mt-10">
                 <div className="bg-white w-full max-w-3xl p-5 shadow-xl mx-auto rounded-lg">
@@ -131,7 +131,7 @@ const DataBundle = () => {
                             <select name="package" onChange={handleFormsPackage} className="input uppercase">
                                 <option value="">--Select--</option>
                                 {datas.map((item, i) => (
-                                    <option key={i} value={item.id}>{item.title} = &#8358;{item.price}</option>
+                                   item.lock === 'no' &&  <option key={i} value={item.id}>{item.title} = &#8358;{item.price}</option>
                                 ))}
                             </select>
                         </div>

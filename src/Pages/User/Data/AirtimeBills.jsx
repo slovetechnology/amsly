@@ -8,11 +8,13 @@ import ConfirmAirtimePurchase from './Compos/ConfirmAirtimePurchase'
 import { ErrorAlert } from '/src/Components/Utils/Utility'
 import { Api, PostUrl } from '/src/Components/Utils/Apis'
 import { dispatchUser } from '/src/app/reducer'
+import PerformTractionNotice from './Compos/PerformTractionNotice'
 
 const AirtimeBills = () => {
     const { subs } = useSelector(state => state.data)
     const [mainsub, setMainsub] = useState({})
     const dispatch = useDispatch()
+    const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const [view, setView] = useState(false)
     const [packs, setPacks] = useState([])
@@ -59,12 +61,9 @@ const AirtimeBills = () => {
             const res = await PostUrl(Api.bills.airtime, formdata)
             setLoading(false)
             if (res.status === 200) {
-                SwalAlert('Request Successful', res.msg, 'success')
+                setOpen(!open)
                 dispatch(dispatchUser(res.user))
                 setView(!view)
-                setTimeout(() => {
-                    navigate(0)
-                }, 2000);
             } else {
                 ErrorAlert(res.msg);
             }
@@ -74,6 +73,7 @@ const AirtimeBills = () => {
     }
     return (
         <UserLayout pagetitle="buy your airtime VTU">
+        {open && <PerformTractionNotice />}
             {loading && <Loading />}
             {view && <ConfirmAirtimePurchase handleSubmission={handleSubmission} closeView={() => setView(!view)} />}
             <div className="mt-10">
@@ -84,7 +84,7 @@ const AirtimeBills = () => {
                             <select name="network" onChange={handleMainSub} className="input">
                                 <option value="">--Select--</option>
                                 {subs?.length > 0 && subs.map((item, i) => (
-                                   item.category.endsWith('-vtu') && <option key={i} value={item.id}>{item.network.split(' ')[0]}</option>
+                                   item.category.endsWith('-vtu') && item.locked === 'no' &&  <option key={i} value={item.id}>{item.network.split(' ')[0]}</option>
                                 ))}
                             </select>
                         </div>

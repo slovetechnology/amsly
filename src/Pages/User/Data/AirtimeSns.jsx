@@ -8,11 +8,13 @@ import ConfirmAirtimePurchase from './Compos/ConfirmAirtimePurchase'
 import { ErrorAlert } from '/src/Components/Utils/Utility'
 import { Api, PostUrl } from '/src/Components/Utils/Apis'
 import { dispatchUser } from '/src/app/reducer'
+import PerformTractionNotice from './Compos/PerformTractionNotice'
 
 const AirtimeSns = () => {
     const { subs } = useSelector(state => state.data)
     const [mainsub, setMainsub] = useState({})
     const dispatch = useDispatch()
+    const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const [view, setView] = useState(false)
     const [packs, setPacks] = useState([])
@@ -59,12 +61,9 @@ const AirtimeSns = () => {
             const res = await PostUrl(Api.bills.airtime, formdata)
             setLoading(false)
             if (res.status === 200) {
-                SwalAlert('Request Successful', res.msg, 'success')
                 dispatch(dispatchUser(res.user))
                 setView(!view)
-                setTimeout(() => {
-                    navigate(0)
-                }, 2000);
+                setOpen(!open)
             } else {
                 ErrorAlert(res.msg);
             }
@@ -75,6 +74,7 @@ const AirtimeSns = () => {
     return (
         <UserLayout pagetitle="buy your airtime SNS">
             {loading && <Loading />}
+           {open && <PerformTractionNotice />}
             {view && <ConfirmAirtimePurchase handleSubmission={handleSubmission} closeView={() => setView(!view)} />}
             <div className="mt-10">
                 <div className="bg-white w-full max-w-3xl p-5 shadow-xl mx-auto rounded-lg">
@@ -84,7 +84,7 @@ const AirtimeSns = () => {
                             <select name="network" onChange={handleMainSub} className="input">
                                 <option value="">--Select--</option>
                                 {subs?.length > 0 && subs.map((item, i) => (
-                                   item.category.endsWith('-sns') && <option key={i} value={item.id}>{item.network.split(' ')[0]}</option>
+                                   item.category.endsWith('-sns') && item.locked === 'no' &&  <option key={i} value={item.id}>{item.network.split(' ')[0]}</option>
                                 ))}
                             </select>
                         </div>
