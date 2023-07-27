@@ -1,6 +1,6 @@
 
 
-import { BsCheck2Circle, BsShieldExclamation } from 'react-icons/bs'
+import { BsCheck2Circle } from 'react-icons/bs'
 import ModalLayout from '/src/Components/Utils/ModalLayout'
 import React from 'react'
 import { Link } from 'react-router-dom'
@@ -15,7 +15,7 @@ const PerformTractionNotice = ({closeView, handleSubmission}) => {
             <div className="text-center text-zinc-500 text-xl">Transaction Successful!</div>
             <div className="flex items-center justify-between gap-8 mt-6 flex-col">
                 <Link to='/dashboard' className="bg-red-400 rounded-lg text-center text-white w-full font-semibold py-4 capitalize" onClick={closeView}>back to dashboard</Link>
-                <Link to='' className="bg-blue-700 rounded-lg text-center text-white w-full font-semibold py-4 capitalize" onClick={handleSubmission}>initiate another transaction</Link> 
+                <a href='' className="bg-blue-700 rounded-lg text-center text-white w-full font-semibold py-4 capitalize" onClick={handleSubmission}>initiate another transaction</a> 
             </div>
         </div>
     </ModalLayout>
