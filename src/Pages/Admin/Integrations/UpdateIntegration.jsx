@@ -9,6 +9,9 @@ import { ImCompass } from 'react-icons/im'
 import { SlTrash } from 'react-icons/sl'
 import SingleApiNetwork from './SingleApiNetwork'
 import ForAirtime from './Updates/ForAirtime'
+import ForCable from './Updates/ForCable'
+import ForExam from './Updates/ForExam'
+import ForElectricity from './Updates/ForElectricity'
 
 const planset = [
     {
@@ -21,7 +24,15 @@ const planset = [
     },
     {
         title: 'cable',
-        tag: '1'
+        tag: '2'
+    },
+    {
+        title: 'exam',
+        tag: '3'
+    },
+    {
+        title: 'electricity',
+        tag: '4'
     },
 ]
 
@@ -34,6 +45,9 @@ const UpdateIngeration = () => {
     const [zone, setZone] = useState(0)
     const [works, setWorks] = useState([])
     const [airtimes, setAirtimes] = useState([])
+    const [cables, setCables] = useState([])
+    const [exams, setExams] = useState([])
+    const [electricities, setElectricities] = useState([])
     const [points, setPoints] = useState({
         point: '',
         category: ''
@@ -111,6 +125,9 @@ const UpdateIngeration = () => {
             setEndpoints(res.msg.autos)
             setWorks(res.msg.networks)
             setAirtimes(res.airtimes)
+            setCables(res.cables)
+            setExams(res.exams)
+            setElectricities(res.electricities)
             return setData(res.msg)
         }
     }, [id])
@@ -129,7 +146,6 @@ const UpdateIngeration = () => {
         if (!forms.format) return ToastAlert('Api Format is required')
         if (!forms.planName) return ToastAlert('Api Plan Name is required')
         if (!forms.mobileName) return ToastAlert('Mobile ID is required')
-        if (!forms.networkName) return ToastAlert('Network Identity is required')
         if (endpoints.length < 1) return ToastAlert('Endpoints to the api url is required')
         if (works.length < 1) return ToastAlert('Networks to the api url is required')
 
@@ -380,6 +396,21 @@ const UpdateIngeration = () => {
             {zone === 1 && <div>
                 <div className="">
                     <ForAirtime airtimes={airtimes} allworks={works} data={forms} />
+                </div>
+            </div>}
+            {zone === 2 && <div>
+                <div className="">
+                    <ForCable cables={cables} allworks={works} data={forms} />
+                </div>
+            </div>}
+            {zone === 3 && <div>
+                <div className="">
+                    <ForExam exams={exams} allworks={works} data={forms} />
+                </div>
+            </div>}
+            {zone === 4 && <div>
+                <div className="">
+                    <ForElectricity electricities={electricities} allworks={works} data={forms} />
                 </div>
             </div>}
         </AdminLayout>

@@ -23,7 +23,6 @@ import SalesAnalysis from './Pages/Admin/Transactions/SalesAnalysis';
 import AllTransactions from './Pages/Admin/Transactions/AllTransactions';
 import LockCables from './Pages/Admin/Locks/LockCables';
 import LockData from './Pages/Admin/Locks/LockData';
-import ManageLevels from './Pages/Admin/Levels/CreateLevels/ManageLavels';
 import Automation from './Pages/Admin/Automations/Automation';
 import UserAllTransactions from './Pages/User/Transactions/AllTransactions'
 import SuccessTransactions from './Pages/User/Transactions/SuccessTransactions';
@@ -61,6 +60,28 @@ import AirtimePackage from './Pages/Admin/Automations/AirtimeAutomation/Airtimep
 import AirtimePlanAutomation from './Pages/Admin/Integrations/Plans/Airtime/AirtimePlanAutomation';
 import AirtimePlanPackage from './Pages/Admin/Integrations/Plans/Airtime/AirtimePlanPackage';
 import SetupAirtimePlan from './Pages/Admin/Integrations/Plans/Airtime/SetupAirtimePlan';
+import CablePlanAutomation from './Pages/Admin/Integrations/Plans/Cables/CablePlanAutomation';
+import CablePlanPackage from './Pages/Admin/Integrations/Plans/Cables/CablePlanPackage';
+import SetupCablePlan from './Pages/Admin/Integrations/Plans/Cables/SetupCablePlan';
+import CableService from './Pages/Admin/Automations/CableAutomation/CableService';
+import CableNetwork from './Pages/Admin/Automations/CableAutomation/CableNetwork';
+import CablePackage from './Pages/Admin/Automations/CableAutomation/CablePackage';
+import ElectricityPlanAutomation from './Pages/Admin/Integrations/Plans/Electricity/ElectricityPlanAutomation';
+import ElectricityPlanPackage from './Pages/Admin/Integrations/Plans/Electricity/ElectricityPlanPackage';
+import SetupElectricityPlan from './Pages/Admin/Integrations/Plans/Electricity/SetupElectricityPlan';
+import ElectService from './Pages/Admin/Automations/ElectricityAutomation/ElectService';
+import ElectNetwork from './Pages/Admin/Automations/ElectricityAutomation/ElectNetwork';
+import ElectPackage from './Pages/Admin/Automations/ElectricityAutomation/ElectPackage';
+import ExamPlanAutomation from './Pages/Admin/Integrations/Plans/Exam/ExamPlanAutomation';
+import ExamPlanPackage from './Pages/Admin/Integrations/Plans/Exam/ExamPlanPackage';
+import SetupExamPlan from './Pages/Admin/Integrations/Plans/Exam/SetupExamPlan';
+import ExamService from './Pages/Admin/Automations/ExamAutomation/ExamService';
+import ExamNetwork from './Pages/Admin/Automations/ExamAutomation/ExamNetwork';
+import ExamPackage from './Pages/Admin/Automations/ExamAutomation/ExamPackage';
+import LockElectricity from './Pages/Admin/Locks/LockElectricity';
+import LockExam from './Pages/Admin/Locks/LockExam';
+import ManageLevels from './Pages/Admin/Levels/CreateLevels/ManageLevels';
+import EditLevel from './Pages/Admin/Levels/EditLevels/EditLevel';
 
 
 
@@ -100,11 +121,15 @@ const App = () => {
         <Route path="/auth/admin/manage_notification" element={<AdminRoute><ManageNotification /> </AdminRoute>} />
         <Route path="/auth/admin/sales_analysis" element={<AdminRoute><SalesAnalysis /> </AdminRoute>} />
         <Route path="/auth/admin/all_transactions" element={<AdminRoute><AllTransactions /> </AdminRoute>} />
+
         <Route path="/auth/admin/levels" element={<AdminRoute><ManageLevels /> </AdminRoute>} />
-        <Route path="/auth/admin/levels/:id" element={<AdminRoute><AllLevels /> </AdminRoute>} />
+        <Route path="/auth/admin/levels/:id" element={<AdminRoute><EditLevel /> </AdminRoute>} />
+
         <Route path="/auth/admin/lock-cables" element={<AdminRoute><LockCables /> </AdminRoute>} />
         <Route path="/auth/admin/lock-data" element={<AdminRoute><LockData /> </AdminRoute>} />
         <Route path="/auth/admin/lock-airtime" element={<AdminRoute><LockAirtime /> </AdminRoute>} />
+        <Route path="/auth/admin/lock-exam" element={<AdminRoute><LockExam /> </AdminRoute>} />
+        <Route path="/auth/admin/lock-electricity" element={<AdminRoute><LockElectricity /> </AdminRoute>} />
 
         <Route path="/auth/admin/automation" element={<AdminRoute><Automation /> </AdminRoute>} />
         {/* admin data automation routes */}
@@ -116,6 +141,21 @@ const App = () => {
         <Route path="/auth/admin/automation/airtime" element={<AdminRoute> <AirtimeService /> </AdminRoute>} />
         <Route path="/auth/admin/automation/airtime/:net" element={<AdminRoute> <AirtimeNetwork /> </AdminRoute>} />
         <Route path="/auth/admin/automation/airtime/:net/:pack" element={<AdminRoute> <AirtimePackage /> </AdminRoute>} />
+
+        {/* admin cable automation routes */}
+        <Route path="/auth/admin/automation/cable" element={<AdminRoute> <CableService /> </AdminRoute>} />
+        <Route path="/auth/admin/automation/cable/:net" element={<AdminRoute> <CableNetwork /> </AdminRoute>} />
+        <Route path="/auth/admin/automation/cable/:net/:pack" element={<AdminRoute> <CablePackage /> </AdminRoute>} />
+
+        {/* admin exam automation routes */}
+        <Route path="/auth/admin/automation/exam" element={<AdminRoute> <ExamService /> </AdminRoute>} />
+        <Route path="/auth/admin/automation/exam/:net" element={<AdminRoute> <ExamNetwork /> </AdminRoute>} />
+        <Route path="/auth/admin/automation/exam/:net/:pack" element={<AdminRoute> <ExamPackage /> </AdminRoute>} />
+
+        {/* admin electricity automation routes */}
+        <Route path="/auth/admin/automation/electricity" element={<AdminRoute> <ElectService /> </AdminRoute>} />
+        <Route path="/auth/admin/automation/electricity/:net" element={<AdminRoute> <ElectNetwork /> </AdminRoute>} />
+        <Route path="/auth/admin/automation/electricity/:net/:pack" element={<AdminRoute> <ElectPackage /> </AdminRoute>} />
 
         <Route path="/auth/admin/service/new" element={<AdminRoute><CreateService /> </AdminRoute>} />
         <Route path="/auth/admin/service/view/:id" element={<AdminRoute><ManageService /> </AdminRoute>} />
@@ -134,6 +174,18 @@ const App = () => {
         <Route path="/auth/admin/integration/plans/airtime" element={<AdminRoute><AirtimePlanAutomation /> </AdminRoute>} />
         <Route path="/auth/admin/integration/plans/airtime/:pack" element={<AdminRoute><AirtimePlanPackage /> </AdminRoute>} />
         <Route path="/auth/admin/integration/plans/airtime/:pack/:auto" element={<AdminRoute><SetupAirtimePlan /> </AdminRoute>} />
+
+        <Route path="/auth/admin/integration/plans/cable" element={<AdminRoute><CablePlanAutomation /> </AdminRoute>} />
+        <Route path="/auth/admin/integration/plans/cable/:pack" element={<AdminRoute><CablePlanPackage /> </AdminRoute>} />
+        <Route path="/auth/admin/integration/plans/cable/:pack/:auto" element={<AdminRoute><SetupCablePlan /> </AdminRoute>} />
+
+        <Route path="/auth/admin/integration/plans/exam" element={<AdminRoute><ExamPlanAutomation /> </AdminRoute>} />
+        <Route path="/auth/admin/integration/plans/exam/:pack" element={<AdminRoute><ExamPlanPackage /> </AdminRoute>} />
+        <Route path="/auth/admin/integration/plans/exam/:pack/:auto" element={<AdminRoute><SetupExamPlan /> </AdminRoute>} />
+
+        <Route path="/auth/admin/integration/plans/electricity" element={<AdminRoute><ElectricityPlanAutomation /> </AdminRoute>} />
+        <Route path="/auth/admin/integration/plans/electricity/:pack" element={<AdminRoute><ElectricityPlanPackage /> </AdminRoute>} />
+        <Route path="/auth/admin/integration/plans/electricity/:pack/:auto" element={<AdminRoute><SetupElectricityPlan /> </AdminRoute>} />
 
         <Route path="/" element={<HomePage />} />
 

@@ -63,12 +63,11 @@ const CreateAutomation = () => {
         if (!forms.title) return ToastAlert('Name of service is required')
         if (!forms.apiurl) return ToastAlert('Api Url is required')
         if (!forms.token) return ToastAlert('Api Token is required')
-        if (!forms.tokenName) return ToastAlert('Api Token Name is required')
+        if (!forms.tokenName) return ToastAlert('Token Name is required')
         if (!forms.method) return ToastAlert('Api Method is required')
         if (!forms.format) return ToastAlert('Api Format is required')
         if (!forms.planName) return ToastAlert('Api Plan Name is required')
         if (!forms.mobileName) return ToastAlert('Mobile ID is required')
-        if (!forms.networkName) return ToastAlert('Network Identity is required')
         if (endpoints.length < 1) return ToastAlert('Endpoints to the api url is required')
         if (works.length < 1) return ToastAlert('Networks to the api url is required')
 

@@ -1,8 +1,8 @@
 import axios from "axios"
 import Cookies from "js-cookie"
 
-const server = `https://amsly.jogglecryp.com/api`
-// const server = `http://localhost:5002/api`
+// const server = `https://amsly.jogglecryp.com/api`
+const server = `http://localhost:5002/api`
 
 
 const user_urls = {
@@ -31,26 +31,45 @@ const user_urls = {
 const subs_urls = {
     create_subscription: "subscription/create-subscription",
     all_subscriptions: "subscription/all-subscriptions",
+    delete_subscription: "subscription/delete-subscription",
+    edit_subscription: "subscription/edit-subscription",
+
     all_subscriptiondata: "subscription/all-subscriptiondata",
     update_subscriptiondata: "subscription/update-subscriptiondata",
-    delete_subscription: "subscription/delete-subscription",
     delete_subscriptiondata: "subscription/delete-subscriptiondata",
-    edit_subscription: "subscription/edit-subscription",
+
     subscription_locks: "subscription/subscription-locks",
+
     add_subscription_service: "subscription/add-subscription-service",
     update_subscription_service: "subscription/update-subscription-service",
+
     get_automation_service: "subscription/get-automation-services",
     get_single_automation_service: "subscription/get-single-automation-service",
     delete_automation_service: "subscription/delete-automation-services",
     update_package_automation: "subscription/update-package-autmation",
     user_get_automation: "subscription/user-get-automation",
+
     add_api_plans: "subscription/add-api-plans",
     update_api_plans: "subscription/update-api-plans",
     all_api_plans: "subscription/all-api-plans",
     single_api_plans: "subscription/single-api-plans",
+
     add_level: "subscription/add-level-plan",
+    single_level: "subscription/single-level",
+    all_levels: "subscription/all-levels",
+    upgrade_user_level: "subscription/upgrade-account-level",
+
     add_airtime_automation: "subscription/airtime-automation",
     all_airtime_automations: `subscription/get-all-airtime-automations`,
+
+    add_cable_automation: "subscription/cable-automation",
+    all_cable_automations: `subscription/get-all-cable-automations`,
+
+    add_exam_automation: "subscription/exam-automation",
+    all_exam_automations: `subscription/get-all-exam-automations`,
+
+    add_electricity_automation: "subscription/electricity-automation",
+    all_electricity_automations: `subscription/get-all-electricity-automations`,
 }
 const bill_urls = {
     data: "bills/data",

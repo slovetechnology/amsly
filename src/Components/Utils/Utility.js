@@ -116,7 +116,7 @@ export const ServicesLinks = [
     },
     {
         title: 'exam',
-        link: ''
+        link: '/auth/admin/lock-exam'
     },
     {
         title: 'bulk sms',
@@ -124,7 +124,7 @@ export const ServicesLinks = [
     },
     {
         title: 'electricity',
-        link: ''
+        link: '/auth/admin/lock-electricity'
     },
 ]
 

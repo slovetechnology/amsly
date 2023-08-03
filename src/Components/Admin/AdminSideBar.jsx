@@ -69,7 +69,7 @@ const AdminSideBar = () => {
                     {currentdrop === 'levels' && <div className='ml-8 flex flex-col capitalize text-zinc-600'>
                         <Link to='/auth/admin/levels' className='sidelink1'>Create New Levels</Link>
                         {levels.map((item, i) => (
-                            <Link key={i} to={`/auth/admin/levels/${item.id}`} className='sidelink1'>{item.title}</Link>
+                            <a key={i} href={`/auth/admin/levels/${item.id}`} className='sidelink1'>{item.title}</a>
                         ))}
                     </div>}
                 </div>
