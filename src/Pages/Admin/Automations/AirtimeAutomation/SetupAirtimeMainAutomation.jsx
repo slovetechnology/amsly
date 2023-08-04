@@ -4,6 +4,7 @@ import { ToastAlert } from '/src/Components/Utils/Utility'
 import { Api, PostUrl } from '/src/Components/Utils/Apis'
 import { SlExclamation } from 'react-icons/sl'
 import Loading from '/src/Components/General/Loading'
+import ConfirmAutoSuspend from '/src/Components/Admin/ConfirmAutoSuspend'
 
 const SetupAirtimeMainAutomtion = ({ data, closeView, resendSignal, net, allitems, tag }) => {
     const [plan, setPlan] = useState(false)
@@ -61,6 +62,7 @@ const SetupAirtimeMainAutomtion = ({ data, closeView, resendSignal, net, allitem
             <ModalLayout closeView={closeView}>
                 <div className="bg-sky-50 p-3 text-xs">Setup {tag} automation service for <b>{`"${allitems.title}"`}</b> @ &#8358;{allitems.price} </div>
                 <div className="p-4">
+                <ConfirmAutoSuspend pack={allitems.id} tag={tag} />
                     <form onSubmit={saveChanges}>
                         <div className="mb-3">
                             <div className="">Select Automation</div>
