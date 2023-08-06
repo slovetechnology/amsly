@@ -76,6 +76,7 @@ const subs_urls = {
 const bill_urls = {
     data: "bills/data",
     airtime: "bills/airtime",
+    cable: "bills/cable",
     verify_iuc: "bills/verify-iuc",
 }
 
