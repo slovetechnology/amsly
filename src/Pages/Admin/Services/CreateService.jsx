@@ -14,6 +14,7 @@ const CreateService = () => {
         tag: '',
         title: '',
         price: '',
+        percent: '',
     })
 
     const handleForms = e => {
@@ -40,6 +41,7 @@ const CreateService = () => {
             network: forms.network,
             category: forms.category,
             tag: forms.tag,
+            percent: forms.percent,
             packages: [...packs]
         }
         setLoading(true)
@@ -50,6 +52,7 @@ const CreateService = () => {
                 network: '',
                 category: '',
                 tag: '',
+                percent: ''
             })
             setPacks([])
             SwalAlert('Request Success', res.msg, 'success')
@@ -85,6 +88,10 @@ const CreateService = () => {
                                     <option value={item} key={i}>{item}</option>
                                 ))}
                             </select>
+                        </div>
+                        <div className="mb-3">
+                            <div className="">Set Percentage (Optional) </div>
+                            <input name="percent" value={forms.percent} onChange={handleForms} type="text" placeholder='--Percentage--' className="input" />
                         </div>
                     </div>
                     <div className="p-3">

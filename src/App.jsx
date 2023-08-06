@@ -122,8 +122,9 @@ const App = () => {
         <Route path="/auth/admin/sales_analysis" element={<AdminRoute><SalesAnalysis /> </AdminRoute>} />
         <Route path="/auth/admin/all_transactions" element={<AdminRoute><AllTransactions /> </AdminRoute>} />
 
-        <Route path="/auth/admin/levels" element={<AdminRoute><ManageLevels /> </AdminRoute>} />
-        <Route path="/auth/admin/levels/:id" element={<AdminRoute><EditLevel /> </AdminRoute>} />
+        <Route path="/auth/admin/levels/:type" element={<AdminRoute><ManageLevels /> </AdminRoute>} />
+        <Route path="/auth/admin/levels/:type/:id" element={<AdminRoute><EditLevel /> </AdminRoute>} />
+        <Route path="/auth/admin/levels" element={<AdminRoute><AllLevels /> </AdminRoute>} />
 
         <Route path="/auth/admin/lock-cables" element={<AdminRoute><LockCables /> </AdminRoute>} />
         <Route path="/auth/admin/lock-data" element={<AdminRoute><LockData /> </AdminRoute>} />

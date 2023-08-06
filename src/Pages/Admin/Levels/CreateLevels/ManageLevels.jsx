@@ -8,11 +8,13 @@ import Loading from '/src/Components/General/Loading'
 import { Api, PostUrl, GetUrl } from '/src/Components/Utils/Apis'
 import { ToastAlert } from '/src/Components/Utils/Utility'
 import SetupUsers from './SetupUsers'
+import { useParams } from 'react-router-dom'
 
 const ManageLevels = () => {
     const LevelPack = 'levelpack'
     const PackPercent = 'packper'
     const PackUser = 'userpack'
+    const LevelType = 'leveltype'
     const { subs } = useSelector(state => state.data)
     const [active, setActive] = useState({})
     const [packs, setPacks] = useState([])
@@ -28,6 +30,7 @@ const ManageLevels = () => {
     const [title, setTitle] = useState('')
     const btn = 'py-4 px-6 rounded-full transition-all hover:scale-110 focus:scale-110 shadow-xl w-fit mx-auto font-semibold capitalize text-sm'
     const [zone, setZone] = useState(1)
+    const {type} = useParams()
 
     const [users, setUsers] = useState([])
 
@@ -41,14 +44,11 @@ const ManageLevels = () => {
     }, [AdmingetUsers])
 
     useEffect(() => {
-        if (!localper) {
+        if(type === 'new') {
             localStorage.setItem(PackPercent, JSON.stringify([]))
-        }
-        if (!locals) {
             localStorage.setItem(LevelPack, JSON.stringify([]))
-        }
-        if (!localuser) {
             localStorage.setItem(PackUser, JSON.stringify([]))
+            localStorage.setItem(LevelType, 'new')
         }
     }, [locals])
 
@@ -234,9 +234,10 @@ const ManageLevels = () => {
             ToastAlert(res.msg)
             setTitle('')
             localStorage.setItem(LevelPack, JSON.stringify([]))
-            localStorage.setItem(PackPercent, JSON.stringify([]))
+            localStorage.setItem(PackUser, JSON.stringify([]))
             setLocalState([])
             setPerState([])
+            setUserState([])
         } else {
             return ErrorAlert(res.msg)
         }

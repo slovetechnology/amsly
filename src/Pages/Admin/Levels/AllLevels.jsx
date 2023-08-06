@@ -1,8 +1,9 @@
+import AdminLayout from '/src/Components/Admin/AdminLayout'
 import React from 'react'
 
 const AllLevels = () => {
   return (
-    <div>AllLevels</div>
+    <AdminLayout>AllLevels</AdminLayout>
   )
 }
 

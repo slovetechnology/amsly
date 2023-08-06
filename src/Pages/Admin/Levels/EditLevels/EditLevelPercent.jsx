@@ -4,7 +4,7 @@ import React from 'react'
 import { BsCheck } from 'react-icons/bs'
 
 const EditLevelPercent = ({item, handelForms, handleAddup, localState}) => {
-    const active = localState.find((data) => data.sub === item.id)
+    const active = localState.find((data) => data.id === item.id)
     return (
         <div className="mb-3">
             <div className="grid grid-cols-2">

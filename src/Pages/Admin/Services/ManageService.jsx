@@ -30,6 +30,7 @@ const ManageService = () => {
         tag: '',
         title: '',
         price: '',
+        percent: '',
     })
 
     const fetchSubData = useCallback(async () => {
@@ -41,7 +42,8 @@ const ManageService = () => {
             ...forms,
             network: payload.network,
             category: founded,
-            tag: payload.tag || ''
+            tag: payload.tag || '',
+            percent: payload.percent
         })
         setSubing(payload)
         setPacks(payload.sub)
@@ -79,6 +81,7 @@ const ManageService = () => {
             network: forms.network,
             category: forms.category,
             tag: forms.tag,
+            percent: forms.percent,
             id,
             packages: [...packs]
         }
@@ -155,6 +158,10 @@ const ManageService = () => {
                                     <option value={item} key={i}>{item}</option>
                                 ))}
                             </select>
+                        </div>
+                        <div className="mb-3">
+                            <div className="">Set up Percentage (Optional) </div>
+                            <input name="percent" value={forms.percent} onChange={handleForms} type="text" placeholder='--Percentage--' className="input" />
                         </div>
                     </div>
                     <div className="p-3">

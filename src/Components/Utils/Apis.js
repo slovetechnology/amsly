@@ -56,6 +56,7 @@ const subs_urls = {
     single_api_plans: "subscription/single-api-plans",
 
     add_level: "subscription/add-level-plan",
+    update_level: "subscription/update-level-plan",
     single_level: "subscription/single-level",
     all_levels: "subscription/all-levels",
     upgrade_user_level: "subscription/upgrade-account-level",
@@ -75,6 +76,7 @@ const subs_urls = {
 const bill_urls = {
     data: "bills/data",
     airtime: "bills/airtime",
+    verify_iuc: "bills/verify-iuc",
 }
 
 const transaction_urls = {
