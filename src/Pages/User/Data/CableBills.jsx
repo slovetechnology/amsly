@@ -181,7 +181,7 @@ const CableBills = () => {
                 name="pin"
                 value={forms.pin}
                 onChange={handleForms}
-                type="text"
+                type="password"
                 className="input"
               />
             </div>

@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import EditSetupUser from "./EditSetupUser";
 import EditSingleLevel from "./EditSingleLevel";
 import EditLevelPercent from "./EditLevelPercent";
+import DeleteLevelModal from "../DeleteLevelModal";
 
 const EditForm = ({ main }) => {
   const LevelPack = "levelpack";
@@ -18,6 +19,8 @@ const EditForm = ({ main }) => {
   const { subs } = useSelector((state) => state.data);
   const [active, setActive] = useState({});
   const [packs, setPacks] = useState([]);
+  const [id, setId] = useState('')
+  const [view, setView] = useState(false)
   const cs =
     "rounded-full py-3 text-xs lg:text-sm px-3 shadow-xl transition-all";
   const locals = JSON.parse(localStorage.getItem(LevelPack));
@@ -296,11 +299,19 @@ const EditForm = ({ main }) => {
       return ErrorAlert(res.msg);
     }
   };
+  const handleOpening = () => {
+    setId(main.id)
+    setView(!view)
+  }
   return (
     <AdminLayout>
       {loading && <Loading />}
+        {view && <DeleteLevelModal id={id} closeView={() => setView(!view)} />}
       <div className="w-11/12 mx-auto">
         <div className="bg-white rounded-lg py-4 px-3">
+          <div className="w-fit ml-auto">
+            <button onClick={handleOpening} className="bg-red-600 text-white rounded-lg text-sm shadow-xl capitalize py-3 px-6">delete</button>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 mb-5">
             <div className="">
               <div className="text-sm">Title of Level</div>

@@ -57,6 +57,7 @@ const subs_urls = {
 
     add_level: "subscription/add-level-plan",
     update_level: "subscription/update-level-plan",
+    delete_level: "subscription/delete-level-plan",
     single_level: "subscription/single-level",
     all_levels: "subscription/all-levels",
     upgrade_user_level: "subscription/upgrade-account-level",
