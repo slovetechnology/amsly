@@ -26,9 +26,9 @@ const EditForm = ({ main }) => {
   const locals = JSON.parse(localStorage.getItem(LevelPack));
   const localper = JSON.parse(localStorage.getItem(PackPercent));
   const localuser = JSON.parse(localStorage.getItem(PackUser));
-  const [localState, setLocalState] = useState(locals);
-  const [perState, setPerState] = useState(localper);
-  const [userState, setUserState] = useState(localuser);
+  const [localState, setLocalState] = useState(locals || []);
+  const [perState, setPerState] = useState(localper || []);
+  const [userState, setUserState] = useState(localuser) || [];
   const [percentState, setPercentState] = useState(false);
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState(main.title || "");

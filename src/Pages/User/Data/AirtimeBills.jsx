@@ -77,7 +77,7 @@ const AirtimeBills = () => {
   const handleCalculation = (val) => {
     if (mainsub) {
       const sum = parseFloat(val * mainsub.percent / 100);
-      setMainAmount(sum + parseFloat(val));
+      setMainAmount(sum);
     }
   };
   return (
