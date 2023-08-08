@@ -127,7 +127,7 @@ const CableBills = () => {
                 <option value="">--Select--</option>
                 {subs?.map(
                   (item, i) =>
-                    item.category === "cable" && (
+                    item.category === "cable" && item.locked === 'no' && (
                       <option key={i} value={item.id}>
                         {item.network}
                       </option>
@@ -144,7 +144,7 @@ const CableBills = () => {
               >
                 <option value="">--Select--</option>
                 {datas.map((item, i) => (
-                  <option key={i} value={item.id}>
+                  item.lock === 'no' && <option key={i} value={item.id}>
                     {item.title} = &#8358;{item.price}
                   </option>
                 ))}

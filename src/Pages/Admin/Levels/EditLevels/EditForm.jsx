@@ -12,10 +12,10 @@ import EditLevelPercent from "./EditLevelPercent";
 import DeleteLevelModal from "../DeleteLevelModal";
 
 const EditForm = ({ main }) => {
-  const LevelPack = "levelpack";
-  const PackPercent = "packper";
-  const PackUser = "userpack";
-  const LevelType = "leveltype";
+  const LevelPack = "levelpack2";
+  const PackPercent = "packper2";
+  const PackUser = "userpack2";
+  const LevelType = "leveltype2";
   const { subs } = useSelector((state) => state.data);
   const [active, setActive] = useState({});
   const [packs, setPacks] = useState([]);

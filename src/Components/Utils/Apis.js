@@ -1,8 +1,8 @@
 import axios from "axios"
 import Cookies from "js-cookie"
 
-const server = `https://amsly.jogglecryp.com/api`
-// const server = `http://localhost:5002/api`
+// const server = `https://amsly.jogglecryp.com/api`
+const server = `http://localhost:5002/api`
 
 
 const user_urls = {
@@ -78,7 +78,9 @@ const bill_urls = {
     data: "bills/data",
     airtime: "bills/airtime",
     cable: "bills/cable",
+    electricity: "bills/electricity",
     verify_iuc: "bills/verify-iuc",
+    verify_meter: "bills/verify-meter",
 }
 
 const transaction_urls = {
@@ -126,6 +128,8 @@ export const DeleteUrl = async (endpoint, data) => {
     const res = await axios.delete(`${server}/${endpoint}`, data, options)
     return res.data
 }
+
+// decoder (DSTV) = 8058033490
 
 // {
 //     "status": "success",

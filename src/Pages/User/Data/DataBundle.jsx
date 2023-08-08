@@ -40,6 +40,7 @@ const DataBundle = () => {
     }
     const handleSubs = e => {
         const id = e.target.value
+        setpackdata('')
         if (id) {
             setSinglesub(id)
             setForms({
@@ -52,6 +53,8 @@ const DataBundle = () => {
     }
     const handleSubsNetwork = e => {
         const tag = e.target.value
+        setDatas([])
+        setpackdata('')
         if (tag) {
             setForms({
                 ...forms,
@@ -128,7 +131,7 @@ const DataBundle = () => {
                         </div>
                         <div className="mb-4">
                             <div className="capitalize">Choose Package </div>
-                            <select name="package" onChange={handleFormsPackage} className="input uppercase">
+                            <select name="package" value={packdata} onChange={handleFormsPackage} className="input uppercase">
                                 <option value="">--Select--</option>
                                 {datas.map((item, i) => (
                                    item.lock === 'no' &&  <option key={i} value={item.id}>{item.title} = &#8358;{item.price}</option>

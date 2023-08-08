@@ -93,6 +93,7 @@ const AllTransactions = () => {
                                         <div className={`text-sm ${item.amount.toString().startsWith('-') ? 'text-red-600' : 'text-teal-500'}`}> <span className="font-semibold">Amount: </span> &#8358;{item.amount}</div>
 
                                         <div className="text-sm text-slate-600"> <span className="font-semibold">Email: </span> {item.trans.email}</div>
+                                        <div className="text-sm text-slate-600"> <span className="font-semibold">Phone Number: </span> {item.trans.phone}</div>
                                         <div className="text-sm text-slate-600"> <span className="font-semibold">User: </span> {item.trans.firstname} {item.trans.lastname}</div>
                                         <div className="text-sm text-slate-600"> <span className="font-semibold">Prev Balance: </span> &#8358;{item.prevbal?.toLocaleString()}</div>
                                         <div className="text-sm text-slate-600"> <span className="font-semibold">Current Balance: </span> &#8358;{item.currbal?.toLocaleString()}</div>

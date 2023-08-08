@@ -59,22 +59,22 @@ export const Services = [
 export const Autos = [
     {
         category: 'data',
-        title: `set data automation`,
+        title: `data`,
         url: `/auth/admin/automation/data`
     },
     {
         category: 'airtime',
-        title: `set airtime automation`,
+        title: `airtime`,
         url: `/auth/admin/automation/airtime`
     },
     {
         category: 'cable',
-        title: `set cable tv automation`,
+        title: `cable tv`,
         url: `/auth/admin/automation/cable`
     },
     // {
     //     category: 'data pin',
-    //     title: `set airtime share automation`,
+    //     title: `airtime share`,
     // url: `/auth/admin/automation/data`
     // },
     // {
@@ -84,12 +84,12 @@ export const Autos = [
     // },
     {
         category: 'exam',
-        title: `set exam automation`,
+        title: `exam`,
         url: `/auth/admin/automation/exam`
     },
     {
         category: 'electricity',
-        title: `set electricity bill automation`,
+        title: `electricity bill`,
         url: `/auth/admin/automation/electricity`
     },
 ]
