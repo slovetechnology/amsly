@@ -10,12 +10,14 @@ import PerformTractionNotice from "./Compos/PerformTractionNotice";
 import ConfirmAirtimePurchase from "./Compos/ConfirmAirtimePurchase";
 import { useDispatch } from "react-redux";
 import { dispatchUser } from "/src/app/reducer";
+import ErroMessage from "./Compos/ErroMessage";
 
 const CableBills = () => {
   const [subs, setSubs] = useState([]);
   const [subdata, setSubdata] = useState([]);
   const [loading, setLoading] = useState(false);
   const [singlesub, setSinglesub] = useState("");
+  const [err, setErr] = useState({tag: false, text: ''})
   const [singlepack, setSinglepack] = useState("");
   const dispatch = useDispatch()
   const [datas, setDatas] = useState([]);
@@ -95,10 +97,12 @@ const CableBills = () => {
         setView(!view);
         setOpen(!open);
       } else {
-        ErrorAlert(res.msg);
+        setErr({ tag: true, text: `${res.msg}` });
+        setView(!view)
       }
     } catch (error) {
-      return ErrorAlert(`Error ${error}`);
+      setView(!view)
+      return setErr({ tag: true, text: ` ${error}` });
     }
   };
   return (
@@ -113,6 +117,7 @@ const CableBills = () => {
       )}
       <div className="mt-10">
         <div className="bg-white w-full max-w-3xl p-5 shadow-xl mx-auto rounded-lg">
+          {err.tag && <ErroMessage text={err.text} />}
           <form>
             <div className="mb-4">
               <div className="w-fit ml-auto bg-red-500 rounded-lg p-1.5 text-white text-xs">

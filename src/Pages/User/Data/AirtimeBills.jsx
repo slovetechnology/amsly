@@ -9,12 +9,14 @@ import { ErrorAlert } from "/src/Components/Utils/Utility";
 import { Api, PostUrl } from "/src/Components/Utils/Apis";
 import { dispatchUser } from "/src/app/reducer";
 import PerformTractionNotice from "./Compos/PerformTractionNotice";
+import ErroMessage from "./Compos/ErroMessage";
 
 const AirtimeBills = () => {
   const { subs } = useSelector((state) => state.data);
   const [mainsub, setMainsub] = useState({});
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [err, setErr] = useState({tag: false, text: ''})
   const [loading, setLoading] = useState(false);
   const [view, setView] = useState(false);
   const [mainAmount, setMainAmount] = useState(0);
@@ -67,10 +69,12 @@ const AirtimeBills = () => {
         dispatch(dispatchUser(res.user));
         setView(!view);
       } else {
-        ErrorAlert(res.msg);
+        setErr({ tag: true, text: `${res.msg}` });
+        setView(!view)
       }
     } catch (error) {
-      return ErrorAlert(error);
+      setView(!view)
+      return setErr({ tag: true, text: ` ${error}` });
     }
   };
 
@@ -92,6 +96,7 @@ const AirtimeBills = () => {
       )}
       <div className="mt-10">
         <div className="bg-white w-full max-w-3xl p-5 shadow-xl mx-auto rounded-lg">
+          {err.tag && <ErroMessage text={err.text} />}
           <form onSubmit={ConfirmSubmission}>
             <div className="mb-4">
               <div className="capitalize">Choose Network</div>

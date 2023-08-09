@@ -1,8 +1,8 @@
 import axios from "axios"
 import Cookies from "js-cookie"
 
-const server = `https://amsly.jogglecryp.com/api`
-// const server = `http://localhost:5002/api`
+// const server = `https://amsly.jogglecryp.com/api`
+const server = `http://localhost:5002/api`
 
 
 const user_urls = {
@@ -79,6 +79,7 @@ const bill_urls = {
     airtime: "bills/airtime",
     cable: "bills/cable",
     electricity: "bills/electricity",
+    exam: "bills/exam",
     verify_iuc: "bills/verify-iuc",
     verify_meter: "bills/verify-meter",
 }
