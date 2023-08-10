@@ -1,7 +1,9 @@
-import React, { Suspense, useCallback, useEffect, useState } from "react";
+import React, { Suspense, useCallback, useLayoutEffect, useState } from "react";
 import { Api, GetUrl } from "/src/Components/Utils/Apis";
 import { useParams } from "react-router-dom";
 const EditForm = React.lazy(() => import("./EditForm"));
+import spins from '/src/Assets/images/spins.gif'
+import AdminLayout from "/src/Components/Admin/AdminLayout";
 
 const EditLevel = () => {
   const { id } = useParams();
@@ -9,26 +11,31 @@ const EditLevel = () => {
   const [loading, setLoading] = useState(true);
 
   const FetchSingleLevel = useCallback(async () => {
+    setLoading(true)
     const res = await GetUrl(`${Api.subs.single_level}/${id}`);
     if (res.status === 200) {
       setMain(res.msg);
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
     }
   }, [id]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     FetchSingleLevel();
   }, [FetchSingleLevel]);
   return (
-    <div>
-      {!loading && (
+    <AdminLayout>
+      {loading ? <>
+      <div className="w-fit mx-auto"> <img src={spins} alt="" className="w-20" /> </div>
+      </> : (
         <>
           <Suspense fallback='Loading...'>
-            <EditForm main={main} />
+            <EditForm main={main} HandleRefresh={() => FetchSingleLevel()} />
           </Suspense>
         </>
       )}
-    </div>
+    </AdminLayout>
   );
 };
 

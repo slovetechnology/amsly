@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
-import AdminLayout from "/src/Components/Admin/AdminLayout";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useLayoutEffect, useState } from "react";
 import { ErrorAlert } from "/src/Components/Utils/Utility";
 import Loading from "/src/Components/General/Loading";
 import { Api, PostUrl, GetUrl } from "/src/Components/Utils/Apis";
@@ -11,7 +10,7 @@ import EditSingleLevel from "./EditSingleLevel";
 import EditLevelPercent from "./EditLevelPercent";
 import DeleteLevelModal from "../DeleteLevelModal";
 
-const EditForm = ({ main }) => {
+const EditForm = ({ main, HandleRefresh }) => {
   const LevelPack = "levelpack2";
   const PackPercent = "packper2";
   const PackUser = "userpack2";
@@ -21,8 +20,7 @@ const EditForm = ({ main }) => {
   const [packs, setPacks] = useState([]);
   const [id, setId] = useState('')
   const [view, setView] = useState(false)
-  const cs =
-    "rounded-full py-3 text-xs lg:text-sm px-3 shadow-xl transition-all";
+  const cs = "rounded-full py-3 text-xs lg:text-sm px-3 shadow-xl transition-all";
   const locals = JSON.parse(localStorage.getItem(LevelPack));
   const localper = JSON.parse(localStorage.getItem(PackPercent));
   const localuser = JSON.parse(localStorage.getItem(PackUser));
@@ -45,7 +43,7 @@ const EditForm = ({ main }) => {
     if (res.status === 200) return setUsers(res.msg);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     AdmingetUsers();
   }, [AdmingetUsers]);
 
@@ -93,7 +91,7 @@ const EditForm = ({ main }) => {
     }
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     FetchOne();
   }, [FetchOne]);
 
@@ -304,12 +302,13 @@ const EditForm = ({ main }) => {
     setView(!view)
   }
   return (
-    <AdminLayout>
+    <>
       {loading && <Loading />}
         {view && <DeleteLevelModal id={id} closeView={() => setView(!view)} />}
       <div className="w-11/12 mx-auto">
         <div className="bg-white rounded-lg py-4 px-3">
-          <div className="w-fit ml-auto">
+          <div className="flex items-center justify-evenly">
+            <button onClick={HandleRefresh} className="bg-blue-600 text-white rounded-lg text-sm shadow-xl capitalize py-3 px-6">refresh</button>
             <button onClick={handleOpening} className="bg-red-600 text-white rounded-lg text-sm shadow-xl capitalize py-3 px-6">delete</button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 mb-5">
@@ -419,7 +418,7 @@ const EditForm = ({ main }) => {
           </button>
         </div>
       </div>
-    </AdminLayout>
+    </>
   );
 };
 

@@ -231,23 +231,22 @@ const ManageLevels = () => {
       subs: subsData,
       users: userState,
       title,
-    };
-    console.log(data);
-    // setLoading(true)
-    // const res = await PostUrl(Api.subs.add_level, data)
-    // setLoading(false)
+    }
+    setLoading(true)
+    const res = await PostUrl(Api.subs.add_level, data)
+    setLoading(false)
 
-    // if (res.status === 200) {
-    //     ToastAlert(res.msg)
-    //     setTitle('')
-    //     localStorage.setItem(LevelPack, JSON.stringify([]))
-    //     localStorage.setItem(PackUser, JSON.stringify([]))
-    //     setLocalState([])
-    //     setPerState([])
-    //     setUserState([])
-    // } else {
-    //     return ErrorAlert(res.msg)
-    // }
+    if (res.status === 200) {
+        ToastAlert(res.msg)
+        setTitle('')
+        localStorage.setItem(LevelPack, JSON.stringify([]))
+        localStorage.setItem(PackUser, JSON.stringify([]))
+        setLocalState([])
+        setPerState([])
+        setUserState([])
+    } else {
+        return ErrorAlert(res.msg)
+    }
   };
   return (
     <AdminLayout>
