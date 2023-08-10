@@ -1,8 +1,8 @@
 import axios from "axios"
 import Cookies from "js-cookie"
 
-const server = `https://amsly.jogglecryp.com/api`
-// const server = `http://localhost:5002/api`
+// const server = `https://amsly.jogglecryp.com/api`
+const server = `http://localhost:5002/api`
 
 
 const user_urls = {
@@ -49,6 +49,7 @@ const subs_urls = {
     update_package_automation: "subscription/update-package-autmation",
     user_get_automation: "subscription/user-get-automation",
     suspend_automation: "subscription/suspend-automation-service-for-package",
+    other_automation: "subscription/other-automation-service",
 
     add_api_plans: "subscription/add-api-plans",
     update_api_plans: "subscription/update-api-plans",

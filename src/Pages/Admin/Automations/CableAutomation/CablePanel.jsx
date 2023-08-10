@@ -4,9 +4,10 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Api, GetUrl } from '/src/Components/Utils/Apis'
 
 const CablePanel = ({ id, tag, items, singleAutService }) => {
-    const [data, setData] = useState({})
+    const [data, setData] = useState('')
     const fetchService = useCallback(async () => {
-        const res = await GetUrl(`${Api.subs.get_single_automation_service}/${id}`)
+        const res = await GetUrl(`${Api.subs.other_automation}/${items.id}/${tag}/cable`)
+        console.log(res.msg, 'airtime autos')
         if (res.status === 200) {
             return setData(res.msg)
         }
@@ -21,7 +22,7 @@ const CablePanel = ({ id, tag, items, singleAutService }) => {
 
     return (
         <div onClick={() => singleAutService(id, items)} className="text-xs border capitalize rounded-lg flex items-center justify-center cursor-pointer py-2">
-            {data.title || `--${tag} Service--`}
+            {data || `--${tag} Service--`}
         </div>
     )
 }

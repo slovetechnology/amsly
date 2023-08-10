@@ -153,7 +153,7 @@ const MeterBills = () => {
                 <option value="">--Select--</option>
                 {datas.map((item, i) => (
                   item.lock === 'no' && <option key={i} value={item.id}>
-                    {item.title} = &#8358;{item.price}
+                    {item.title}
                   </option>
                 ))}
               </select>

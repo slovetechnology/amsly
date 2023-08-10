@@ -21,7 +21,6 @@ const AirtimePackage = () => {
 
     const FetchAutomation = async () => {
         const response = await GetUrl(Api.subs.all_airtime_automations)
-        console.log(response, 'respnse')
         if (response.status === 200) return response.msg
     }
     const { data, refetch } = useQuery('admin-automation-services-package', FetchAutomation)
