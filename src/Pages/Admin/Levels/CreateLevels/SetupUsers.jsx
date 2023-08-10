@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { BsPerson } from 'react-icons/bs'
 
 const SetupUsers = ({user, sendUser, localState}) => {
-    const active = localState.find((data) => data.id === user.id)
+    const active = localState?.find((data) => data.id === user.id)
   return (
     <div>
         <div className={`border ${active ? 'border-blue-700' : 'border-slate-300'} transition-all rounded-lg p-3`}>
