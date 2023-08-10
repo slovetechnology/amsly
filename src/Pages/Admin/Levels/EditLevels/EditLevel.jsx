@@ -2,7 +2,7 @@ import React, { Suspense, useCallback, useLayoutEffect, useState } from "react";
 import { Api, GetUrl } from "/src/Components/Utils/Apis";
 import { useParams } from "react-router-dom";
 const EditForm = React.lazy(() => import("./EditForm"));
-import spins from '/src/Assets/images/spins.gif'
+import spins from '/src/Assets/Images/spins.gif'
 import AdminLayout from "/src/Components/Admin/AdminLayout";
 
 const EditLevel = () => {
