@@ -41,6 +41,7 @@ const AirtimeBills = () => {
     setForms({
       ...forms,
       sub: id,
+      amount: '',
       network: findData?.sub[0]?.id,
     });
     setMainAmount(0)
@@ -59,8 +60,9 @@ const AirtimeBills = () => {
     try {
       const formdata = {
         ...forms,
-        amount: mainAmount
+        dataAmount: mainAmount
       };
+      
       setLoading(true);
       const res = await PostUrl(Api.bills.airtime, formdata);
       setLoading(false);
