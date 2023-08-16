@@ -16,12 +16,12 @@ const AdminLayout = (props) => {
         <div>
             <div className={`bg-black/50 fixed top-0 left-0 w-full h-screen z-[2] ${closetog ? '' : 'hidden'}`}>
                 <div ref={togref} className="w-[18rem] bg-white h-screen overflow-y-auto scrolls pb-20">
-                    <AdminSideBar />
+                    <AdminSideBar closeSidebar={() => setClosetog(!closetog)} />
                 </div>
             </div>
             <div className="h-screen w-full flex items-center">
                 <div className="w-[20vw] hidden lg:block h-screen pb-20 bg-white overflow-y-auto scrolls">
-                    <AdminSideBar />
+                    <AdminSideBar closeSidebar={() => setClosetog(!closetog)} />
                 </div>
                 <div className="w-full ml-auto lg:w-[80vw] h-screen">
                     <div className="bg-white py-3 px-5 h-[10vh]">

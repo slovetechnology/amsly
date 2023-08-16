@@ -49,7 +49,7 @@ const ManageService = () => {
         setPacks(payload.sub)
         setTagsubs(payload.sub)
         // eslint-disable-next-line
-    }, [])
+    }, [id])
     useEffect(() => {
         fetchSubData()
     }, [fetchSubData])

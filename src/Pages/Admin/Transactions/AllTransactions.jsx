@@ -4,10 +4,14 @@ import { Api, GetUrl } from '/src/Components/Utils/Apis'
 import { SlBell, SlGlobe } from 'react-icons/sl'
 import spins from '/src/Assets/Images/spins.gif'
 import moment from 'moment'
+import { Autos } from '/src/Components/Utils/Utility'
+import { useSelector } from 'react-redux'
 
 const AllTransactions = () => {
     const [trans, setTrans] = useState([])
     const [loading, setLoading] = useState(true)
+    const { subs } = useSelector(state => state.data)
+
     const fetchTransactions = useCallback(async () => {
         const res = await GetUrl(Api.transactions.admin)
         setLoading(false)
@@ -23,54 +27,29 @@ const AllTransactions = () => {
                 <div className="bg-white w-11/12 mx-auto p-4 rounded-lg">
                     <div className="grid grid-cols-3 gap-6">
                         <div className="">
-                            <div className="capitalize">Services</div>
-                            <select className="input">
+                            <div className="capitalize">categories</div>
+                            <select className="input capitalize">
                                 <option value="">--Select--</option>
-                                <option value="">ALL</option>
-                                <option value="">DATA PURCHASE</option>
-                                <option value="">AIRTIME PURCHASE</option>
-                                <option value="">CABLE PRUCHASE</option>
-                                <option value="">ELECTRICITY PAYMENT</option>
-                                <option value="">EXAM PURCHASE</option>
-                                <option value="">DATA PIN</option>
-                                <option value="">AIRTIME PIN</option>
+                                {Autos.map((item, i) => (
+                                    <option key={i} value={item.category}>{item.category}</option>
+                                ))}
                             </select>
                         </div>
                         <div className="">
                             <div className="capitalize">status</div>
                             <select className="input">
                                 <option value="">--Select--</option>
-                                <option value="">ALL</option>
-                                <option value="">SUCCESSFUL</option>
-                                <option value="">UNSUCCESSFUL</option>
-                                <option value="">PENDING</option>
-                                <option value="">REFUND</option>
+                                <option value="success">SUCCESS</option>
+                                <option value="failed">FAILED</option>
                             </select>
                         </div>
                         <div className="">
-                            <div className="capitalize">network</div>
+                            <div className="capitalize">service</div>
                             <select className="input">
                                 <option value="">--Select--</option>
-                                <option value="">ALL</option>
-                                <option value="">MTN CG DATA</option>
-                                <option value="">MTN SME DATA</option>
-                                <option value="">MTN GIFTING</option>
-                                <option value="">GLO GIFTING</option>
-                                <option value="">GLO CG</option>
-                                <option value="">AIRTEL GIFTING</option>
-                                <option value="">AIRTEL CG</option>
-                                <option value="">9MOBILE GIFTING</option>
-                                <option value="">9MOBILE SME</option>
-                                <option value="">9MOBILE CG</option>
-                                <option value="">DSTV</option>
-                                <option value="">GOTV</option>
-                                <option value="">STAR TIMES</option>
-                                <option value="">WAEC</option>
-                                <option value="">NECO</option>
-                                <option value="">NABTEP</option>
-                                <option value="">ELECTRICITY BILL</option>
-                                <option value="">DATA PIN</option>
-                                <option value="">AIRTIME PIN </option>
+                                {subs.map((item, i) => (
+                                    <option key={i} value={item.id}>{item.network}</option>
+                                ))}
                             </select>
                         </div>
                     </div>

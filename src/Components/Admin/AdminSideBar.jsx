@@ -29,7 +29,7 @@ import { SlArrowDown, SlPower } from "react-icons/sl";
 import { useSelector } from "react-redux";
 import { Autos, ServicesLinks } from "../Utils/Utility";
 
-const AdminSideBar = () => {
+const AdminSideBar = ({closeSidebar}) => {
   const location = useLocation();
   const { user, subs, levels } = useSelector((state) => state.data);
   const [currentdrop, setCurrentDrop] = useState("");
@@ -191,7 +191,7 @@ const AdminSideBar = () => {
                             <div
                               onClick={() => {
                                 navigate(`/auth/admin/service/view/${item.id}`);
-                                navigate(0);
+                                closeSidebar()
                               }}
                               key={i}
                               className="sidelink1 cursor-pointer"
@@ -228,13 +228,16 @@ const AdminSideBar = () => {
                 All Levels
               </Link>
               {levels.map((item, i) => (
-                <a
+                <Link
                   key={i}
-                  href={`/auth/admin/levels/edit/${item.id}`}
+                  to={`/auth/admin/levels/edit/${item.id}`}
                   className="sidelink1"
+                  onClick={() => {
+                    closeSidebar()
+                  }}
                 >
                   {item.title}
-                </a>
+                </Link>
               ))}
             </div>
           )}
