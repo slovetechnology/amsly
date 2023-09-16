@@ -6,22 +6,36 @@ import spins from '/src/Assets/Images/spins.gif'
 import moment from 'moment'
 import { Autos } from '/src/Components/Utils/Utility'
 import { useSelector } from 'react-redux'
+import { ErrorAlert } from '/src/Components/Utils/Utility'
 
 const AllTransactions = () => {
     const [trans, setTrans] = useState([])
     const [trans2, setTrans2] = useState([])
     const [loading, setLoading] = useState(true)
     const { subs } = useSelector(state => state.data)
-    const [stats, setStats] = useState('')
-    const [total, setTotal] = useState(0)
+    const [limit, setLimit] = useState(10)
+    const [, setStats] = useState('')
+    const [, setServ] = useState('')
+    const [total, setTotal] = useState({
+        all: 0,
+        data: 0
+    })
 
     const fetchTransactions = useCallback(async () => {
-        const res = await GetUrl(Api.transactions.admin)
-        setLoading(false)
-        setTrans2(res.msg)
-        setTotal(res.total)
-        return setTrans(res.msg)
-    }, [])
+        try {
+            const res = await GetUrl(`${Api.transactions.admin}?limit=${limit}`)
+            setTrans2(res.msg)
+            setTotal({
+                all: res.total,
+                data: res.msg.length
+            })
+            return setTrans(res.msg)
+        } catch (error) {
+            ErrorAlert(res.msg)
+        }finally {
+            setLoading(false)
+        }
+    }, [limit])
 
     useEffect(() => {
         fetchTransactions()
@@ -36,6 +50,20 @@ const AllTransactions = () => {
             setTrans(findData)
         }
     }
+
+    const handleService = val => {
+        setServ(val)
+        if(val === 'all') {
+            setTrans(trans2)
+        }else {
+            const findData = trans2.filter(ele => ele.title.split(' ')[0].toLowerCase().includes(val))
+            setTrans(findData)
+        }
+    }
+    const handlePageData = val => {
+        setLimit(val)
+        fetchTransactions()
+    }
     return (
         <AdminLayout pagetitle="All Transactions">
             <div className="">
@@ -43,7 +71,7 @@ const AllTransactions = () => {
                     <div className="grid grid-cols-3 gap-6">
                         <div className="">
                             <div className="capitalize">services</div>
-                            <select className="input capitalize">
+                            <select onChange={e => handleService(e.target.value)} className="input capitalize">
                                 <option value="">--Select--</option>
                                 <option value="all">All</option>
                                 {Autos.map((item, i) => (
@@ -61,24 +89,26 @@ const AllTransactions = () => {
                             </select>
                         </div>
                         <div className="">
-                            <div className="capitalize">network</div>
-                            <select className="input">
-                                <option value="">--Select--</option>
-                                {subs.map((item, i) => (
-                                    <option key={i} value={item.id}>{item.network}</option>
-                                ))}
+                            <div className="capitalize">transactions per page</div>
+                            <select   onChange={e => handlePageData(e.target.value)} className="input">
+                                <option value="10">10 per page</option>
+                                <option value="50">50 per page</option>
+                                <option value="100">100 per page</option>
+                                <option value="150">150 per page</option>
+                                <option value="200">200 per page</option>
+                                <option value="300">300 per page</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div className="mt-6">
                     <div className="w-11/12 mx-auto">
-                        <div className="text-xl capitalize mb-3">showing <span className="font-bold">{trans.length}</span> out of <span className="font-bold">{total}</span> </div>
+                        <div className="text-xl capitalize mb-3">showing <span className="font-bold">{total.data}</span> out of <span className="font-bold">{total.all}</span> </div>
                         {loading && <div className="w-fit mx-auto">
                             <img src={spins} alt="" className="w-24" />
                         </div>}
                         <div className="">
-                            {trans.map((item, i) => (
+                            {!loading && trans?.length > 0 && trans?.map((item, i) => (
                                 <div className={`flex gap-2 bg-white mb-2 relative`} key={i}>
                                     <div className={`flex items-center justify-center p-2 text-white ${item.status === 'success' ? 'bg-teal-400' : 'bg-red-600'} text-2xl`}><SlBell /></div>
                                     <div className="py-3 pr-3">
