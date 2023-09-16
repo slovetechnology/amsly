@@ -1,8 +1,8 @@
 import axios from "axios"
 import Cookies from "js-cookie"
 
-// const server = `https://amsly.jogglecryp.com/api`
-const server = `http://localhost:5000/api`
+const server = `https://amsly.jogglecryp.com/api`
+// const server = `http://localhost:5000/api`
 
 
 const user_urls = {
