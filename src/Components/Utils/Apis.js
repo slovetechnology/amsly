@@ -3,6 +3,7 @@ import Cookies from "js-cookie"
 
 const server = `https://amsly.jogglecryp.com/api`
 // const server = `http://localhost:5000/api`
+// ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINPorEFFzdsoEXvsHvPKNEBn59SSz4wK7QaGXw+qgeaV slovetech619@gmail.com
 
 
 const user_urls = {
