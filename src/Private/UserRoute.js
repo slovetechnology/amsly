@@ -19,6 +19,7 @@ const UserRoute = ({ children }) => {
                 navigate('/login')
             }
         } catch (error) {
+            navigate('/login')
             console.log('error')
         }
     }, [])

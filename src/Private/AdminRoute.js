@@ -19,6 +19,7 @@ const AdminRoute = ({ children }) => {
                 navigate('/login')
             }
         } catch (error) {
+            navigate('/login')
             console.log('error')
         }
     }, [dispatch, navigate])

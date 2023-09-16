@@ -9,27 +9,43 @@ import { useSelector } from 'react-redux'
 
 const AllTransactions = () => {
     const [trans, setTrans] = useState([])
+    const [trans2, setTrans2] = useState([])
     const [loading, setLoading] = useState(true)
     const { subs } = useSelector(state => state.data)
+    const [stats, setStats] = useState('')
+    const [total, setTotal] = useState(0)
 
     const fetchTransactions = useCallback(async () => {
         const res = await GetUrl(Api.transactions.admin)
         setLoading(false)
+        setTrans2(res.msg)
+        setTotal(res.total)
         return setTrans(res.msg)
     }, [])
 
     useEffect(() => {
         fetchTransactions()
     }, [fetchTransactions])
+
+    const handleStatus = (tag) => {
+        setStats(tag)
+        if(tag === 'all') {
+            setTrans(trans2)
+        }else {
+            const findData = trans2.filter(ele => ele.status === tag)
+            setTrans(findData)
+        }
+    }
     return (
         <AdminLayout pagetitle="All Transactions">
             <div className="">
                 <div className="bg-white w-11/12 mx-auto p-4 rounded-lg">
                     <div className="grid grid-cols-3 gap-6">
                         <div className="">
-                            <div className="capitalize">categories</div>
+                            <div className="capitalize">services</div>
                             <select className="input capitalize">
                                 <option value="">--Select--</option>
+                                <option value="all">All</option>
                                 {Autos.map((item, i) => (
                                     <option key={i} value={item.category}>{item.category}</option>
                                 ))}
@@ -37,14 +53,15 @@ const AllTransactions = () => {
                         </div>
                         <div className="">
                             <div className="capitalize">status</div>
-                            <select className="input">
+                            <select onChange={(e) => handleStatus(e.target.value)} className="input">
                                 <option value="">--Select--</option>
+                                <option value="all">All</option>
                                 <option value="success">SUCCESS</option>
                                 <option value="failed">FAILED</option>
                             </select>
                         </div>
                         <div className="">
-                            <div className="capitalize">service</div>
+                            <div className="capitalize">network</div>
                             <select className="input">
                                 <option value="">--Select--</option>
                                 {subs.map((item, i) => (
@@ -56,6 +73,7 @@ const AllTransactions = () => {
                 </div>
                 <div className="mt-6">
                     <div className="w-11/12 mx-auto">
+                        <div className="text-xl capitalize mb-3">showing <span className="font-bold">{trans.length}</span> out of <span className="font-bold">{total}</span> </div>
                         {loading && <div className="w-fit mx-auto">
                             <img src={spins} alt="" className="w-24" />
                         </div>}
