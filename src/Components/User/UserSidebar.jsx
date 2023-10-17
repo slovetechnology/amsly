@@ -60,6 +60,21 @@ const UserSidebar = () => {
                         <Link to='' className='sidelink1'>Cashback earned </Link>
                     </div>
                 </div>
+                <Link to='/dashboard' className={`sidelink ${location.pathname === '/' ? 'bg-indigo-600 text-white' : ''}`}> <FcHome className='text-2xl' /> Get your own Affiliate <br /> VTU website</Link>
+
+                {/* =======================  bucket portal */}
+                <div className={`${currentdrop === 'bucks' ? 'h-[18rem]' : 'h-[3rem]'}  transition-all overflow-hidden`}>
+                    <div onClick={() => handleCurentDrop('bucks')} className={`sidelink cursor-pointer ${location.pathname === '/' ? 'bg-indigo-600 text-white' : ''}`}> <FcStatistics className='text-2xl' /> Bucket Portal <div className="w-fit ml-auto"><SlArrowDown /></div></div>
+                    <div className='ml-8 gap-3 flex flex-col capitalize text-zinc-600'>
+                        <Link to='/bucket_portal' className='sidelink1'>mtn sme bucket</Link>
+                        <Link to='/bucket_portal' className='sidelink1'>mtn cg bucket</Link>
+                        <Link to='/bucket_portal' className='sidelink1'>airtel cg bucket</Link>
+                        <Link to='/bucket_portal' className='sidelink1'>glo cg bucket</Link>
+                        <Link to='/bucket_portal' className='sidelink1'>mtn gifting bucket</Link>
+                        <Link to='/bucket_portal' className='sidelink1'>glo gifting bucket</Link>
+                    </div>
+                </div>
+                {/* ======================= quick links */}
                 <div className="text-slate-500 my-4 ml-3">Quick Links....</div>
                 <Link to='/data_bundle' className={`sidelink ${location.pathname === '/data_bundle' ? 'bg-indigo-600 text-white' : ''}`}> <FcNegativeDynamic className='text-2xl' /> Buy Data Bundle</Link>
                 <Link to='/airtime_bills' className={`sidelink ${location.pathname === '/airtime_bills' ? 'bg-indigo-600 text-white' : ''}`}><FcMindMap className='text-2xl' /> Buy Airtime VTU</Link>

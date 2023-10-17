@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import UserLayout from '/src/Components/User/UserLayout'
 import man from '/src/Assets/Images/man.png'
 import { FcFeedback, FcFilmReel, FcIdea, FcMultipleDevices, FcNfcSign, FcPhone, FcPuzzle } from 'react-icons/fc'
@@ -7,9 +7,12 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Api, GetUrl } from '/src/Components/Utils/Apis'
 import SingleTransactionComponent from '/src/Components/General/SingleTransactionComponent'
+import { refLink } from '/src/Components/Utils/Utility'
+import { ToastAlert } from '/src/Components/Utils/Utility'
 
 const Dashboard = () => {
     const { user } = useSelector(state => state.data)
+    const copyref = useRef()
     const [trans, setTrans] = useState([])
     const [currentPage,] = useState(1)
     const [transPerPage,] = useState(3)
@@ -26,6 +29,19 @@ const Dashboard = () => {
     const indexOfLastTrans = currentPage * transPerPage
     const indexOfFirstTrans = indexOfLastTrans - transPerPage
     const currentTrans = trans.slice(indexOfFirstTrans, indexOfLastTrans)
+
+    const copyFunc = () => {
+
+        // Select the text field
+        copyref.current.select();
+        copyref.current.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(copyref.current.value);
+
+        // Alert the copied text
+        ToastAlert('copied')
+    }
     return (
         <UserLayout pagetitle='dashboard'>
             <div className="">
@@ -63,21 +79,21 @@ const Dashboard = () => {
                         <FcNfcSign className='text-3xl lg:text-4xl' />
                         <div className="capitalize">buy data</div>
                     </Link>
-                    <Link to='/cable_bills' className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
-                        <FcMultipleDevices className='text-3xl lg:text-4xl' />
-                        <div className="capitalize">cable tv</div>
-                    </Link>
-                    <div className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
-                        <FcPhone className='text-3xl lg:text-4xl' />
-                        <div className="capitalize">airtime pin</div>
-                    </div>
-                    <Link to='/create_pin' className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
-                        <FcPhone className='text-3xl lg:text-4xl' />
-                        <div className="capitalize">data pin</div>
-                    </Link>
                     <Link to='/meter_bills' className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
                         <FcIdea className='text-3xl lg:text-4xl' />
                         <div className="capitalize">pay bills</div>
+                    </Link>
+                    {/* <Link to='/cable_bills' className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
+                        <FcMultipleDevices className='text-3xl lg:text-4xl' />
+                        <div className="capitalize">cable tv</div>
+                    </Link> */}
+                    {/* <div className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
+                        <FcPhone className='text-3xl lg:text-4xl' />
+                        <div className="capitalize">airtime pin</div>
+                    </div> */}
+                    <Link to='/create_pin' className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
+                        <FcPhone className='text-3xl lg:text-4xl' />
+                        <div className="capitalize">data pin</div>
                     </Link>
                     <Link to='/education_bills' className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
                         <FcPuzzle className='text-3xl lg:text-4xl' />
@@ -87,9 +103,20 @@ const Dashboard = () => {
                         <FcFeedback className='text-3xl lg:text-4xl' />
                         <div className="capitalize">bulk sms</div>
                     </div>
+                </div>
+                <div className="grid grid-cols-2 gap-5 w-full max-w-4xl mx-auto mt-6 mb-10">
                     <div className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center flex-col gap-4 py-4">
                         <FcFilmReel className='text-3xl lg:text-4xl' />
                         <div className="capitalize text-center">get your own Affiliate <br /> VTU website</div>
+                    </div>
+                    <div className="shadow-xl hover:scale-105 transition-all rounded-lg bg-white flex items-center justify-center flex-col gap-4 py-4">
+                        <div className="w-11/12 mx-auto">
+                            <div className="flex items-center gap-4">
+                                <input ref={copyref} type="text" readOnly value={refLink(user.refid)} className="input" />
+                                <button onClick={copyFunc} className="bg-indigo-600 text-white rounded-full shadow-xl py-2 px-4 capitalize">copy</button>
+                            </div>
+                        </div>
+                        <div className="capitalize text-center font-semibold">Refer new user and earn</div>
                     </div>
                 </div>
 

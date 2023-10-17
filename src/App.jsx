@@ -82,6 +82,8 @@ import LockElectricity from './Pages/Admin/Locks/LockElectricity';
 import LockExam from './Pages/Admin/Locks/LockExam';
 import ManageLevels from './Pages/Admin/Levels/CreateLevels/ManageLevels';
 import EditLevel from './Pages/Admin/Levels/EditLevels/EditLevel';
+import Bucket from './Pages/User/BucketPortal/Bucket';
+import PurchaseBucket from './Pages/User/BucketPortal/PurchaseBucket';
 
 
 
@@ -105,6 +107,8 @@ const App = () => {
         <Route path="/meter_bills" element={<UserRoute><MeterBills /></UserRoute>} />
         <Route path="/create_pin" element={<UserRoute><ManageDataPin /></UserRoute>} />
         <Route path="/downlines" element={<UserRoute><Downlines /></UserRoute>} />
+        <Route path="/bucket_portal" element={<UserRoute><Bucket /></UserRoute>} />
+        <Route path="/bucket_purchase" element={<UserRoute><PurchaseBucket /></UserRoute>} />
 
         <Route path="/auth/admin" element={<AdminRoute><AHome /></AdminRoute>} />
         <Route path="/auth/admin/query_transactions" element={<AdminRoute><QueryTransaction /> </AdminRoute>} />
