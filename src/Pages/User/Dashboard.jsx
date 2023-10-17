@@ -116,7 +116,7 @@ const Dashboard = () => {
                                 <button onClick={copyFunc} className="bg-indigo-600 text-white rounded-full shadow-xl py-2 px-4 capitalize">copy</button>
                             </div>
                         </div>
-                        <div className="capitalize text-center font-semibold">Refer new user and earn</div>
+                        <Link to="/downlines" className="capitalize text-center font-semibold">Refer new user and earn</Link>
                     </div>
                 </div>
 

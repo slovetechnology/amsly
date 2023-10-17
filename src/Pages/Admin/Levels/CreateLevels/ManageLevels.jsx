@@ -209,7 +209,7 @@ const ManageLevels = () => {
     if (!title) return ErrorAlert("Level title is required!..");
     // filter out the percent and the id of the subscription
     const subsData = [];
-    perState.map((ele) => {
+    perState?.map((ele) => {
       const itemData = {
         id: ele.id,
         percent: ele.percent,
@@ -219,7 +219,7 @@ const ManageLevels = () => {
 
     // filter out the pricing and the id of the package
     const packData = [];
-    localState.map((ele) => {
+    localState?.map((ele) => {
       const itemData = {
         id: ele.id,
         pricing: ele.pricing,

@@ -64,7 +64,7 @@ const UserSidebar = () => {
 
                 {/* =======================  bucket portal */}
                 <div className={`${currentdrop === 'bucks' ? 'h-[18rem]' : 'h-[3rem]'}  transition-all overflow-hidden`}>
-                    <div onClick={() => handleCurentDrop('bucks')} className={`sidelink cursor-pointer ${location.pathname === '/' ? 'bg-indigo-600 text-white' : ''}`}> <FcStatistics className='text-2xl' /> Bucket Portal <div className="w-fit ml-auto"><SlArrowDown /></div></div>
+                    <div onClick={() => handleCurentDrop('bucks')} className={`sidelink uppercase font-bold cursor-pointer ${location.pathname === '/' ? 'bg-indigo-600 text-white' : ''}`}> <FcStatistics className='text-2xl' /> Bucket Portal <div className="w-fit ml-auto"><SlArrowDown /></div></div>
                     <div className='ml-8 gap-3 flex flex-col capitalize text-zinc-600'>
                         <Link to='/bucket_portal' className='sidelink1'>mtn sme bucket</Link>
                         <Link to='/bucket_portal' className='sidelink1'>mtn cg bucket</Link>
