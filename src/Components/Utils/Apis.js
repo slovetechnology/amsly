@@ -88,7 +88,8 @@ const bill_urls = {
 
 const transaction_urls = {
     user: `transactions/user/all`,
-    admin: `transactions/admin/all`
+    admin: `transactions/admin/all`,
+    admin_filter_transactions: `transactions/admin/filter-transactions`,
 }
 
 export const Api = {

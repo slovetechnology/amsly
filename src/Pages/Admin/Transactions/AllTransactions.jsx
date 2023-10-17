@@ -7,23 +7,35 @@ import moment from 'moment'
 import { Autos } from '/src/Components/Utils/Utility'
 import { useSelector } from 'react-redux'
 import { ErrorAlert } from '/src/Components/Utils/Utility'
+import { PostUrl } from '/src/Components/Utils/Apis'
 
 const AllTransactions = () => {
     const [trans, setTrans] = useState([])
     const [trans2, setTrans2] = useState([])
     const [loading, setLoading] = useState(true)
     const { subs } = useSelector(state => state.data)
-    const [limit, setLimit] = useState(10)
-    const [, setStats] = useState('')
-    const [, setServ] = useState('')
+    const [filter, setFilter] = useState({
+        limit: 10,
+        service: 'all',
+        search: '',
+        category: 'all',
+        status: 'all',
+    })
     const [total, setTotal] = useState({
         all: 0,
         data: 0
     })
 
+    const handleForms = e => {
+        setFilter({
+            ...filter,
+            [e.target.name]: e.target.value
+        })
+    }
+
     const fetchTransactions = useCallback(async () => {
         try {
-            const res = await GetUrl(`${Api.transactions.admin}?limit=${limit}`)
+            const res = await GetUrl(`${Api.transactions.admin}?limit=${filter.limit}`)
             setTrans2(res.msg)
             setTotal({
                 all: res.total,
@@ -32,37 +44,18 @@ const AllTransactions = () => {
             return setTrans(res.msg)
         } catch (error) {
             ErrorAlert(res.msg)
-        }finally {
+        } finally {
             setLoading(false)
         }
-    }, [limit])
+    }, [])
 
     useEffect(() => {
         fetchTransactions()
     }, [fetchTransactions])
 
-    const handleStatus = (tag) => {
-        setStats(tag)
-        if(tag === 'all') {
-            setTrans(trans2)
-        }else {
-            const findData = trans2.filter(ele => ele.status === tag)
-            setTrans(findData)
-        }
-    }
-
-    const handleService = val => {
-        setServ(val)
-        if(val === 'all') {
-            setTrans(trans2)
-        }else {
-            const findData = trans2.filter(ele => ele.title.split(' ')[0].toLowerCase().includes(val))
-            setTrans(findData)
-        }
-    }
-    const handlePageData = val => {
-        setLimit(val)
-        fetchTransactions()
+    const handleFiltering = async () => {
+        const res = await PostUrl(Api.transactions.admin_filter_transactions, filter)
+        console.log(res)
     }
     return (
         <AdminLayout pagetitle="All Transactions">
@@ -70,9 +63,8 @@ const AllTransactions = () => {
                 <div className="bg-white w-11/12 mx-auto p-4 rounded-lg">
                     <div className="grid grid-cols-3 gap-6">
                         <div className="">
-                            <div className="capitalize">services</div>
-                            <select onChange={e => handleService(e.target.value)} className="input capitalize">
-                                <option value="">--Select--</option>
+                            <div className="capitalize">categories</div>
+                            <select name="category" value={filter.category} onChange={handleForms} className="input capitalize">
                                 <option value="all">All</option>
                                 {Autos.map((item, i) => (
                                     <option key={i} value={item.category}>{item.category}</option>
@@ -81,8 +73,7 @@ const AllTransactions = () => {
                         </div>
                         <div className="">
                             <div className="capitalize">status</div>
-                            <select onChange={(e) => handleStatus(e.target.value)} className="input">
-                                <option value="">--Select--</option>
+                            <select name="status" value={filter.status} onChange={handleForms} className="input">
                                 <option value="all">All</option>
                                 <option value="success">SUCCESS</option>
                                 <option value="failed">FAILED</option>
@@ -90,7 +81,7 @@ const AllTransactions = () => {
                         </div>
                         <div className="">
                             <div className="capitalize">transactions per page</div>
-                            <select   onChange={e => handlePageData(e.target.value)} className="input">
+                            <select name="limit" value={filter.limit} onChange={handleForms} className="input">
                                 <option value="10">10 per page</option>
                                 <option value="50">50 per page</option>
                                 <option value="100">100 per page</option>
@@ -99,6 +90,21 @@ const AllTransactions = () => {
                                 <option value="300">300 per page</option>
                             </select>
                         </div>
+                        <div className="">
+                            <div className="capitalize">services</div>
+                            <select name="service" value={filter.service} onChange={handleForms} className="input">
+                                {subs.map((item, i) => (
+                                    <option value={item.network} key={i}>{item.network}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="">
+                            <div className="capitalize"> &nbsp; </div>
+                            <input name="search" value={filter.search} onChange={handleForms} type="text" placeholder='Search By Email / Phone' className="input" />
+                        </div>
+                        <div className="w-fit ml-auto">
+                            <div className="capitalize"> &nbsp; </div>
+                            <button onClick={handleFiltering} className="bg-blue-600 text-white text-sm capitalize w-32 py-3.5 rounded-full">filter</button></div>
                     </div>
                 </div>
                 <div className="mt-6">
