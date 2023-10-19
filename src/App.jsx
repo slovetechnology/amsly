@@ -84,6 +84,7 @@ import ManageLevels from './Pages/Admin/Levels/CreateLevels/ManageLevels';
 import EditLevel from './Pages/Admin/Levels/EditLevels/EditLevel';
 import Bucket from './Pages/User/BucketPortal/Bucket';
 import PurchaseBucket from './Pages/User/BucketPortal/PurchaseBucket';
+import QuickAccess from './Pages/General/QuickAccess';
 
 
 
@@ -193,6 +194,7 @@ const App = () => {
         <Route path="/auth/admin/integration/plans/electricity/:pack/:auto" element={<AdminRoute><SetupElectricityPlan /> </AdminRoute>} />
 
         <Route path="/" element={<HomePage />} />
+        <Route path="/quickaccess" element={<QuickAccess/>} />
 
         <Route path="/register" element={<Register />} />
         <Route path="/register/:ref" element={<Register />} />
