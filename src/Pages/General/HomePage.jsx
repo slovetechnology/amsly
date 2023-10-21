@@ -169,6 +169,8 @@ const HomePage = () => {
               </div>
             </div>
           </div><br /><br /><br /><br /><br />
+
+          
           <div className="lg:mx-[10rem] mx-6 lg:my-20">
             <div className="text-white text-start texting">
               <div className="lg:text-5xl text-2xl mb-3 font-semibold">
