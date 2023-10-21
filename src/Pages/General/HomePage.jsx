@@ -170,7 +170,7 @@ const HomePage = () => {
             </div>
           </div><br /><br /><br /><br /><br />
 
-          
+
           <div className="lg:mx-[10rem] mx-6 lg:my-20">
             <div className="text-white text-start texting">
               <div className="lg:text-5xl text-2xl mb-3 font-semibold">
@@ -330,7 +330,7 @@ const HomePage = () => {
       </div>
       <div className="">
         <div className="bg-blue-950 py-16 w-full">
-          <div className="flex items-start justify-between mx-16">
+          <div className="lg:flex items-start justify-between mx-16">
             <div className="">
               <div className="">
                 <h1 className="text-xl font-semibold text-orange-400">About Us</h1>
@@ -340,7 +340,7 @@ const HomePage = () => {
               <div className="flex items-center gap-2 mb-4 text-md text-gray-100"> <FaPhoneAlt /> <span>2345678987</span> </div>
               <div className="flex items-center gap-2 mb-4 text-md text-gray-100"> <FaMailBulk /> <span className="">support@Example.com</span> </div>
             </div>
-            <div className="">
+            <div className="mt-10 lg:mt-0">
               <div className="mb-4">
                 <h1 className="text-xl font-semibold mb-5 text-orange-400">Newsletter</h1>
                 <p className="text-lg text-gray-100 font-medium">Subscribe to our mailing list to receives daily <br /> updates direct to your inbox!</p>
