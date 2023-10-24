@@ -1,8 +1,8 @@
 import axios from "axios"
 import Cookies from "js-cookie"
 
-const server = `https://amsly.jogglecryp.com/api`
-// const server = `http://localhost:5000/api`
+// const server = `https://amsly.jogglecryp.com/api`
+const server = `http://localhost:5000/api`
 // ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINPorEFFzdsoEXvsHvPKNEBn59SSz4wK7QaGXw+qgeaV slovetech619@gmail.com
 
 
@@ -107,29 +107,40 @@ export const NormalPostUrl = async (endpoint, data) => {
 // secure api routes 
 const token = Cookies.get('session')
 
-const options = {
-    headers: {
-        Authorization: `Bearer ${token}`,
-    }
-}
 
 export const PostUrl = async (endpoint, data) => {
-    const res = await axios.post(`${server}/${endpoint}`, data, options)
+    const res = await axios.post(`${server}/${endpoint}`, data, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
     return res.data
 }
 
 export const GetUrl = async (endpoint) => {
-    const res = await axios.get(`${server}/${endpoint}`, options)
+    const res = await axios.get(`${server}/${endpoint}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
     return res.data
 }
 
 export const UpdateUrl = async (endpoint, data) => {
-    const res = await axios.put(`${server}/${endpoint}`, data, options)
+    const res = await axios.put(`${server}/${endpoint}`, data, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
     return res.data
 }
 
 export const DeleteUrl = async (endpoint, data) => {
-    const res = await axios.delete(`${server}/${endpoint}`, data, options)
+    const res = await axios.delete(`${server}/${endpoint}`, data, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
     return res.data
 }
 
@@ -165,18 +176,18 @@ export const DeleteUrl = async (endpoint, data) => {
 // bofia sub
 // {
 //     "mobile"
-//   : 
+//   :
 //   "08139067401",
 //   "network"
-//   : 
+//   :
 //   "MTN",
 //   "plan_code"
-//   : 
+//   :
 //   "500",
 //   "request_id"
-//   : 
+//   :
 //   "REF-UNIQUE723723828932",
 //   "token"
-//   : 
+//   :
 //   "api_f6336383411f1c3400f0c4ffd9ee9265"
 //   }
