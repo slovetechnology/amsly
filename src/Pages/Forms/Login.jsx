@@ -97,7 +97,7 @@ return SwalAlert('Request Failed', res.msg, 'info')
             const findUser = Roles.find(item => item.role === decoded.role)
             ToastAlert(res.msg)
             setTimeout(() => {
-                return navigate(`${findUser.url}`)
+                return window.location = `${findUser.url}`
             }, 2000);
         }
         else if (res.status === 201) {

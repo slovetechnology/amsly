@@ -56,7 +56,7 @@ const VerifySignup = () => {
             const findUser = Roles.find(item => item.role === decoded.role)
             Cookies.remove('v-email')
             ToastAlert(res.msg)
-           navigate(`${findUser.url}`)
+           window.location = `${findUser.url}`
         } else {
             return ToastAlert(res.msg)
         }
