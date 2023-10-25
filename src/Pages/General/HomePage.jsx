@@ -168,7 +168,8 @@ const HomePage = () => {
                 <div className="cursor-pointer text-3xl lg:hidden text-orange-500"> <FaBars /> </div>
               </div>
             </div>
-          </div><br /><br /><br /><br /><br />
+          </div>
+          <br /><br /><br /><br /><br />
 
 
           <div className="lg:mx-[10rem] mx-6 lg:my-20">
