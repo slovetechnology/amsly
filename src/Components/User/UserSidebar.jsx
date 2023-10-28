@@ -63,7 +63,7 @@ const UserSidebar = () => {
                 <Link to='/dashboard' className={`sidelink ${location.pathname === '/' ? 'bg-indigo-600 text-white' : ''}`}> <FcHome className='text-2xl' /> Get your own Affiliate <br /> VTU website</Link>
 
                 {/* =======================  bucket portal */}
-                <div className={`${currentdrop === 'bucks' ? 'h-[18rem]' : 'h-[3rem]'}  transition-all overflow-hidden`}>
+                {/* <div className={`${currentdrop === 'bucks' ? 'h-[18rem]' : 'h-[3rem]'}  transition-all overflow-hidden`}>
                     <div onClick={() => handleCurentDrop('bucks')} className={`sidelink uppercase font-bold cursor-pointer ${location.pathname === '/' ? 'bg-indigo-600 text-white' : ''}`}> <FcStatistics className='text-2xl' /> Bucket Portal <div className="w-fit ml-auto"><SlArrowDown /></div></div>
                     <div className='ml-8 gap-3 flex flex-col capitalize text-zinc-600'>
                         <Link to='/bucket_portal' className='sidelink1'>mtn sme bucket</Link>
@@ -73,7 +73,7 @@ const UserSidebar = () => {
                         <Link to='/bucket_portal' className='sidelink1'>mtn gifting bucket</Link>
                         <Link to='/bucket_portal' className='sidelink1'>glo gifting bucket</Link>
                     </div>
-                </div>
+                </div> */}
                 {/* ======================= quick links */}
                 <div className="text-slate-500 my-4 ml-3">Quick Links....</div>
                 <Link to='/data_bundle' className={`sidelink ${location.pathname === '/data_bundle' ? 'bg-indigo-600 text-white' : ''}`}> <FcNegativeDynamic className='text-2xl' /> Buy Data Bundle</Link>

@@ -1,7 +1,7 @@
 import axios from "axios"
 import Cookies from "js-cookie"
 
-const server = `https://amsly.jogglecryp.com/api`
+// const server = `https://amsly.jogglecryp.com/api`
 // const server = `http://localhost:5000/api`
 // ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINPorEFFzdsoEXvsHvPKNEBn59SSz4wK7QaGXw+qgeaV slovetech619@gmail.com
 
@@ -111,7 +111,7 @@ const token = Cookies.get('session')
 export const PostUrl = async (endpoint, data) => {
     const res = await axios.post(`${server}/${endpoint}`, data, {
         headers: {
-            Authorization: `Bearer ${token}`,
+            token: `${token}`,
         }
     })
     return res.data
@@ -120,7 +120,7 @@ export const PostUrl = async (endpoint, data) => {
 export const GetUrl = async (endpoint) => {
     const res = await axios.get(`${server}/${endpoint}`, {
         headers: {
-            Authorization: `Bearer ${token}`,
+            token: `${token}`,
         }
     })
     return res.data
@@ -129,7 +129,7 @@ export const GetUrl = async (endpoint) => {
 export const UpdateUrl = async (endpoint, data) => {
     const res = await axios.put(`${server}/${endpoint}`, data, {
         headers: {
-            Authorization: `Bearer ${token}`,
+            token: `${token}`,
         }
     })
     return res.data
@@ -138,7 +138,7 @@ export const UpdateUrl = async (endpoint, data) => {
 export const DeleteUrl = async (endpoint, data) => {
     const res = await axios.delete(`${server}/${endpoint}`, data, {
         headers: {
-            Authorization: `Bearer ${token}`,
+            token: `${token}`,
         }
     })
     return res.data

@@ -120,6 +120,13 @@ const Dashboard = () => {
                     </div>
                 </div>
 
+                <div className="w-full max-w-4xl mx-auto bg-white p-3 mb-5 hover:scale-105 transition-all rounded-lg shadow-2xl break-words">
+                    <div className="bg-slate-100 p-4 rounded-lg">
+                        <div className="text-medium font-semibold">Api Token:</div>
+                        <span className="text-sm">{user.apitoken}</span>
+                    </div>
+                </div>
+
                 <div className="w-full max-w-4xl mx-auto">
                     <div className="grid grid-cols-6 w-11/12 mx-auto">
                         <div className="font-semibold col-span-4 capitalize text-zinc-600 text-3xl mb-5 drop-shadow-lg">latest transactions</div>

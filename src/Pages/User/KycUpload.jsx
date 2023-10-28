@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import UserLayout from '../../Components/User/UserLayout'
 import { FaCheck, FaTimes } from 'react-icons/fa'
 
 const KycUpload = () => {
+    const [forms, setForms] = useState({})
     return (
         <UserLayout pagetitle="KYC Upload">
             <div className="grid grid-cols-1 mb-16 mt-8 px-3 lg:grid-cols-2 gap-7">

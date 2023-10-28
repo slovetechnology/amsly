@@ -155,7 +155,6 @@ const HomePage = () => {
           <div className={`fixed w-full z-30 top-0 ${scroll ? 'bg-white shadow-lg border-b' : ''}`}>
             <div className="flex items-center px-10 py-6 justify-between">
               <div className=""> <img src={logo} alt="" className="w-32 " /> </div>
-              <div className=""><Link to='/quickaccess' className={`${Cs} bg-orange-500 text-white px-3 py-2 rounded-xl`}>Quick Access</Link></div>
               <div className="">
                 <div className="lg:flex hidden items-center gap-5">
                   <Link to='' className={`${Cs}`}>home <FcHome className='text-2xl' /> </Link>
