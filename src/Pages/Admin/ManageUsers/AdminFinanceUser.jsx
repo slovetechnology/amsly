@@ -91,8 +91,8 @@ const AdminFinanceUser = () => {
                         </div>
                         {loads ? <>
                             <div className="grid grid-cols-2 p-2 bg-sky-50 rounded-lg mb-3">
-                                <div className="text-sm">previous Balance: <span className="text-orange-700 text-xl">&#8358;{user.prevbalance}</span> </div>
-                                <div className="text-sm text-right">Current Balance: <span className="text-orange-700 text-xl">&#8358;{user.balance}</span> </div>
+                                <div className="text-sm">previous Balance: <span className="text-orange-700 text-xl">&#8358;{parseInt(user.prevbalance).toLocaleString()}</span> </div>
+                                <div className="text-sm text-right">Current Balance: <span className="text-orange-700 text-xl">&#8358;{parseInt(user.balance).toLocaleString()}</span> </div>
                             </div>
                             <div className="mb-6">
                                 <div className="text-zinc-600">Amount</div>

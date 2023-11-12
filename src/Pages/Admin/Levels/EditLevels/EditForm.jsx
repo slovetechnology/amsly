@@ -1,14 +1,16 @@
+
 import { useSelector } from "react-redux";
 import React, { useCallback, useLayoutEffect, useState } from "react";
 import { ErrorAlert } from "/src/Components/Utils/Utility";
 import Loading from "/src/Components/General/Loading";
 import { Api, PostUrl, GetUrl } from "/src/Components/Utils/Apis";
 import { ToastAlert } from "/src/Components/Utils/Utility";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import EditSetupUser from "./EditSetupUser";
 import EditSingleLevel from "./EditSingleLevel";
 import EditLevelPercent from "./EditLevelPercent";
 import DeleteLevelModal from "../DeleteLevelModal";
+import { FaArrowLeft } from "react-icons/fa";
 
 const EditForm = ({ main, HandleRefresh }) => {
   const LevelPack = "levelpack2";
@@ -306,6 +308,9 @@ const EditForm = ({ main, HandleRefresh }) => {
       {loading && <Loading />}
         {view && <DeleteLevelModal id={id} closeView={() => setView(!view)} />}
       <div className="w-11/12 mx-auto">
+        <div className="mb-4">
+          <Link to="/auth/admin/levels" className="flex items-center gap-2 text-blue-600"> <FaArrowLeft /> Back</Link>
+        </div>
         <div className="bg-white rounded-lg py-4 px-3">
           <div className="flex items-center justify-evenly">
             <button onClick={HandleRefresh} className="bg-blue-600 text-white rounded-lg text-sm shadow-xl capitalize py-3 px-6">refresh</button>

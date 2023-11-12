@@ -2,7 +2,8 @@ import axios from "axios"
 import Cookies from "js-cookie"
 
 // const server = `https://amsly.jogglecryp.com/api`
-// const server = `http://localhost:5000/api`
+const server = `http://localhost:5000/api`
+export const imageUrl = `http://localhost:5000`
 // ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINPorEFFzdsoEXvsHvPKNEBn59SSz4wK7QaGXw+qgeaV slovetech619@gmail.com
 
 
@@ -27,6 +28,17 @@ const user_urls = {
     update_user_pin: "user/update-user-pin",
     finance_user_account: "user/finance-user-account",
     all_downliners: "user/all-downliners",
+    admin_dashboard: "user/admin-dashboard",
+    upload_kyc: "user/kyc/upload",
+    update_kyc: "user/kyc/update",
+    delete_kyc: "user/kyc/delete",
+}
+
+const notify_urls = {
+    create_notify: 'notify/create-notify',
+    update_notify: 'notify/update-notify',
+    delete_notify: 'notify/delete-notify',
+    notify: 'notify/notify',
 }
 
 const subs_urls = {
@@ -90,6 +102,7 @@ const transaction_urls = {
     user: `transactions/user/all`,
     admin: `transactions/admin/all`,
     admin_filter_transactions: `transactions/admin/filter-transactions`,
+    user_filter_transactions: `transactions/user/filter-transactions`,
 }
 
 export const Api = {
@@ -97,6 +110,7 @@ export const Api = {
     subs: subs_urls,
     bills: bill_urls,
     transactions: transaction_urls,
+    notify: notify_urls,
 }
 
 export const NormalPostUrl = async (endpoint, data) => {

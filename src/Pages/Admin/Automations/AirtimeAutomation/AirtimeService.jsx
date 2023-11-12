@@ -9,8 +9,8 @@ const AirtimeService = () => {
   
   const handleDuplicates = () => {
     const genSubs = subs.filter((obj, index) => {
-      return index === subs.findIndex(o => obj.tag === o.tag && obj.category.startsWith(o.category))
-    })
+        return index === subs.findIndex(o => obj.tag === o.tag && obj.category.startsWith(o.category))
+    });
     return genSubs.map((item, i) => (
       item.category.startsWith(`airtime`) && item.locked === 'no' &&
       <Link to={`/auth/admin/automation/airtime/${item.tag || slugify(item.network, {lower: true})}`} key={i} className="bg-white p-4 text-center cursor-pointer uppercase rounded-lg mb-2">{item.tag || item.network}</Link>

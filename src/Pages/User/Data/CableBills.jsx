@@ -111,6 +111,7 @@ const CableBills = () => {
       {open && <PerformTractionNotice />}
       {view && (
         <ConfirmAirtimePurchase
+        title="Confirm Your Cable Subscription Request"
           handleSubmission={handleSubmission}
           closeView={() => setView(!view)}
         />
@@ -195,7 +196,7 @@ const CableBills = () => {
                 <div className="w-fit ml-auto">
                   <button
                     type="button"
-                    onClick={() => setView(!view)}
+                    onClick={() => {setView(!view); }}
                     className="bg-green-600 capitalize rounded-full py-3 px-8 text-white"
                   >
                     purchase subscription

@@ -8,7 +8,8 @@ import { Link } from 'react-router-dom'
 import { Api, GetUrl } from '/src/Components/Utils/Apis'
 import SingleTransactionComponent from '/src/Components/General/SingleTransactionComponent'
 import { refLink } from '/src/Components/Utils/Utility'
-import { ToastAlert } from '/src/Components/Utils/Utility'
+import { ErrorAlert } from '/src/Components/Utils/Utility'
+import { CoypToClipboard } from '/src/Components/Utils/Utility'
 
 const Dashboard = () => {
     const { user } = useSelector(state => state.data)
@@ -16,9 +17,10 @@ const Dashboard = () => {
     const [trans, setTrans] = useState([])
     const [currentPage,] = useState(1)
     const [transPerPage,] = useState(3)
+    const [notes, setNotes] = useState([])
 
     const fetchTransactions = useCallback(async () => {
-        const res = await GetUrl(Api.transactions.user)
+        const res = await GetUrl(`${Api.transactions.user}?limit=${transPerPage}`)
         return setTrans(res.msg)
     }, [])
 
@@ -30,23 +32,32 @@ const Dashboard = () => {
     const indexOfFirstTrans = indexOfLastTrans - transPerPage
     const currentTrans = trans.slice(indexOfFirstTrans, indexOfLastTrans)
 
-    const copyFunc = () => {
+    const FetchNotify = useCallback(async () => {
+        try {
+            const res = await GetUrl(Api.notify.notify)
+            if (res.status === 200) {
+                return setNotes(res.msg)
+            }
+        } catch (error) {
+            ErrorAlert(`${error}`)
+        }
+    }, [])
 
-        // Select the text field
-        copyref.current.select();
-        copyref.current.setSelectionRange(0, 99999); // For mobile devices
-
-        // Copy the text inside the text field
-        navigator.clipboard.writeText(copyref.current.value);
-
-        // Alert the copied text
-        ToastAlert('copied')
-    }
+    useEffect(() => { FetchNotify() }, [FetchNotify])
     return (
         <UserLayout pagetitle='dashboard'>
             <div className="">
                 <div className="w-full max-w-3xl mx-auto">
-                    <div className="bg-orange-100/70 shadow-md text-orange-900 text-sm p-3 rounded-md mb-6 flex items-center gap-3"> <SlExclamation /> USE AUTOMATED TRANSFER TO FUND YOUR WALLET THANK YOU.</div>
+                    {notes.map((item, i) => (
+                        <div key={i}>
+                            {item.tag === 'first' && <div className="bg-white p-3 rounded-md text-center shadow-md mb-4">{item.message}</div>}
+                            {item.tag === 'second' && <div className="bg-orange-100/70 justify-center shadow-md text-orange-900 text-sm p-3 rounded-md mb-6 flex items-center gap-3"> <SlExclamation />{item.message}</div>}
+                            {item.tag === 'third' && <div className="mb-5">
+                                <marquee behavior="smooth" direction="left">{item.message}</marquee>
+                            </div>}
+                        </div>
+                    ))}
+
                     <div className="bg-card shadow-xl rounded-xl px-3 pb-3 pt-5 hmscreen bg-wave bg-cover bg-center relative">
                         <div className="px-4 pb-6">
                             <div className="flex gap-2 relative pt-6">
@@ -113,7 +124,7 @@ const Dashboard = () => {
                         <div className="w-11/12 mx-auto">
                             <div className="flex items-center gap-4">
                                 <input ref={copyref} type="text" readOnly value={refLink(user.refid)} className="input" />
-                                <button onClick={copyFunc} className="bg-indigo-600 text-white rounded-full shadow-xl py-2 px-4 capitalize">copy</button>
+                                <button onClick={() => CoypToClipboard(copyref.current)} className="bg-indigo-600 text-white rounded-lg shadow-xl py-2 px-4 capitalize">copy</button>
                             </div>
                         </div>
                         <Link to="/downlines" className="capitalize text-center font-semibold">Refer new user and earn</Link>

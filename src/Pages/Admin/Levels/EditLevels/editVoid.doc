@@ -1,39 +1,39 @@
 import { useSelector } from "react-redux";
-import AdminLayout from "/src/Components/Admin/AdminLayout";
-import React, { useCallback, useEffect, useState } from "react";
-import SingleLevelForm from "./SingleLevelForm";
-import ManagePercent from "./ManagePercent";
+import React, { useCallback, useLayoutEffect, useState } from "react";
 import { ErrorAlert } from "/src/Components/Utils/Utility";
 import Loading from "/src/Components/General/Loading";
 import { Api, PostUrl, GetUrl } from "/src/Components/Utils/Apis";
 import { ToastAlert } from "/src/Components/Utils/Utility";
-import SetupUsers from "./SetupUsers";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import EditSetupUser from "./EditSetupUser";
+import EditSingleLevel from "./EditSingleLevel";
+import EditLevelPercent from "./EditLevelPercent";
+import DeleteLevelModal from "../DeleteLevelModal";
 import { FaArrowLeft } from "react-icons/fa";
+import { LevelPack2, PackPer2, UserPack2 } from "./store";
 
-const ManageLevels = () => {
-  const LevelPack = "levelpack";
-  const PackPercent = "packper";
-  const PackUser = "userpack";
-  const LevelType = "leveltype";
+const EditForm = ({ main, HandleRefresh }) => {
+  const LevelPack = "levelpack2";
+  const PackPercent = "packper2";
+  const PackUser = "userpack2";
+  const LevelType = "leveltype2";
   const { subs } = useSelector((state) => state.data);
   const [active, setActive] = useState({});
   const [packs, setPacks] = useState([]);
-  const cs =
-    "rounded-full py-3 text-xs lg:text-sm px-3 shadow-xl transition-all";
-  const locals = JSON.parse(localStorage.getItem(LevelPack));
-  const localper = JSON.parse(localStorage.getItem(PackPercent));
-  const localuser = JSON.parse(localStorage.getItem(PackUser));
-  const [localState, setLocalState] = useState(locals);
-  const [perState, setPerState] = useState(localper);
-  const [userState, setUserState] = useState(localuser);
+  const [id, setId] = useState('')
+  const [view, setView] = useState(false)
+  const cs = "rounded-full py-3 text-xs lg:text-sm px-3 shadow-xl transition-all";
+  const [localState, setLocalState] = useState(LevelPack2);
+  const [perState, setPerState] = useState(PackPer2);
+  const [userState, setUserState] = useState(UserPack2);
   const [percentState, setPercentState] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(main.title || "");
   const btn =
     "py-4 px-6 rounded-full transition-all hover:scale-110 focus:scale-110 shadow-xl w-fit mx-auto font-semibold capitalize text-sm";
   const [zone, setZone] = useState(1);
   const { type } = useParams();
+  const navigate = useNavigate();
 
   const [users, setUsers] = useState([]);
 
@@ -42,39 +42,83 @@ const ManageLevels = () => {
     if (res.status === 200) return setUsers(res.msg);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     AdmingetUsers();
   }, [AdmingetUsers]);
 
-  useEffect(() => {
-      if (!localper) {
-        localStorage.setItem(PackPercent, JSON.stringify([]));
-        localStorage.setItem(LevelType, "new");
-      }
-      if(!locals) {
-        localStorage.setItem(LevelPack, JSON.stringify([]));
-      }
-      if(!localuser) {
-        localStorage.setItem(PackUser, JSON.stringify([]));
-      }
-  }, [locals]);
+  const FetchOne = useCallback(() => {
+    if (type === "edit") {
+      // find the package that matches the ones from database
+      const packarr = [];
+      main.levelpack.map((ele) => {
+        subs.map((data) => {
+          data.sub.map((item) => {
+            if (item.id === ele.pack) {
+              const submit = {
+                ...item,
+                pricing: ele.pricing,
+                former: ele.pricing,
+              };
+              packarr.push(submit);
+            }
+            return item;
+          });
+          return data;
+        });
+        return ele;
+      });
+      // find the subscriptions that matches the ones from database
+      const subarr = [];
+      main.levelsub.map((ele) => {
+        subs.map((data) => {
+          if (data.id === ele.sub) {
+            const submit = {
+              ...data,
+              percent: ele.percent,
+              former: ele.percent,
+            };
+            subarr.push(submit);
+          }
+          return data;
+        });
+        return ele;
+      });
+      setPerState(subarr)
+      setLocalState(packarr)
+      setUserState(main.users)
+      // // localStorage.setItem(PackPercent, JSON.stringify(subarr));
+      // localStorage.setItem(LevelPack, JSON.stringify(packarr));
+      // localStorage.setItem(PackUser, JSON.stringify(main.users));
+      // localStorage.setItem(LevelType, "edit");
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    FetchOne();
+  }, [FetchOne]);
 
   const handleActive = (item) => {
+    FetchOne()
     // loop through the packages under this subscription and add pricing to it
     let dataArr = [];
     item.sub.map((item) => {
+      // find the pack from database that matches the current pack from the list and get its pricing
+      const findpack = main.levelpack.find((ele) => ele.pack === item.id);
       const arrObj = {
         ...item,
-        pricing: item.price,
+        pricing: findpack ? findpack.pricing : item.price,
+        former: findpack ? findpack.pricing : item.price,
       };
       dataArr.push(arrObj);
     });
     // add percent field to a new subscription that will work only when the subscription is a data gifting
-    const getData = JSON.parse(localStorage.getItem(PackPercent));
-    const findData = getData.find((ele) => ele.id === item.id);
+    const findData = perState.find((ele) => ele.id === item.id);
+    // find the subscription from database that matches the current subscription from the lst and get its percent
+    const findsub = main.levelsub.find((ele) => ele.sub === item.id);
     const itemData = {
       ...item,
-      percent: findData ? findData.percent : 100,
+      percent: findsub ? findsub.percent : findData ? findData.percent : 100,
+      former: findsub ? findsub.percent : findData ? findData.percent : 100,
     };
     setActive(itemData);
     setPacks(dataArr);
@@ -103,8 +147,7 @@ const ManageLevels = () => {
     setPacks(mapped);
 
     // update the local sotrage package
-    const dataArr = JSON.parse(localStorage.getItem(LevelPack));
-    const localMapped = dataArr.map((ele) => {
+    const localMapped = localState.map((ele) => {
       if (ele.id === index) {
         return {
           ...ele,
@@ -113,59 +156,58 @@ const ManageLevels = () => {
       }
       return ele;
     });
-    localStorage.setItem(LevelPack, JSON.stringify(localMapped));
     setLocalState(localMapped);
   };
 
   const handleAddup = (data) => {
-    const stor = JSON.parse(localStorage.getItem(LevelPack));
+    const stor = localState
     const findData = stor.find((item) => item.id === data.id);
     if (!findData) {
       const dataArr = {
         ...data,
         pricing: data.pricing || data.price,
       };
-      stor.push(dataArr);
-      localStorage.setItem(LevelPack, JSON.stringify(stor));
-      setLocalState(stor);
+      // stor.push(dataArr);
+      // localStorage.setItem(LevelPack, JSON.stringify(stor));
+      setLocalState([...localState, dataArr]);
     } else {
       const filts = stor.filter((ele) => ele.id !== data.id);
-      localStorage.setItem(LevelPack, JSON.stringify(filts));
+      // localStorage.setItem(LevelPack, JSON.stringify(filts));
       setLocalState(filts);
     }
   };
 
   const sendUser = (id) => {
-    const stor = JSON.parse(localStorage.getItem(PackUser));
+    const stor = userState
     const findData = stor.find((item) => item.id === id);
     if (!findData) {
       const dataArr = {
         id: id,
       };
-      stor.push(dataArr);
-      localStorage.setItem(PackUser, JSON.stringify(stor));
-      setUserState(stor);
+      // stor.push(dataArr);
+      // localStorage.setItem(PackUser, JSON.stringify(stor));
+      setUserState(dataArr);
     } else {
       const filts = stor.filter((ele) => ele.id !== id);
-      localStorage.setItem(PackUser, JSON.stringify(filts));
+      // localStorage.setItem(PackUser, JSON.stringify(filts));
       setUserState(filts);
     }
   };
 
   const handleAddupPercent = (data) => {
-    const stor = JSON.parse(localStorage.getItem(PackPercent));
+    const stor = perState
     const findData = stor.find((item) => item.id === data.id);
     if (!findData) {
       const dataArr = {
         ...data,
         percent: 100,
       };
-      stor.push(dataArr);
-      localStorage.setItem(PackPercent, JSON.stringify(stor));
-      setPerState(stor);
+      // stor.push(dataArr);
+      // localStorage.setItem(PackPercent, JSON.stringify(stor));
+      setPerState(dataArr);
     } else {
       const filts = stor.filter((ele) => ele.id !== data.id);
-      localStorage.setItem(PackPercent, JSON.stringify(filts));
+      // localStorage.setItem(PackPercent, JSON.stringify(filts));
       setPerState(filts);
     }
   };
@@ -178,7 +220,7 @@ const ManageLevels = () => {
     });
 
     // update the local sotrage subscription
-    const dataArr = JSON.parse(localStorage.getItem(PackPercent));
+    const dataArr = perState
     const localMapped = dataArr.map((ele) => {
       if (ele.id === index) {
         return {
@@ -188,11 +230,11 @@ const ManageLevels = () => {
       }
       return ele;
     });
-    localStorage.setItem(PackPercent, JSON.stringify(localMapped));
+    // localStorage.setItem(PackPercent, JSON.stringify(localMapped));
     setPerState(localMapped);
 
     // now get all the packages of this subscription in local storage and calculate on their pricing only
-    const packArr = JSON.parse(localStorage.getItem(LevelPack));
+    const packArr = localState
     const mappedArr = packArr.map((ele) => {
       if (ele.network === index) {
         return {
@@ -202,7 +244,7 @@ const ManageLevels = () => {
       }
       return ele;
     });
-    localStorage.setItem(LevelPack, JSON.stringify(mappedArr));
+    // localStorage.setItem(LevelPack, JSON.stringify(mappedArr));
     setLocalState(mappedArr);
   };
 
@@ -210,7 +252,7 @@ const ManageLevels = () => {
     if (!title) return ErrorAlert("Level title is required!..");
     // filter out the percent and the id of the subscription
     const subsData = [];
-    perState?.map((ele) => {
+    perState.map((ele) => {
       const itemData = {
         id: ele.id,
         percent: ele.percent,
@@ -220,7 +262,7 @@ const ManageLevels = () => {
 
     // filter out the pricing and the id of the package
     const packData = [];
-    localState?.map((ele) => {
+    localState.map((ele) => {
       const itemData = {
         id: ele.id,
         pricing: ele.pricing,
@@ -232,31 +274,42 @@ const ManageLevels = () => {
       subs: subsData,
       users: userState,
       title,
-    }
-    setLoading(true)
-    const res = await PostUrl(Api.subs.add_level, data)
-    setLoading(false)
+      id: main.id,
+    };
+    setLoading(true);
+    const res = await PostUrl(Api.subs.update_level, data);
+    setLoading(false);
 
     if (res.status === 200) {
-        ToastAlert(res.msg)
-        setTitle('')
-        localStorage.setItem(LevelPack, JSON.stringify([]))
-        localStorage.setItem(PackUser, JSON.stringify([]))
-        setLocalState([])
-        setPerState([])
-        setUserState([])
+      ToastAlert(res.msg);
+      setTitle("");
+      setLocalState([]);
+      setPerState([]);
+      setUserState([]);
+      setTimeout(() => {
+        navigate("/auth/admin/levels");
+      }, 2000);
     } else {
-        return ErrorAlert(res.msg)
+      return ErrorAlert(res.msg);
     }
   };
+  const handleOpening = () => {
+    setId(main.id)
+    setView(!view)
+  }
   return (
-    <AdminLayout>
+    <>
       {loading && <Loading />}
+        {view && <DeleteLevelModal id={id} closeView={() => setView(!view)} />}
       <div className="w-11/12 mx-auto">
         <div className="mb-4">
           <Link to="/auth/admin/levels" className="flex items-center gap-2 text-blue-600"> <FaArrowLeft /> Back</Link>
         </div>
         <div className="bg-white rounded-lg py-4 px-3">
+          <div className="flex items-center justify-evenly">
+            <button onClick={HandleRefresh} className="bg-blue-600 text-white rounded-lg text-sm shadow-xl capitalize py-3 px-6">refresh</button>
+            <button onClick={handleOpening} className="bg-red-600 text-white rounded-lg text-sm shadow-xl capitalize py-3 px-6">delete</button>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 mb-5">
             <div className="">
               <div className="text-sm">Title of Level</div>
@@ -314,7 +367,7 @@ const ManageLevels = () => {
             {active?.id && (
               <div className="mt-10">
                 {percentState && (
-                  <ManagePercent
+                  <EditLevelPercent
                     item={active}
                     handelForms={handelFormsPercent}
                     handleAddup={handleAddupPercent}
@@ -325,7 +378,7 @@ const ManageLevels = () => {
                   {packs.map(
                     (item, i) =>
                       item.lock === "no" && (
-                        <SingleLevelForm
+                        <EditSingleLevel
                           key={i}
                           item={item}
                           handelForms={handelForms}
@@ -344,7 +397,7 @@ const ManageLevels = () => {
               {users.map(
                 (ele, i) =>
                   ele.role !== "admin" && (
-                    <SetupUsers
+                    <EditSetupUser
                       sendUser={sendUser}
                       localState={userState}
                       user={ele}
@@ -360,12 +413,16 @@ const ManageLevels = () => {
             onClick={handleSubmission}
             className="bg-blue-700 text-white shadow-xl rounded-full py-3 px-7 capitalize"
           >
-            create level
+            Update level
           </button>
         </div>
       </div>
-    </AdminLayout>
+    </>
   );
 };
 
-export default ManageLevels;
+export default EditForm;
+
+
+
+

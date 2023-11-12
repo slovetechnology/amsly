@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import AdminLayout from '../../../Components/Admin/AdminLayout'
-import { Services, SwalAlert, ToastAlert } from '../../../Components/Utils/Utility'
+import { ErrorAlert, Services, SwalAlert, ToastAlert } from '../../../Components/Utils/Utility'
 import { ToastContainer } from 'react-toastify'
 import Loading from '../../../Components/General/Loading'
 import { Api, GetUrl, PostUrl } from '../../../Components/Utils/Apis'
@@ -31,6 +31,8 @@ const ManageService = () => {
         title: '',
         price: '',
         percent: '',
+        min: '',
+        max: '',
     })
 
     const fetchSubData = useCallback(async () => {
@@ -43,7 +45,9 @@ const ManageService = () => {
             network: payload.network,
             category: founded,
             tag: payload.tag || '',
-            percent: payload.percent
+            percent: payload.percent,
+            min: payload.min,
+            max: payload.max,
         })
         setSubing(payload)
         setPacks(payload.sub)
@@ -75,13 +79,17 @@ const ManageService = () => {
     }
 
     const handleSubmission = async () => {
-        if (!forms.network) return ToastAlert('network is required')
-        if (packs.length < 1) return ToastAlert('Service package required')
+        if (!forms.network) return ErrorAlert('network is required')
+        if (!forms.min) return ErrorAlert('minimum purchasing amount is required')
+        if (!forms.max) return ErrorAlert('maximum purchasing amount is required')
+        if (packs.length < 1) return ErrorAlert('Service package required')
         const data = {
             network: forms.network,
             category: forms.category,
             tag: forms.tag,
             percent: forms.percent,
+            min: forms.min,
+            max: forms.max,
             id,
             packages: [...packs]
         }
@@ -163,6 +171,17 @@ const ManageService = () => {
                             <div className="">Set up Percentage (Optional) </div>
                             <input name="percent" value={forms.percent} onChange={handleForms} type="text" placeholder='--Percentage--' className="input" />
                         </div>
+
+                        <div className="mb-3 grid grid-cols-2 gap-5 w-full max-w-xl">
+                            <div className="">
+                                <div className="">Min Amount</div>
+                                <input type="text" name="min" placeholder='0.00' value={forms.min} onChange={handleForms} className="input" />
+                            </div>
+                            <div className="">
+                                <div className="">Max Amount</div>
+                                <input type="text" name="max" placeholder='0.00' value={forms.max} onChange={handleForms} className="input" />
+                            </div>
+                        </div>
                     </div>
                     <div className="p-3">
                         <div className="mb-3 pb-2 px-3">Service Packages</div>
@@ -190,7 +209,7 @@ const ManageService = () => {
                                         <div className="flex items-center gap-3">
                                             <div onClick={() => togtagHandler(item)} className={`w-5 h-5 ${item.lock === 'no' ? 'bg-green-400 text-green-100' : 'bg-slate-50 text-slate-300 border'} cursor-pointer text-sm flex items-center justify-center`}> <FaCheck /> </div>
                                             <div className="text-sm">{item.title} = </div>
-                                            <div className="text-right text-sm"> {subing.category === 'data' && <span>&#8358;</span> } {item.price}</div>
+                                            <div className="text-right text-sm"> {subing.category === 'data' && <span>&#8358;</span>} {item.price}</div>
                                         </div>
                                         <div className="flex items-center justify-end gap-8">
                                             <button onClick={() => openSinglePack(item)} className="bg-slate-500 rounded-lg text-white text-xs uppercase py-2 px-4">edit</button>

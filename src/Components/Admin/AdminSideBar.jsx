@@ -422,6 +422,16 @@ const AdminSideBar = ({closeSidebar}) => {
                 <BsBell className="text-xl" /> Notification
               </Link>
               <Link
+                to="/auth/admin/manage_kyc"
+                className={`sidelink ${
+                  location.pathname === "/auth/admin/manage_kyc"
+                    ? "bg-indigo-600 text-white"
+                    : ""
+                }`}
+              >
+                <BsBell className="text-xl" /> Manage Kyc
+              </Link>
+              <Link
                 to=""
                 className={`sidelink ${
                   location.pathname === "/" ? "bg-indigo-600 text-white" : ""

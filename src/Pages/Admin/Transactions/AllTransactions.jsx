@@ -14,6 +14,7 @@ const AllTransactions = () => {
     const [trans2, setTrans2] = useState([])
     const [loading, setLoading] = useState(true)
     const { subs } = useSelector(state => state.data)
+    const [showReset, setShowReset] = useState(false)
     const [filter, setFilter] = useState({
         limit: 10,
         service: 'all',
@@ -31,11 +32,12 @@ const AllTransactions = () => {
             ...filter,
             [e.target.name]: e.target.value
         })
+        setShowReset(true)
     }
 
-    const fetchTransactions = useCallback(async () => {
+    const fetchTransactions = useCallback(async (params) => {
         try {
-            const res = await GetUrl(`${Api.transactions.admin}?limit=${filter.limit}`)
+            const res = params.length < 1 ?  await GetUrl(`${Api.transactions.admin}?limit=${filter.limit}`) : params
             setTrans2(res.msg)
             setTotal({
                 all: res.total,
@@ -50,18 +52,32 @@ const AllTransactions = () => {
     }, [])
 
     useEffect(() => {
-        fetchTransactions()
+        fetchTransactions([])
     }, [fetchTransactions])
 
     const handleFiltering = async () => {
         const res = await PostUrl(Api.transactions.admin_filter_transactions, filter)
-        console.log(res)
+        fetchTransactions(res)
+    }
+    const ResetFilter = () => {
+        setFilter({
+            limit: 10,
+            service: 'all',
+            search: '',
+            category: 'all',
+            status: 'all',
+        })
+        fetchTransactions([])
+        setShowReset(false)
     }
     return (
         <AdminLayout pagetitle="All Transactions">
             <div className="">
                 <div className="bg-white w-11/12 mx-auto p-4 rounded-lg">
-                    <div className="grid grid-cols-3 gap-6">
+                  {showReset &&  <div className="w-fit ml-auto">
+                        <button onClick={ResetFilter} className="bg-blue-600 text-white py-2 rounded-lg capitalize px-4">reset</button>
+                    </div>}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="">
                             <div className="capitalize">categories</div>
                             <select name="category" value={filter.category} onChange={handleForms} className="input capitalize">
@@ -80,6 +96,19 @@ const AllTransactions = () => {
                             </select>
                         </div>
                         <div className="">
+                            <div className="capitalize">services</div>
+                            <select name="service" value={filter.service} onChange={handleForms} className="input">
+                                <option value="all">All</option>
+                                {subs.map((item, i) => (
+                                    <option value={item.network} key={i}>{item.network}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="">
+                            <div className="capitalize"> Search by Email / Phone / Ref.ID / Meter No. </div>
+                            <input name="search" value={filter.search} onChange={handleForms} type="text" placeholder='Search...' className="input" />
+                        </div>
+                        <div className="">
                             <div className="capitalize">transactions per page</div>
                             <select name="limit" value={filter.limit} onChange={handleForms} className="input">
                                 <option value="10">10 per page</option>
@@ -91,20 +120,9 @@ const AllTransactions = () => {
                             </select>
                         </div>
                         <div className="">
-                            <div className="capitalize">services</div>
-                            <select name="service" value={filter.service} onChange={handleForms} className="input">
-                                {subs.map((item, i) => (
-                                    <option value={item.network} key={i}>{item.network}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="">
                             <div className="capitalize"> &nbsp; </div>
-                            <input name="search" value={filter.search} onChange={handleForms} type="text" placeholder='Search By Email / Phone' className="input" />
+                            <button onClick={handleFiltering} className="bg-blue-600 text-white text-sm capitalize w-full py-3.5 rounded-lg">apply filter</button>
                         </div>
-                        <div className="w-fit ml-auto">
-                            <div className="capitalize"> &nbsp; </div>
-                            <button onClick={handleFiltering} className="bg-blue-600 text-white text-sm capitalize w-32 py-3.5 rounded-full">filter</button></div>
                     </div>
                 </div>
                 <div className="mt-6">

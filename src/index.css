@@ -9,6 +9,9 @@ body {
   box-sizing: border-box;
   background: rgba(245, 245, 245, 0.846);
 }
+textarea {
+  resize: none;
+}
 
 .banner {
   background: url(./Assets/Images/communicates.png)center/ cover;
@@ -152,4 +155,16 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+.scrolls::-webkit-scrollbar {
+  width: 3px;
+}
+.scrolls::-webkit-scrollbar-thumb {
+  background: grey;
+}
+.scrollsdown::-webkit-scrollbar {
+  height: 3px;
+}
+.scrollsdown::-webkit-scrollbar-thumb {
+  background: grey;
 }

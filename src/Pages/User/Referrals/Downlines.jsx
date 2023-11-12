@@ -6,6 +6,7 @@ import { refLink } from '/src/Components/Utils/Utility';
 import { Api, GetUrl } from '/src/Components/Utils/Apis';
 import moment from 'moment';
 import { SlPeople, SlUser } from 'react-icons/sl';
+import { CoypToClipboard } from '/src/Components/Utils/Utility';
 
 const Downlines = () => {
     const copyref = useRef()
@@ -24,18 +25,7 @@ const Downlines = () => {
     useEffect(() => {
         AllDownliners()
     }, [AllDownliners])
-    const copyFunc = () => {
-
-        // Select the text field
-        copyref.current.select();
-        copyref.current.setSelectionRange(0, 99999); // For mobile devices
-
-        // Copy the text inside the text field
-        navigator.clipboard.writeText(copyref.current.value);
-
-        // Alert the copied text
-        ToastAlert('copied')
-    }
+    
   return (
     <UserLayout pagetitle="My Downlines">
         <div className="w-11/12 mx-auto">
@@ -43,7 +33,7 @@ const Downlines = () => {
                 <div className="bg-red-50 p-4 text-red-800 font-semibold rounded-lg mb-5 shadow-xl">My Referral Link</div>
                 <div className="flex items-center gap-4">
                     <input ref={copyref} type="text" readOnly value={refLink(user.refid)} className="input" />
-                    <button onClick={copyFunc} className="bg-indigo-600 text-white rounded-full shadow-xl py-2 px-10 capitalize">copy</button>
+                    <button onClick={() => CoypToClipboard(copyref.current)} className="bg-indigo-600 text-white rounded-lg shadow-xl py-2 px-10 capitalize">copy</button>
                 </div>
             </div>
             <div className="mt-5">

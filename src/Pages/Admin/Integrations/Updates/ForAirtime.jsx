@@ -6,7 +6,7 @@ import { Api, PostUrl } from '/src/Components/Utils/Apis'
 
 const ForAirtime = ({ data, airtimes }) => {
     const [isNew, setIsNew] = useState(true)
-    const [works, setWorks] = useState(airtimes.airnetworks || [])
+    const [works, setWorks] = useState(airtimes?.airnetworks || [])
     const [loading, setLoading] = useState(false)
     const [packid, setpackid] = useState('')
     const [forms, setForms] = useState({
@@ -100,7 +100,7 @@ const ForAirtime = ({ data, airtimes }) => {
         if (!forms.networkName) return ToastAlert('Network Name is required')
         if (!forms.amountName) return ToastAlert('Amount Name is required')
         if (!forms.refName) return ToastAlert('reference Name is required')
-
+        
         const formdata = {
             ...forms,
             networks: works,

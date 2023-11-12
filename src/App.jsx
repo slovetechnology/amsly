@@ -15,7 +15,7 @@ import BlockUser from './Pages/Admin/ManageUsers/BlockUser'
 import AdminResetUserPassword from './Pages/Admin/ManageUsers/AdminResetUserPassword'
 import UpdateBankInfo from './Pages/Admin/UpdateBankInfo'
 import AdminContactInfo from './Pages/Admin/AdminContactInfo'
-import ManageNotification from './Pages/Admin/ManageNotification'
+import ManageNotification from './Pages/Admin/Notify/ManageNotification'
 import VerifySignup from './Pages/Forms/VerifySignup';
 import AdminRoute from './Private/AdminRoute';
 import UserRoute from './Private/UserRoute';
@@ -85,6 +85,9 @@ import EditLevel from './Pages/Admin/Levels/EditLevels/EditLevel';
 import Bucket from './Pages/User/BucketPortal/Bucket';
 import PurchaseBucket from './Pages/User/BucketPortal/PurchaseBucket';
 import QuickAccess from './Pages/General/QuickAccess';
+import NewNotify from './Pages/Admin/Notify/NewNotify';
+import EditNotify from './Pages/Admin/Notify/EditNotify';
+import ManageKyc from './Pages/Admin/ManageUsers/ManageKyc';
 
 
 
@@ -123,7 +126,12 @@ const App = () => {
         <Route path="/auth/admin/reset_user_pin" element={<AdminRoute><AdminResetUserPin /> </AdminRoute>} />
         <Route path="/auth/admin/update_bank_info" element={<AdminRoute><UpdateBankInfo /> </AdminRoute>} />
         <Route path="/auth/admin/update_contact_info" element={<AdminRoute><AdminContactInfo /> </AdminRoute>} />
+        <Route path="/auth/admin/manage_kyc" element={<AdminRoute><ManageKyc /> </AdminRoute>} />
+
         <Route path="/auth/admin/manage_notification" element={<AdminRoute><ManageNotification /> </AdminRoute>} />
+        <Route path="/auth/admin/manage_notification/new" element={<AdminRoute><NewNotify /> </AdminRoute>} />
+        <Route path="/auth/admin/manage_notification/:id/edit" element={<AdminRoute><EditNotify /> </AdminRoute>} />
+
         <Route path="/auth/admin/sales_analysis" element={<AdminRoute><SalesAnalysis /> </AdminRoute>} />
         <Route path="/auth/admin/all_transactions" element={<AdminRoute><AllTransactions /> </AdminRoute>} />
 

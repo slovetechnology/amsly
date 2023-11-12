@@ -15,6 +15,8 @@ const CreateService = () => {
         title: '',
         price: '',
         percent: '',
+        min: '',
+        max: '',
     })
 
     const handleForms = e => {
@@ -36,12 +38,16 @@ const CreateService = () => {
 
     const handleSubmission = async () => {
         if (!forms.network) return ErrorAlert('network is required')
+        if (!forms.min) return ErrorAlert('minimum purchasing amount is required')
+        if (!forms.max) return ErrorAlert('maximum purchasing amount is required')
         if (packs.length < 1) return ErrorAlert('Service package required')
         const data = {
             network: forms.network,
             category: forms.category,
             tag: forms.tag,
             percent: forms.percent,
+            min: forms.min,
+            max: forms.max,
             packages: [...packs]
         }
         setLoading(true)
@@ -52,7 +58,9 @@ const CreateService = () => {
                 network: '',
                 category: '',
                 tag: '',
-                percent: ''
+                percent: '',
+                min: '',
+                max: '',
             })
             setPacks([])
             SwalAlert('Request Success', res.msg, 'success')
@@ -92,6 +100,17 @@ const CreateService = () => {
                         <div className="mb-3">
                             <div className="">Set Percentage (Optional) </div>
                             <input name="percent" value={forms.percent} onChange={handleForms} type="text" placeholder='--Percentage--' className="input" />
+                        </div>
+
+                        <div className="mb-3 grid grid-cols-2 gap-5 w-full max-w-xl">
+                            <div className="">
+                                <div className="">Min Amount</div>
+                                <input type="text" name="min" placeholder='0.00' value={forms.min} onChange={handleForms} className="input" />
+                            </div>
+                            <div className="">
+                                <div className="">Max Amount</div>
+                                <input type="text" name="max" placeholder='0.00' value={forms.max} onChange={handleForms} className="input" />
+                            </div>
                         </div>
                     </div>
                     <div className="p-3">

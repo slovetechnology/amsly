@@ -1,8 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminLayout from '../../Components/Admin/AdminLayout'
 import HomeTag from '../../Components/Admin/HomeTag'
+import { Api, GetUrl } from '/src/Components/Utils/Apis'
+import { ErrorAlert } from '/src/Components/Utils/Utility'
 
 const AHome = () => {
+    const [loading, setLoading] = useState(true)
+    const [details, setDetails] = useState([])
+    const [totalBal, setTotalBal] = useState(0)
+    useEffect(() => {
+        const fetchDashboard = async () => {
+            setLoading(true)
+            try {
+                const res = await GetUrl(Api.user.admin_dashboard)
+                if (res.status === 200) {
+                    setDetails(res.details)
+                    setTotalBal(res.userBal)
+                }
+            } catch (err) {
+                ErrorAlert(`${err}`)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchDashboard()
+    }, [])
     return (
         <>
             <AdminLayout pagetitle="Admin Dashboard">
@@ -11,15 +33,15 @@ const AHome = () => {
                         <div className="border rounded-lg z-[1] relative py-6 px-4">
                             <div className="flex flex-col items-center relative justify-center">
                                 <div className="text-slate-100 capitalize">total users balance</div>
-                                <div className="text-white text-2xl">&#8358;1,895,849.00</div>
+                                <div className="text-white text-2xl">&#8358;{totalBal}</div>
                             </div>
                         </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {new Array(5).fill().map((item, i) => (
-                            <HomeTag key={i} amount={`868,869,860`} title={`sucessful user sales`} />
+                   {!loading && <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {details.map((item, i) => (
+                            <HomeTag key={i} item={item} />
                         ))}
-                    </div>
+                    </div>}
                 </div>
             </AdminLayout>
         </>

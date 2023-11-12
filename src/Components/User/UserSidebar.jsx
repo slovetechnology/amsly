@@ -33,7 +33,7 @@ const UserSidebar = () => {
             <div className="mt-10 flex flex-col w-11/12 mx-auto">
                 <Link to='/dashboard' className={`sidelink ${location.pathname === '/dashboard' ? 'bg-indigo-600 text-white' : ''}`}> <FcHome className='text-2xl' /> Dashboard</Link>
 
-                <div className={`${currentdrop === 'deps' ? 'h-[10rem]' : 'h-[3rem]'}  transition-all overflow-hidden`}>
+                <div className={`${currentdrop === 'deps' ? 'h-fit' : 'h-[3rem]'}  transition-all overflow-hidden`}>
                     <div onClick={() => handleCurentDrop('deps')} className={`sidelink cursor-pointer ${location.pathname === '/' ? 'bg-indigo-600 text-white' : ''}`}> <FcSalesPerformance className='text-2xl' /> Deposit Money <div className="w-fit ml-auto"><SlArrowDown /></div></div>
                     <div className='ml-8 gap-3 flex flex-col capitalize text-zinc-600'>
                         <Link to='' className='sidelink1'>Automated Transfer</Link>
@@ -42,18 +42,18 @@ const UserSidebar = () => {
                     </div>
                 </div>
                 {/* <Link to='' className={`sidelink ${location.pathname === '/' ? 'bg-indigo-600 text-white' : ''}`}> <FcSalesPerformance className='text-2xl' /> Desposit Money</Link> */}
-                <div className={`${currentdrop === 'trans' ? 'h-[15rem]' : 'h-[3rem]'}  transition-all overflow-hidden`}>
+                <div className={`${currentdrop === 'trans' ? 'h-fit' : 'h-[3rem]'}  transition-all overflow-hidden`}>
                     <div onClick={() => handleCurentDrop('trans')} className={`sidelink cursor-pointer ${location.pathname === '/' ? 'bg-indigo-600 text-white' : ''}`}> <FcStatistics className='text-2xl' /> Transactions <div className="w-fit ml-auto"><SlArrowDown /></div></div>
                     <div className='ml-8 gap-3 flex flex-col capitalize text-zinc-600'>
                         <Link to='/all-transactions' className='sidelink1'>All Transactions</Link>
-                        <Link to='/success-transactions' className='sidelink1'>successful Transactions</Link>
-                        <Link to='/failed-transactions' className='sidelink1'>failed Transactions</Link>
+                        {/* <Link to='/success-transactions' className='sidelink1'>successful Transactions</Link>
+                        <Link to='/failed-transactions' className='sidelink1'>failed Transactions</Link> */}
                         <Link to='' className='sidelink1'>wallet summary</Link>
                         <Link to='' className='sidelink1'>sales analysis</Link>
                     </div>
                 </div>
                 {/* <Link to='' className={`sidelink ${location.pathname === '/' ? 'bg-indigo-600 text-white' : ''}`}><FcConferenceCall className='text-2xl' /> My Referrals</Link> */}
-                <div className={`${currentdrop === 'refs' ? 'h-[8rem]' : 'h-[3rem]'}  transition-all overflow-hidden`}>
+                <div className={`${currentdrop === 'refs' ? 'h-fit' : 'h-[3rem]'}  transition-all overflow-hidden`}>
                     <div onClick={() => handleCurentDrop('refs')} className={`sidelink cursor-pointer ${location.pathname === '/' ? 'bg-indigo-600 text-white' : ''}`}> <FcStatistics className='text-2xl' /> Referrals <div className="w-fit ml-auto"><SlArrowDown /></div></div>
                     <div className='ml-8 gap-3 flex flex-col capitalize text-zinc-600'>
                         <Link to='/downlines' className='sidelink1'>my downlines</Link>
@@ -84,7 +84,7 @@ const UserSidebar = () => {
                 <Link to='/education_bills' className={`sidelink ${location.pathname === '/education_bills' ? 'bg-indigo-600 text-white' : ''}`}><FcNegativeDynamic className='text-2xl' /> Buy Result E-PINS</Link>
                 <Link to='' className={`sidelink ${location.pathname === '/' ? 'bg-indigo-600 text-white' : ''}`}><FcAssistant className='text-2xl' /> Our Live Chat</Link>
                 <Link to='' className={`sidelink ${location.pathname === '/' ? 'bg-indigo-600 text-white' : ''}`}><FcReading className='text-2xl' /> Developer Api</Link>
-                <div className={`${currentdrop === 'settings' ? 'h-[10rem]' : 'h-[3rem]'} transition-all overflow-hidden`}>
+                <div className={`${currentdrop === 'settings' ? 'h-fit' : 'h-[3rem]'} transition-all overflow-hidden`}>
                     <div onClick={() => handleCurentDrop('settings')} className={`sidelink ${location.pathname === '/' ? 'bg-indigo-600 text-white' : ''} cursor-pointer`}><FcServices className='text-2xl' /> Update Settings <div className="w-fit ml-auto"><SlArrowDown /></div> </div>
 
                     <div className='ml-8 gap-3 flex flex-col capitalize text-zinc-600'>
