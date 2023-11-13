@@ -3,6 +3,7 @@ import AdminLayout from '../../../Components/Admin/AdminLayout'
 import { useQuery } from 'react-query'
 import { Api, GetUrl } from '../../../Components/Utils/Apis'
 import AutosList from './AutosList'
+import EmailAuto from './EmailAuto'
 
 const AllAutomations = () => {
     const [zone, setZone] = useState(1)
@@ -30,6 +31,7 @@ const AllAutomations = () => {
         isLoading={isLoading}
         resendSignal={() => FetchAutomation()}
         /> }
+        {zone === 2 && <EmailAuto />}
     </AdminLayout>
   )
 }

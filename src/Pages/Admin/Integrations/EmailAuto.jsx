@@ -2,7 +2,9 @@ import React from 'react'
 
 const EmailAuto = () => {
   return (
-    <div>EmailAuto</div>
+    <div>
+      <div className=""></div>
+    </div>
   )
 }
 
