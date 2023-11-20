@@ -110,7 +110,7 @@ const DataBundle = () => {
           className="input uppercase"
         >
           <option>--Select--</option>
-          {unique2.map(
+          {unique2?.map(
             (item, i) =>
               item?.subs?.category === "data" &&
               item?.subs?.locked === "no" && (
@@ -150,7 +150,7 @@ const DataBundle = () => {
                 className="input uppercase"
               >
                 <option value={null}>--Select--</option>
-                {targets.length > 0 && targets.map(
+                {targets.length > 0 && targets?.map(
                   (item, i) =>
                     item?.subs?.category === "data" &&
                     item?.subs?.locked === "no" && (
@@ -170,7 +170,7 @@ const DataBundle = () => {
                 className="input uppercase"
               >
                 <option value="">--Select--</option>
-                {datas.length > 0 && datas.map(
+                {datas.length > 0 && datas?.map(
                   (item, i) =>
                     item?.packs?.lock === "no" && (
                       <option key={i} value={item.id}>
