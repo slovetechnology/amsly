@@ -12,7 +12,7 @@ import PerformTractionNotice from "./Compos/PerformTractionNotice";
 import ErroMessage from "./Compos/ErroMessage";
 
 const DataBundle = () => {
-  const { subs, subdata } = useSelector((state) => state.data);
+  const { subs, subdata, user } = useSelector((state) => state.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [, setSinglesub] = useState(null);
@@ -49,21 +49,21 @@ const DataBundle = () => {
         ...forms,
         network: id,
       });
-      const filter = subdata.filter((item) => item.network === parseInt(id));
+      const filter = user.levels?.levelpack?.filter((item) => item?.packs?.network === parseInt(id));
       setDatas(filter);
     }
   };
   const handleSubsNetwork = (e) => {
     const tag = e.target.value;
-    setDatas([]);
-    setpackdata("");
     if (tag) {
       setForms({
         ...forms,
         service: tag,
       });
-      const filter = subs.filter((item) => item.tag === tag);
+      const filter = user.levels?.levelsub?.filter((item) => item?.subs?.tag === tag);
       setTargets(filter);
+      setDatas([]);
+      setpackdata("");
     }
   };
   const ConfirmSubmission = (e) => {
@@ -99,8 +99,8 @@ const DataBundle = () => {
   };
 
   const handleDuplicates = () => {
-    const unique2 = subs.filter((obj, index) => {
-      return index === subs.findIndex((o) => obj.tag === o.tag);
+    const unique2 = user.levels?.levelsub?.filter((obj, index) => {
+      return index === user.levels?.levelsub?.findIndex((o) => obj.subs?.tag === o.subs?.tag);
     });
     return (
       <>
@@ -112,10 +112,10 @@ const DataBundle = () => {
           <option>--Select--</option>
           {unique2.map(
             (item, i) =>
-              item.category === "data" &&
-              item.locked === "no" && (
-                <option key={i} value={item.tag}>
-                  {item.tag}
+              item?.subs?.category === "data" &&
+              item?.subs?.locked === "no" && (
+                <option key={i} value={item?.subs?.tag}>
+                  {item?.subs?.tag}
                 </option>
               )
           )}
@@ -149,13 +149,13 @@ const DataBundle = () => {
                 onChange={handleSubs}
                 className="input uppercase"
               >
-                <option value="">--Select--</option>
-                {targets.map(
+                <option value={null}>--Select--</option>
+                {targets.length > 0 && targets.map(
                   (item, i) =>
-                    item.category === "data" &&
-                    item.locked === "no" && (
-                      <option key={i} value={item.id}>
-                        {item.network}
+                    item?.subs?.category === "data" &&
+                    item?.subs?.locked === "no" && (
+                      <option key={i} value={item?.subs?.id}>
+                        {item?.subs?.network}
                       </option>
                     )
                 )}
@@ -170,11 +170,11 @@ const DataBundle = () => {
                 className="input uppercase"
               >
                 <option value="">--Select--</option>
-                {datas.map(
+                {datas.length > 0 && datas.map(
                   (item, i) =>
-                    item.lock === "no" && (
+                    item?.packs?.lock === "no" && (
                       <option key={i} value={item.id}>
-                        {item.title} = &#8358;{item.price}
+                        {item?.packs?.title} = &#8358;{item.pricing}
                       </option>
                     )
                 )}
