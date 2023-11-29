@@ -60,7 +60,11 @@ const DataBundle = () => {
         ...forms,
         service: tag,
       });
+<<<<<<< HEAD
       const filter = user.levels?.levelsub?.filter((item) => item?.sub?.tag === tag);
+=======
+      const filter = user.levels?.levelsub?.filter((item) => item?.subs?.tag === tag);
+>>>>>>> 645e3d8a1a50a6a67956747c2c42062041575fdd
       setTargets(filter);
       setDatas([]);
       setpackdata("");
