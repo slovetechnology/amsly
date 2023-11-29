@@ -6,8 +6,7 @@ import Cookies from "js-cookie"
 const server = `http://localhost:5000/api`
 export const imageUrl = `http://localhost:5000`
 // ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINPorEFFzdsoEXvsHvPKNEBn59SSz4wK7QaGXw+qgeaV slovetech619@gmail.com
-
-
+  
 const user_urls = {
     register_user: 'user/user-register',
     verify_signup_otp: `user/verify-otp`,

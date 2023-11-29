@@ -12,11 +12,11 @@ import PerformTractionNotice from "./Compos/PerformTractionNotice";
 import ErroMessage from "./Compos/ErroMessage";
 
 const AirtimeBills = () => {
-  const { subs } = useSelector((state) => state.data);
+  const { subs, user } = useSelector((state) => state.data);
   const [mainsub, setMainsub] = useState({});
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const [err, setErr] = useState({tag: false, text: ''})
+  const [err, setErr] = useState({ tag: false, text: '' })
   const [loading, setLoading] = useState(false);
   const [view, setView] = useState(false);
   const [mainAmount, setMainAmount] = useState(0);
@@ -62,7 +62,7 @@ const AirtimeBills = () => {
         ...forms,
         dataAmount: mainAmount
       };
-      
+
       setLoading(true);
       const res = await PostUrl(Api.bills.airtime, formdata);
       setLoading(false);
@@ -86,6 +86,29 @@ const AirtimeBills = () => {
       setMainAmount(sum);
     }
   };
+
+  const handleDuplicate = () => {
+    const unique = user?.levels?.levelsub?.filter((obj, i) => {
+      return i === user?.levels?.levelsub?.findIndex((o) => obj.levelsub?.tag === o.levelsub?.tag)
+    });
+    return (
+      <>
+        <select name="network" onChange={handleMainSub} className="input">
+          <option value="">--Select--</option>
+          {unique?.map(
+            (item, i) =>
+              item?.category.endsWith("-vtu") &&
+              item?.locked === "no" && (
+                <option key={i} value={item?.levelsub}>
+                  {item?.network.split(" ")[0]}
+                </option>
+              )
+          )}
+        </select>
+      </>
+    )
+  }
+
   return (
     <UserLayout pagetitle="buy your airtime VTU">
       {open && <PerformTractionNotice />}
@@ -102,27 +125,15 @@ const AirtimeBills = () => {
           <form onSubmit={ConfirmSubmission}>
             <div className="mb-4">
               <div className="capitalize">Choose Network</div>
-              <select name="network" onChange={handleMainSub} className="input">
-                <option value="">--Select--</option>
-                {subs?.length > 0 &&
-                  subs.map(
-                    (item, i) =>
-                      item.category.endsWith("-vtu") &&
-                      item.locked === "no" && (
-                        <option key={i} value={item.id}>
-                          {item.network.split(" ")[0]}
-                        </option>
-                      )
-                  )}
-              </select>
+              {handleDuplicate()}
             </div>
             {mainsub?.id && <div className="mb-4">
               <div className="text-right text-red-600 text-sm">
                 {mainsub?.id ? ` Charges ${mainsub.percent}%` : ""}
               </div>
               {mainAmount !== 0 && <div className="text-sm text-zinc-600 text-right">
-               Amount to Pay: &#8358;{mainAmount || 0}
-              </div> }
+                Amount to Pay: &#8358;{mainAmount || 0}
+              </div>}
               <div className="capitalize">recharge amount </div>
               <input
                 onKeyUp={(e) => handleCalculation(e.target.value)}

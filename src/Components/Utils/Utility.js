@@ -7,7 +7,7 @@ const online = `https://amsly.netlify.app`
 const local = `http://localhost:5173`
 
 export const refLink = (user) => {
-    return `${online}/register/${user}`
+    return `${user}`
 }
 
 export const ToastAlert = (val) => {

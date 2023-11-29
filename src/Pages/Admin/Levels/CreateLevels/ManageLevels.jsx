@@ -220,16 +220,28 @@ const ManageLevels = () => {
 
     // filter out the pricing and the id of the package
     const packData = [];
+    const activeSub = []
     localState?.map((ele) => {
       const itemData = {
         id: ele.id,
         pricing: ele.pricing,
       };
       packData.push(itemData);
+      const findSub = subs.find(item => item.id === ele.network)
+      if(findSub) {
+        const newSub = {
+          id: findSub.id,
+          percent: 100
+        }
+        activeSub.push(newSub)
+      }
     });
+    const filterduplicate = activeSub.filter((ele, index) => {
+      return index === activeSub.findIndex(obj => ele.id === obj.id)
+    })
     const data = {
       packs: packData,
-      subs: subsData,
+      subs: filterduplicate,
       users: userState,
       title,
     }
@@ -267,31 +279,9 @@ const ManageLevels = () => {
                 className="input"
               />
             </div>
-            <div className=""></div>
+            <div className="mb-16"></div>
           </div>
-          <div className="mt-5 grid grid-cols-2 gap-5 mb-10">
-            <button
-              onClick={() => setZone(1)}
-              className={`${btn} ${
-                zone === 1
-                  ? "bg-blue-700 text-white"
-                  : "bg-slate-100 text-slate-700"
-              }`}
-            >
-              add packages
-            </button>
-            <button
-              onClick={() => setZone(2)}
-              className={`${btn} ${
-                zone === 2
-                  ? "bg-blue-700 text-white"
-                  : "bg-slate-100 text-slate-700"
-              }`}
-            >
-              connect users
-            </button>
-          </div>
-          <div className={zone === 1 ? "" : "hidden"}>
+          <div className={zone === 1 ? "mt-10" : "hidden"}>
             <div className="my-5">Select Subscriptions for this level</div>
             <div className="flex flex-wrap gap-3 items-center">
               {subs.map(

@@ -12,7 +12,6 @@ import Loading from '../../Components/General/Loading'
 const Register = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
-    const {ref} = useParams()
     const [forms, setForms] = useState({
         firstname: '',
         lastname: '',
@@ -20,7 +19,8 @@ const Register = () => {
         email: '',
         username: '',
         password: '',
-        confirm_password: ''
+        confirm_password: '',
+        upline: '',
     })
     const [agree, setAgree] = useState(false)
     const handleForms = e => {
@@ -30,12 +30,7 @@ const Register = () => {
         })
     }
 
-    useEffect(() => {
-        if(ref) {
-            localStorage.setItem('ref', ref)
-        }
-    }, [])
-    const handleFirstValidation = async() => {
+    const handleFirstValidation = async () => {
         if (!forms.firstname) return ToastAlert('firstname is required')
         if (!forms.lastname) return ToastAlert('lastname is required')
         if (!forms.email) return ToastAlert('email is required')
@@ -45,20 +40,13 @@ const Register = () => {
         if (!forms.confirm_password) return ToastAlert('confirm password is required')
         if (forms.confirm_password !== forms.password) return ToastAlert('password(s) do not match')
         if (!agree) return ToastAlert('You have to agree to our terms and conditions to complete your registration process')
-        let upline;
-        if(localStorage.getItem('ref')) {
-            upline = localStorage.getItem('ref')
-        }else {
-            upline = ''
-        }
         const data = {
             ...forms,
-            upline: upline
         }
         setLoading(true)
         const res = await NormalPostUrl(Api.user.register_user, data)
         setLoading(false)
-        if(res.status === 200) {
+        if (res.status === 200) {
             Cookies.set('v-email', res.msg)
             localStorage.removeItem('ref')
             return navigate(`/verify_account`)
@@ -67,7 +55,7 @@ const Register = () => {
     }
     return (
         <div>
-            {loading && <Loading /> }
+            {loading && <Loading />}
             <Navbar />
             <div className="w-11/12 mb-16 py-10 mx-auto max-w-xl bg-white shadow-xl rounded-lg p-4">
                 <form>
@@ -109,6 +97,10 @@ const Register = () => {
                         <div className="mb-6">
                             <div className="uppercase">confirm password</div>
                             <input name="confirm_password" value={forms.confirm_password} onChange={handleForms} type="password" className="input" />
+                        </div>
+                        <div className="mb-6">
+                            <div className="uppercase">Referral Code(OPTIONAL)</div>
+                            <input name="upline" value={forms.upline} onChange={handleForms} type="text" className="input" />
                         </div>
                         <div className="text-center mt-6">
                             <label>

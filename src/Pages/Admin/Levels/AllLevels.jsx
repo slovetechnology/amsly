@@ -32,7 +32,7 @@ const AllLevels = () => {
           {loading && <div className="w-fit mx-auto">
             <img src={spins} alt="" className="w-24" />
           </div>}
-          { !loading && levels.map((item, i) => (
+          {!loading && levels.map((item, i) => (
             <div className="mb-2 bg-white p-3 rounded-lg" key={i}>
               <div className="flex items-center gap-4">
                 <div className="rounded-full p-3 bg-slate-200 text-2xl border border-slate-500"> <SlPeople /> </div>
@@ -42,7 +42,7 @@ const AllLevels = () => {
                 </div>
               </div>
               <div className="flex items-center justify-end gap-10">
-                <Link to={`/auth/admin/levels/edit/${item.id}`} className="bg-slate-400 py-2 px-3 text-white text-sm hover:bg-slate-600 rounded-md capitalize">edit</Link>
+                <div onClick={() => { window.location = `/auth/admin/levels/edit/${item.id}` }} to='' className="bg-slate-400 py-2 px-3 text-white text-sm hover:bg-slate-600 rounded-md capitalize">edit</div>
               </div>
             </div>
           ))}
