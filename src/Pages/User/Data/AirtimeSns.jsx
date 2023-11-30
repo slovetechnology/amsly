@@ -12,7 +12,7 @@ import PerformTractionNotice from "./Compos/PerformTractionNotice";
 import ErroMessage from "./Compos/ErroMessage";
 
 const AirtimeSns = () => {
-  const { subs } = useSelector((state) => state.data);
+  const { subs, user } = useSelector((state) => state.data);
   const [mainsub, setMainsub] = useState({});
   const dispatch = useDispatch();
   const [err, setErr] = useState({tag: false, text: ''})
@@ -36,15 +36,17 @@ const AirtimeSns = () => {
 
   const handleMainSub = (e) => {
     const id = e.target.value;
-    const findData = subs.find((item) => item.id?.toString() === id);
+    // const findData = subs.find((item) => item.id?.toString() === id);
+    const findData = user.levels?.levelsub?.find((item) => item?.id === parseInt(id));
     setMainsub(findData);
     setForms({
       ...forms,
       sub: id,
       amount: '',
-      network: findData?.sub[0]?.id,
+      network: findData?.id,
     });
-    setMainAmount(0);
+    setMainAmount(0)
+
   };
 
   const ConfirmSubmission = (e) => {
@@ -85,6 +87,29 @@ const AirtimeSns = () => {
       setMainAmount(sum);
     }
   };
+
+  const handleDuplicate = () => {
+    const unique = user.levels?.levelsub?.filter((obj, i) => {
+      return i === user.levels?.levelsub?.findIndex((o) => obj.subs?.id === o.subs?.id)
+    });
+    return (
+      <>
+        <select name="network" onChange={handleMainSub} className="input">
+          <option value="">--Select--</option>
+          {unique?.map(
+            (item, i) =>
+              item?.subs?.category.endsWith("-vtu") &&
+              item?.subs?.locked === "no" && (
+                <option key={i} value={item?.id}>
+                  {/* {item?.network.split(" ")[0]} */}
+                  {item?.subs?.tag}
+                </option>
+              )
+          )}
+        </select>
+      </>
+    )
+  }
   return (
     <UserLayout pagetitle="buy your airtime SNS">
       {loading && <Loading />}
@@ -101,7 +126,7 @@ const AirtimeSns = () => {
           <form onSubmit={ConfirmSubmission}>
             <div className="mb-4">
               <div className="capitalize">Choose Network</div>
-              <select name="network" onChange={handleMainSub} className="input">
+              {/* <select name="network" onChange={handleMainSub} className="input">
                 <option value="">--Select--</option>
                 {subs?.length > 0 &&
                   subs.map(
@@ -113,7 +138,8 @@ const AirtimeSns = () => {
                         </option>
                       )
                   )}
-              </select>
+              </select> */}
+              {handleDuplicate()}
             </div>
             {mainsub?.id && (
               <div className="mb-4">

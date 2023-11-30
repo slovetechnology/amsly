@@ -36,15 +36,17 @@ const AirtimeBills = () => {
 
   const handleMainSub = (e) => {
     const id = e.target.value;
-    const findData = subs.find((item) => item.id?.toString() === id);
+    // const findData = subs.find((item) => item.id?.toString() === id);
+    const findData = user.levels?.levelsub?.find((item) => item?.id === parseInt(id));
     setMainsub(findData);
     setForms({
       ...forms,
       sub: id,
       amount: '',
-      network: findData?.sub[0]?.id,
+      network: findData?.id,
     });
     setMainAmount(0)
+
   };
 
   const ConfirmSubmission = (e) => {
@@ -88,8 +90,8 @@ const AirtimeBills = () => {
   };
 
   const handleDuplicate = () => {
-    const unique = user?.levels?.levelsub?.filter((obj, i) => {
-      return i === user?.levels?.levelsub?.findIndex((o) => obj.levelsub?.tag === o.levelsub?.tag)
+    const unique = user.levels?.levelsub?.filter((obj, i) => {
+      return i === user.levels?.levelsub?.findIndex((o) => obj.subs?.id === o.subs?.id)
     });
     return (
       <>
@@ -97,10 +99,11 @@ const AirtimeBills = () => {
           <option value="">--Select--</option>
           {unique?.map(
             (item, i) =>
-              item?.category.endsWith("-vtu") &&
-              item?.locked === "no" && (
-                <option key={i} value={item?.levelsub}>
-                  {item?.network.split(" ")[0]}
+              item?.subs?.category.endsWith("-vtu") &&
+              item?.subs?.locked === "no" && (
+                <option key={i} value={item?.id}>
+                  {/* {item?.network.split(" ")[0]} */}
+                  {item?.subs?.tag}
                 </option>
               )
           )}
@@ -144,6 +147,7 @@ const AirtimeBills = () => {
                 className="input"
               />
             </div>}
+             
             <div className="mb-4">
               <div className="capitalize">mobile number </div>
               <input

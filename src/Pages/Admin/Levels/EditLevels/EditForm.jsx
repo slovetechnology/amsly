@@ -306,7 +306,7 @@ const EditForm = ({ main, HandleRefresh }) => {
     setPerState([]);
     setUserState([]);
     setTimeout(() => {
-      // window.location = "/auth/admin/levels"
+      window.location = "/auth/admin/levels"
       // navigate('/auth/admin/levels')
     }, 2000);
   } else {
@@ -405,7 +405,7 @@ return (
         </div>
       </div>
       <div className="w-fit ml-auto mt-10">
-        <Link  to='' className="">
+        <Link  to='' onClick={() => ('/auth/admin/levels')} className="">
           <button
             onClick={handleSubmission}
             className="bg-blue-700 text-white shadow-xl rounded-full py-3 px-7 capitalize"
