@@ -288,7 +288,6 @@ const EditForm = ({ main, HandleRefresh }) => {
     const data = {
       packs: packData,
       subs: filterduplicate,
-      users: userState,
       title,
       id: main.id,
     };
@@ -387,7 +386,7 @@ const EditForm = ({ main, HandleRefresh }) => {
               </div>
             )}
           </div>
-          <div className={zone === 2 ? "" : "hidden"}>
+          {/* <div className={zone === 2 ? "" : "hidden"}>
             <div className="my-5">Select Users for this level</div>
             <div className="grid grid-cols-1 gap-3">
               {users.map(
@@ -402,17 +401,15 @@ const EditForm = ({ main, HandleRefresh }) => {
                   )
               )}
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="w-fit ml-auto cursor-pointer mt-10">
-          <Link to='' onClick={() => window.location("/auth/admin/levels")} className="">
-            <button
-              onClick={handleSubmission}
-              className="bg-blue-700 text-white shadow-xl rounded-full py-3 px-7 capitalize"
-            >
-              Update level
-            </button>
-          </Link>
+          <button
+            onClick={handleSubmission}
+            className="bg-blue-700 text-white shadow-xl rounded-full py-3 px-7 capitalize"
+          >
+            Update level
+          </button>
         </div>
       </div>
     </>
