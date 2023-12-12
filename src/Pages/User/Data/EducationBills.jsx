@@ -8,11 +8,12 @@ import { PostUrl } from "/src/Components/Utils/Apis";
 import Loading from "/src/Components/General/Loading";
 import PerformTractionNotice from "./Compos/PerformTractionNotice";
 import ConfirmAirtimePurchase from "./Compos/ConfirmAirtimePurchase";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { dispatchUser } from "/src/app/reducer";
 import ErroMessage from "./Compos/ErroMessage";
 
 const EducationBills = () => {
+  const { user } = useSelector((state) => state.data);
   const [subs, setSubs] = useState([]);
   const [subdata, setSubdata] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ const EducationBills = () => {
   const dispatch = useDispatch();
   const [datas, setDatas] = useState([]);
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState("");
+  const [verif, setVerif] = useState("");
   const [err, setErr] = useState({ tag: false, text: "" });
   const [view, setView] = useState(false);
   const [forms, setForms] = useState({
@@ -51,13 +52,18 @@ const EducationBills = () => {
     const id = e.target.value;
     if (id) {
       setSinglesub(id);
-      const filter = subdata.filter((item) => item.network === parseInt(id));
+      const filter = user.levels?.levelpack?.filter((item) => item?.packs?.network === parseInt(id));
       setDatas(filter);
     }
   };
 
-  const handleSinglepack = (e) => {
-    setSinglepack(e.target.value);
+  const handleSinglepack = async (e) => {
+    const val = e.target.value
+    setSinglepack(val);
+
+    const res = await GetUrl(`${Api.subs.user_get_automation}/${val}`);
+    if (res.status === 200) return setAutos(res.msg);
+    console.log(res)
   };
 
   const handleVerification = async () => {
@@ -92,7 +98,33 @@ const EducationBills = () => {
       return setErr({ tag: true, text: ` ${error}` });
     }
   };
-  
+
+  const handleDuplicates = () => {
+    const unique2 = user.levels?.levelsub?.filter((obj, index) => {
+      return index === user.levels?.levelsub?.findIndex((o) => obj.subs?.id === o.subs?.id);
+    });
+    return (
+      <>
+        <select
+          onChange={handleSubs}
+          value={singlesub}
+          className="input uppercase"
+        >
+          <option value="">--Select--</option>
+          {unique2?.map(
+            (item, i) =>
+              item?.subs?.category === "exam" &&
+              item?.subs?.locked === "no" && (
+                <option key={i} value={item?.subs?.id}>
+                  {item?.subs?.network}
+                </option>
+              )
+          )}
+        </select>
+      </>
+    );
+  };
+
   return (
     <UserLayout pagetitle="Exam Purchase">
       {loading && <Loading />}
@@ -112,22 +144,7 @@ const EducationBills = () => {
                 Zero Charges Apply!!!
               </div>
               {/* <div className="capitalize">Exam Type</div> */}
-              <select
-                onChange={handleSubs}
-                value={singlesub}
-                className="input uppercase"
-              >
-                <option value="">--Select--</option>
-                {subs?.map(
-                  (item, i) =>
-                    item.category === "exam" &&
-                    item.locked === "no" && (
-                      <option key={i} value={item.id}>
-                        {item.network}
-                      </option>
-                    )
-                )}
-              </select>
+              {handleDuplicates()}
             </div>
             <div className="mb-4">
               <div className="capitalize">Exam Type</div>
@@ -137,11 +154,12 @@ const EducationBills = () => {
                 className="input"
               >
                 <option value="">--Select--</option>
-                {datas.map(
+
+                {datas.length > 0 && datas?.map(
                   (item, i) =>
-                    item.lock === "no" && (
+                    item?.packs?.lock === "no" && (
                       <option key={i} value={item.id}>
-                        {item.title} = &#8358;{item.price}
+                        {item?.packs?.title} = &#8358;{item.pricing}
                       </option>
                     )
                 )}
@@ -157,13 +175,13 @@ const EducationBills = () => {
                 className="input"
               />
             </div>
-            {user && (
+            {verif && (
               <div className="mb-4">
                 <div className="capitalize bg-green-300/50 w-fit px-5 py-2 mb-3 text-green-700 rounded-md border border-green-400 shadow-xl">
                   Verified Account{" "}
                 </div>
                 <div className="rounded-lg bg-slate-200 border p-3 text-sm text-zinc-600">
-                  {user}
+                  {verif}
                 </div>
               </div>
             )}

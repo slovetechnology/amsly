@@ -9,22 +9,24 @@ import { PostUrl } from "/src/Components/Utils/Apis";
 import Loading from "/src/Components/General/Loading";
 import PerformTractionNotice from "./Compos/PerformTractionNotice";
 import ConfirmAirtimePurchase from "./Compos/ConfirmAirtimePurchase";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { dispatchUser } from "/src/app/reducer";
 import ErroMessage from "./Compos/ErroMessage";
 
 const MeterBills = () => {
+  const { user } = useSelector((state) => state.data);
   const [subs, setSubs] = useState([]);
   const [subdata, setSubdata] = useState([]);
   const [loading, setLoading] = useState(false);
   const [singlesub, setSinglesub] = useState("");
   const [singlepack, setSinglepack] = useState("");
   const dispatch = useDispatch()
-  const [err, setErr] = useState({tag: false, text: ''})
+  const [err, setErr] = useState({ tag: false, text: '' })
   const [datas, setDatas] = useState([]);
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState("");
+  const [verif, setVerif] = useState("");
   const [view, setView] = useState(false);
+  const [autos, setAutos] = useState([]);
   const [forms, setForms] = useState({
     iuc: "",
     pin: "",
@@ -53,13 +55,18 @@ const MeterBills = () => {
     const id = e.target.value;
     if (id) {
       setSinglesub(id);
-      const filter = subdata.filter((item) => item.network === parseInt(id));
+      const filter = user.levels?.levelpack?.filter((item) => item?.packs?.network === parseInt(id));
       setDatas(filter);
     }
   };
 
-  const handleSinglepack = (e) => {
-    setSinglepack(e.target.value);
+  const handleSinglepack = async (e) => {
+    const val = e.target.value
+    setSinglepack(val);
+
+    const res = await GetUrl(`${Api.subs.user_get_automation}/${val}`);
+    if (res.status === 200) return setAutos(res.msg);
+    console.log(res)
   };
 
   const handleVerification = async () => {
@@ -77,12 +84,12 @@ const MeterBills = () => {
     const res = await PostUrl(Api.bills.verify_meter, formdata);
     setLoading(false)
     if (res.status === 200) {
-      setUser(res.msg)
+      setVerif(res.msg)
     } else {
       return ErrorAlert(res.msg);
     }
   };
-// 45700848851
+  // 45700848851
   const handleSubmission = async () => {
     try {
       const formdata = {
@@ -108,6 +115,33 @@ const MeterBills = () => {
       return setErr({ tag: true, text: ` ${error}` });
     }
   };
+
+  const handleDuplicates = () => {
+    const unique2 = user.levels?.levelsub?.filter((obj, index) => {
+      return index === user.levels?.levelsub?.findIndex((o) => obj.subs?.id === o.subs?.id);
+    });
+    return (
+      <>
+        <select
+          onChange={handleSubs}
+          value={singlesub}
+          className="input uppercase"
+        >
+          <option value="">--Select--</option>
+          {unique2?.map(
+            (item, i) =>
+              item?.subs?.category === "electricity" &&
+              item?.subs?.locked === "no" && (
+                <option key={i} value={item?.subs?.id}>
+                  {item?.subs?.network}
+                </option>
+              )
+          )}
+        </select>
+      </>
+    );
+  };
+
   return (
     <UserLayout pagetitle="Electricity subscriptions">
       {loading && <Loading />}
@@ -127,21 +161,7 @@ const MeterBills = () => {
                 Zero Charges Apply!!!
               </div>
               <div className="capitalize">Select Electricity Company</div>
-              <select
-                onChange={handleSubs}
-                value={singlesub}
-                className="input uppercase"
-              >
-                <option value="">--Select--</option>
-                {subs?.map(
-                  (item, i) =>
-                    item.category === "electricity" && item.locked === 'no' && (
-                      <option key={i} value={item.id}>
-                        {item.network}
-                      </option>
-                    )
-                )}
-              </select>
+              {handleDuplicates()}
             </div>
             <div className="mb-4">
               <div className="capitalize">Perferred Meter</div>
@@ -151,11 +171,14 @@ const MeterBills = () => {
                 className="input"
               >
                 <option value="">--Select--</option>
-                {datas.map((item, i) => (
-                  item.lock === 'no' && <option key={i} value={item.id}>
-                    {item.title}
-                  </option>
-                ))}
+                {datas.length > 0 && datas?.map(
+                  (item, i) =>
+                    item?.packs?.lock === "no" && (
+                      <option key={i} value={item.id}>
+                        {item?.packs?.title}
+                      </option>
+                    )
+                )}
               </select>
             </div>
             <div className="mb-4">
@@ -168,10 +191,10 @@ const MeterBills = () => {
                 className="input"
               />
             </div>
-            {user && (
+            {verif && (
               <div className="mb-4">
                 <div className="capitalize bg-green-300/50 w-fit px-5 py-2 mb-3 text-green-700 rounded-md border border-green-400 shadow-xl">Verified Account </div>
-                <div className="rounded-lg bg-slate-200 border p-3 text-sm text-zinc-600">{user}</div>
+                <div className="rounded-lg bg-slate-200 border p-3 text-sm text-zinc-600">{verif}</div>
               </div>
             )}
             <div className="mb-4">
@@ -206,7 +229,7 @@ const MeterBills = () => {
                 className="input"
               />
             </div>
-            {user ? (
+            {verif ? (
               <>
                 <div className="w-fit ml-auto">
                   <button

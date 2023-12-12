@@ -282,141 +282,141 @@ const EditForm = ({ main, HandleRefresh }) => {
       }
     });
 
-  const filterduplicate = activeSub.filter((ele, index) => {
-    return index === activeSub.findIndex(obj => ele.id === obj.id)
-  })
-  const data = {
-    packs: packData,
-    subs: filterduplicate,
-    users: userState,
-    title,
-    id: main.id,
-  };
-  setLoading(true);
-  const res = await PostUrl(Api.subs.update_level, data);
-  setLoading(false);
+    const filterduplicate = activeSub.filter((ele, index) => {
+      return index === activeSub.findIndex(obj => ele.id === obj.id)
+    })
+    const data = {
+      packs: packData,
+      subs: filterduplicate,
+      users: userState,
+      title,
+      id: main.id,
+    };
+    setLoading(true);
+    const res = await PostUrl(Api.subs.update_level, data);
+    setLoading(false);
 
-  if (res.status === 200) {
-    ToastAlert(res.msg);
-    setTitle("");
-    localStorage.setItem(LevelPack, JSON.stringify([]));
-    localStorage.setItem(PackPercent, JSON.stringify([]));
-    localStorage.setItem(PackUser, JSON.stringify([]));
-    setLocalState([]);
-    setPerState([]);
-    setUserState([]);
-    setTimeout(() => {
-      window.location = "/auth/admin/levels"
-      // navigate('/auth/admin/levels')
-    }, 2000);
-  } else {
-    return ErrorAlert(res.msg);
+    if (res.status === 200) {
+      ToastAlert(res.msg);
+      setTitle("");
+      localStorage.setItem(LevelPack, JSON.stringify([]));
+      localStorage.setItem(PackPercent, JSON.stringify([]));
+      localStorage.setItem(PackUser, JSON.stringify([]));
+      setLocalState([]);
+      setPerState([]);
+      setUserState([]);
+      setTimeout(() => {
+        window.location = "/auth/admin/levels"
+        // navigate('/auth/admin/levels')
+      }, 2000);
+    } else {
+      return ErrorAlert(res.msg);
+    }
+  };
+  const handleOpening = () => {
+    setId(main.id)
+    setView(!view)
   }
-};
-const handleOpening = () => {
-  setId(main.id)
-  setView(!view)
-}
-return (
-  <>
-    {loading && <Loading />}
-    {view && <DeleteLevelModal id={id} closeView={() => setView(!view)} />}
-    <div className="w-11/12 mx-auto">
-      <div className="mb-4">
-        <Link to="/auth/admin/levels" className="flex items-center gap-2 text-blue-600"> <FaArrowLeft /> Back</Link>
-      </div>
-      <div className="bg-white rounded-lg py-4 px-3">
-        <div className="flex items-center justify-evenly">
-          <button onClick={HandleRefresh} className="bg-blue-600 text-white rounded-lg text-sm shadow-xl capitalize py-3 px-6">refresh</button>
-          <button onClick={handleOpening} className="bg-red-600 text-white rounded-lg text-sm shadow-xl capitalize py-3 px-6">delete</button>
+  return (
+    <>
+      {loading && <Loading />}
+      {view && <DeleteLevelModal id={id} closeView={() => setView(!view)} />}
+      <div className="w-11/12 mx-auto">
+        <div className="mb-4">
+          <Link to="/auth/admin/levels" className="flex items-center gap-2 text-blue-600"> <FaArrowLeft /> Back</Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 mb-5">
-          <div className="">
-            <div className="text-sm">Title of Level</div>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="input"
-            />
+        <div className="bg-white rounded-lg py-4 px-3">
+          <div className="flex items-center justify-evenly">
+            <button onClick={HandleRefresh} className="bg-blue-600 text-white rounded-lg text-sm shadow-xl capitalize py-3 px-6">refresh</button>
+            <button onClick={handleOpening} className="bg-red-600 text-white rounded-lg text-sm shadow-xl capitalize py-3 px-6">delete</button>
           </div>
-        </div>
-        <div className={zone === 1 ? "mt-10" : "hidden"}>
-          <div className="my-5">Select Subscriptions for this level</div>
-          <div className="flex flex-wrap gap-3 items-center">
-            {subs.map(
-              (item, i) =>
-                item.locked === "no" && (
-                  <button
-                    onClick={() => handleActive(item)}
-                    key={i}
-                    className={`${active.id === item.id
-                      ? "bg-blue-600 text-white"
-                      : "bg-slate-100"
-                      } ${cs}`}
-                  >
-                    {item.network}
-                  </button>
-                )
-            )}
-          </div>
-          {active?.id && (
-            <div className="mt-10">
-              {percentState && (
-                <EditLevelPercent
-                  item={active}
-                  handelForms={handelFormsPercent}
-                  handleAddup={handleAddupPercent}
-                  localState={perState}
-                />
-              )}
-              <div className="">
-                {packs.map(
-                  (item, i) =>
-                    item.lock === "no" && (
-                      <EditSingleLevel
-                        key={i}
-                        item={item}
-                        handelForms={handelForms}
-                        handleAddup={handleAddup}
-                        localState={localState}
-                      />
-                    )
-                )}
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 mb-5">
+            <div className="">
+              <div className="text-sm">Title of Level</div>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="input"
+              />
             </div>
-          )}
-        </div>
-        <div className={zone === 2 ? "" : "hidden"}>
-          <div className="my-5">Select Users for this level</div>
-          <div className="grid grid-cols-1 gap-3">
-            {users.map(
-              (ele, i) =>
-                ele.role !== "admin" && (
-                  <EditSetupUser
-                    sendUser={sendUser}
-                    localState={userState}
-                    user={ele}
-                    key={i}
+          </div>
+          <div className={zone === 1 ? "mt-10" : "hidden"}>
+            <div className="my-5">Select Subscriptions for this level</div>
+            <div className="flex flex-wrap gap-3 items-center">
+              {subs.map(
+                (item, i) =>
+                  item.locked === "no" && (
+                    <button
+                      onClick={() => handleActive(item)}
+                      key={i}
+                      className={`${active.id === item.id
+                        ? "bg-blue-600 text-white"
+                        : "bg-slate-100"
+                        } ${cs}`}
+                    >
+                      {item.network}
+                    </button>
+                  )
+              )}
+            </div>
+            {active?.id && (
+              <div className="mt-10">
+                {percentState && (
+                  <EditLevelPercent
+                    item={active}
+                    handelForms={handelFormsPercent}
+                    handleAddup={handleAddupPercent}
+                    localState={perState}
                   />
-                )
+                )}
+                <div className="">
+                  {packs.map(
+                    (item, i) =>
+                      item.lock === "no" && (
+                        <EditSingleLevel
+                          key={i}
+                          item={item}
+                          handelForms={handelForms}
+                          handleAddup={handleAddup}
+                          localState={localState}
+                        />
+                      )
+                  )}
+                </div>
+              </div>
             )}
           </div>
+          <div className={zone === 2 ? "" : "hidden"}>
+            <div className="my-5">Select Users for this level</div>
+            <div className="grid grid-cols-1 gap-3">
+              {users.map(
+                (ele, i) =>
+                  ele.role !== "admin" && (
+                    <EditSetupUser
+                      sendUser={sendUser}
+                      localState={userState}
+                      user={ele}
+                      key={i}
+                    />
+                  )
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="w-fit ml-auto cursor-pointer mt-10">
+          <Link to='' onClick={() => window.location("/auth/admin/levels")} className="">
+            <button
+              onClick={handleSubmission}
+              className="bg-blue-700 text-white shadow-xl rounded-full py-3 px-7 capitalize"
+            >
+              Update level
+            </button>
+          </Link>
         </div>
       </div>
-      <div className="w-fit ml-auto mt-10">
-        <Link  to='' onClick={() => ('/auth/admin/levels')} className="">
-          <button
-            onClick={handleSubmission}
-            className="bg-blue-700 text-white shadow-xl rounded-full py-3 px-7 capitalize"
-          >
-            Update level
-          </button>
-        </Link>
-      </div>
-    </div>
-  </>
-);
+    </>
+  );
 };
 
 export default EditForm;

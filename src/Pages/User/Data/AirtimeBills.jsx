@@ -39,6 +39,7 @@ const AirtimeBills = () => {
     // const findData = subs.find((item) => item.id?.toString() === id);
     const findData = user.levels?.levelsub?.find((item) => item?.id === parseInt(id));
     setMainsub(findData);
+    console.log(findData)
     setForms({
       ...forms,
       sub: id,

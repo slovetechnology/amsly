@@ -42,7 +42,7 @@ const AllLevels = () => {
                 </div>
               </div>
               <div className="flex items-center justify-end gap-10">
-                <div onClick={() => { window.location = `/auth/admin/levels/edit/${item.id}` }} to='' className="bg-slate-400 py-2 px-3 text-white text-sm hover:bg-slate-600 rounded-md capitalize">edit</div>
+                <div onClick={() => { window.location = `/auth/admin/levels/edit/${item.id}` }} to='' className="bg-slate-400 cursor-pointer py-2 px-3 text-white text-sm hover:bg-slate-600 rounded-md capitalize">edit</div>
               </div>
             </div>
           ))}

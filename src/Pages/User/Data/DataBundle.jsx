@@ -39,6 +39,7 @@ const DataBundle = () => {
     setpackdata(val);
     const res = await GetUrl(`${Api.subs.user_get_automation}/${val}`);
     if (res.status === 200) return setAutos(res.msg);
+    console.log(res)
   };
   const handleSubs = (e) => {
     const id = e.target.value;
@@ -51,6 +52,7 @@ const DataBundle = () => {
       });
       const filter = user.levels?.levelpack?.filter((item) => item?.packs?.network === parseInt(id));
       setDatas(filter);
+      console.log(filter)
     }
   };
   const handleSubsNetwork = (e) => {
@@ -123,6 +125,8 @@ const DataBundle = () => {
       </>
     );
   };
+
+  
   return (
     <>
       {loading && <Loading />}
