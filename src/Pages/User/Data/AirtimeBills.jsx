@@ -79,7 +79,7 @@ const AirtimeBills = () => {
       }
     } catch (error) {
       setView(!view)
-      return setErr({ tag: true, text: ` ${error}` });
+      return setErr({ tag: tru-e, text: ` ${error}` });
     }
   };
 
@@ -103,7 +103,7 @@ const AirtimeBills = () => {
               item?.subs?.category.endsWith("-vtu") &&
               item?.subs?.locked === "no" && (
                 <option key={i} value={item?.id}>
-                  {/* {item?.network.split(" ")[0]} */}
+                  {/* {item?.subs?.network} */}
                   {item?.subs?.tag}
                 </option>
               )
