@@ -28,9 +28,9 @@ const AllUsers = () => {
         const filtered = data2.filter(user => {
             return user.email.toLowerCase().includes(text.toLowerCase())
         })
-        if(filtered) {
+        if (filtered) {
             setData(filtered)
-        }else {
+        } else {
             setData(data2)
         }
     }
@@ -62,8 +62,20 @@ const AllUsers = () => {
                         <div className="text-right">{item.phone}</div>
                     </div>
                     <div className="grid grid-cols-2">
+                        <div className="font-semibold capitalize">balance </div>
+                        <div className="text-right">&#8358;{parseFloat(user.balance).toLocaleString()}</div>
+                    </div>
+                    <div className="grid grid-cols-2">
                         <div className="font-semibold capitalize">total transactions</div>
                         <div className="text-right">0</div>
+                    </div>
+                    <div className="grid grid-cols-2">
+                        <div className="font-semibold capitalize">Joined on</div>
+                        <div className="text-right uppercase">{moment(item.createdAt).calendar()}</div>
+                    </div>
+                    <div className="grid grid-cols-2">
+                        <div className="font-semibold capitalize">last login</div>
+                        <div className="text-right uppercase">{moment(item.createdAt).calendar()}</div>
                     </div>
                     <div className="grid grid-cols-2">
                         <div className="font-semibold capitalize">user role</div>
@@ -71,11 +83,7 @@ const AllUsers = () => {
                     </div>
                     <div className="grid grid-cols-2">
                         <div className="font-semibold capitalize">account level</div>
-                        <div className="text-right uppercase">level {item.level}</div>
-                    </div>
-                    <div className="grid grid-cols-2">
-                        <div className="font-semibold capitalize">Joined on</div>
-                        <div className="text-right uppercase">{moment(item.createdAt).calendar()}</div>
+                        {/* <div className="text-right uppercase">level {item.level}</div> */}
                     </div>
                 </div>
             ))}
