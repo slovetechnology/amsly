@@ -1,10 +1,16 @@
 import axios from "axios"
 import Cookies from "js-cookie"
 
-const server = `https://amsly.jogglecryp.com/api`;
-export const imageUrl = `https://amsly.jogglecryp.com/api`;
-// const server = `http://localhost:5000/api`
-// export const imageUrl = `http://localhost:5000`
+let server;
+export let imageUrl;
+if(window.location.origin.includes('amsly.netlify.app')) {
+   server = `https://amsly.jogglecryp.com/api`;
+   imageUrl = `https://amsly.jogglecryp.com/api`;
+}else {
+    server = `http://localhost:5001/api`
+    imageUrl = `http://localhost:5001`
+}
+
 // ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINPorEFFzdsoEXvsHvPKNEBn59SSz4wK7QaGXw+qgeaV slovetech619@gmail.com
   
 const user_urls = {

@@ -12,11 +12,13 @@ import EditLevelPercent from "./EditLevelPercent";
 import DeleteLevelModal from "../DeleteLevelModal";
 import { FaArrowLeft } from "react-icons/fa";
 
+
+export const LevelPack = "levelpack2";
+export const PackPercent = "packper2";
+export const PackUser = "userpack2";
+export const LevelType = "leveltype2";
+
 const EditForm = ({ main, HandleRefresh }) => {
-  const LevelPack = "levelpack2";
-  const PackPercent = "packper2";
-  const PackUser = "userpack2";
-  const LevelType = "leveltype2";
   const { subs } = useSelector((state) => state.data);
   const [active, setActive] = useState({});
   const [packs, setPacks] = useState([]);
@@ -49,56 +51,55 @@ const EditForm = ({ main, HandleRefresh }) => {
     AdmingetUsers();
   }, [AdmingetUsers]);
 
-  const FetchOne = useCallback(() => {
-    if (type === "edit") {
-      // find the package that matches the ones from database
-      const packarr = [];
-      main.levelpack.map((ele) => {
-        subs.map((data) => {
-          data.sub.map((item) => {
-            if (item.id === ele.pack) {
-              const submit = {
-                ...item,
-                pricing: ele.pricing,
-                former: ele.pricing,
-              };
-              packarr.push(submit);
-            }
-            return item;
-          });
-          return data;
-        });
-        return ele;
-      });
-      // find the subscriptions that matches the ones from database
-      const subarr = [];
-      main.levelsub.map((ele) => {
-        subs.map((data) => {
-          if (data.id === ele.sub) {
-            const submit = {
-              ...data,
-              percent: ele.percent,
-              former: ele.percent,
-            };
-            subarr.push(submit);
-          }
-          return data;
-        });
-        return ele;
-      });
-      localStorage.setItem(PackPercent, JSON.stringify(subarr));
-      localStorage.setItem(LevelPack, JSON.stringify(packarr));
-      localStorage.setItem(PackUser, JSON.stringify(main.users));
-      localStorage.setItem(LevelType, "edit");
-    }
-  }, []);
+  // const FetchOne = useCallback(() => {
+  //   if (type === "edit") {
+  //     // find the package that matches the ones from database
+  //     const packarr = [];
+  //     main.levelpack.map((ele) => {
+  //       subs.map((data) => {
+  //         data.sub.map((item) => {
+  //           if (item.id === ele.pack) {
+  //             const submit = {
+  //               ...item,
+  //               pricing: ele.pricing,
+  //               former: ele.pricing,
+  //             };
+  //             packarr.push(submit);
+  //           }
+  //           return item;
+  //         });
+  //         return data;
+  //       });
+  //       return ele;
+  //     });
+  //     // find the subscriptions that matches the ones from database
+  //     const subarr = [];
+  //     main.levelsub.map((ele) => {
+  //       subs.map((data) => {
+  //         if (data.id === ele.sub) {
+  //           const submit = {
+  //             ...data,
+  //             percent: ele.percent,
+  //             former: ele.percent,
+  //           };
+  //           subarr.push(submit);
+  //         }
+  //         return data;
+  //       });
+  //       return ele;
+  //     });
+  //     localStorage.setItem(PackPercent, JSON.stringify(subarr));
+  //     localStorage.setItem(LevelPack, JSON.stringify(packarr));
+  //     localStorage.setItem(LevelType, "edit");
+  //   }
+  // }, []);
 
-  useLayoutEffect(() => {
-    FetchOne();
-  }, [FetchOne]);
+  // useLayoutEffect(() => {
+  //   FetchOne();
+  // }, [FetchOne]);
 
   const handleActive = (item) => {
-    FetchOne()
+    // FetchOne()
     // loop through the packages under this subscription and add pricing to it
     let dataArr = [];
     item.sub.map((item) => {
